@@ -16,7 +16,6 @@ from .loads import Loads
 from .material import Material, RigidBody
 from .mesh import (
     Elements,
-    FEBioElementType,
     Mesh,
     Node,
     Nodes,
@@ -116,7 +115,7 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
         nodes = [Node(id=node_id_start + i, text=",".join(map(str, new_tet[i]))) for i in range(4)]
         node_domain = Nodes(name=name, all_nodes=nodes)
         element = Tet4Element(id=element_id, text=",".join(map(str, connectivity)))
-        element_domain = Elements(name=name, all_elements=[element], type=FEBioElementType.TET4)
+        element_domain = Elements(name=name, all_elements=[element], type="tet4")
         self.mesh.add_node_domain(node_domain)
         self.mesh.add_element_domain(element_domain)
 
