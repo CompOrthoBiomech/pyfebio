@@ -120,6 +120,8 @@ ElementType = Union[
     Quad4Element,
     Quad8Element,
     Quad9Element,
+    Line2Element,
+    Line3Element,
 ]
 
 
