@@ -36,3 +36,35 @@ def test_add_tet4_mesh(tet4_meshio):
 
     my_model.mesh.nodes.append(nodes_object)
     my_model.mesh.elements.append(elements_object)
+
+
+def test_add_tet10_mesh(tet10_meshio):
+    my_model = model.Model()
+    nodes_object = mesh.Nodes()
+    for i, node in enumerate(tet10_meshio.points):
+        nodes_object.add_node(mesh.Node(id=i + 1, text=",".join(map(str, node))))
+    elements_object = mesh.Elements(type="tet10")
+    for cell_block in tet10_meshio.cells:
+        for i in range(cell_block.data.shape[0]):
+            elements_object.add_element(
+                mesh.Tet10Element(id=i + 1, text=",".join(map(str, cell_block.data[i, :] + 1)))
+            )
+
+    my_model.mesh.nodes.append(nodes_object)
+    my_model.mesh.elements.append(elements_object)
+
+
+def test_add_hex20_mesh(hex20_meshio):
+    my_model = model.Model()
+    nodes_object = mesh.Nodes()
+    for i, node in enumerate(hex20_meshio.points):
+        nodes_object.add_node(mesh.Node(id=i + 1, text=",".join(map(str, node))))
+    elements_object = mesh.Elements(type="tet10")
+    for cell_block in hex20_meshio.cells:
+        for i in range(cell_block.data.shape[0]):
+            elements_object.add_element(
+                mesh.Hex20Element(id=i + 1, text=",".join(map(str, cell_block.data[i, :] + 1)))
+            )
+
+    my_model.mesh.nodes.append(nodes_object)
+    my_model.mesh.elements.append(elements_object)
