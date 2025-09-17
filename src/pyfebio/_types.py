@@ -68,3 +68,28 @@ StringUIntVec8 = Annotated[
     str,
     StringConstraints(strip_whitespace=True, pattern=r"^" + ",".join([r"\d+"] * 8) + r"$"),
 ]
+
+StringUIntVec9 = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, pattern=r"^" + ",".join([r"\d+"] * 9) + r"$"),
+]
+
+StringUIntVec10 = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, pattern=r"^" + ",".join([r"\d+"] * 10) + r"$"),
+]
+
+StringUIntVec15 = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, pattern=r"^" + ",".join([r"\d+"] * 15) + r"$"),
+]
+
+StringUIntVec20 = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, pattern=r"^" + ",".join([r"\d+"] * 20) + r"$"),
+]
+
+StringUIntVec27 = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, pattern=r"^" + ",".join([r"\d+"] * 27) + r"$"),
+]

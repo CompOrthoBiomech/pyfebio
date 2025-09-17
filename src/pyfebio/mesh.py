@@ -1,4 +1,3 @@
-from enum import Enum
 from typing import List, Literal, Union
 
 from pydantic import Field
@@ -12,15 +11,16 @@ from ._types import (
     StringUIntVec4,
     StringUIntVec6,
     StringUIntVec8,
+    StringUIntVec9,
+    StringUIntVec10,
+    StringUIntVec15,
+    StringUIntVec20,
+    StringUIntVec27,
 )
 
-
-class FEBioElementType(str, Enum):
-    TRI3 = "tri3"
-    QUAD4 = "quad4"
-    TET4 = "tet4"
-    HEX8 = "hex8"
-    PENTA6 = "penta6"
+SolidFEBioElementType = Literal["tet4", "tet10", "tet15", "hex8", "hex20", "hex27", "penta6"]
+ShellFEBioElementType = Literal["tri3", "tri6", "quad4", "quad8", "quad9", "q4ans", "q4eas"]
+BeamFEBioElementType = Literal["line2", "line3"]
 
 
 class Node(BaseXmlModel, tag="node", validate_assignment=True):
@@ -41,8 +41,30 @@ class Tet4Element(BaseXmlModel, tag="elem", validate_assignment=True):
     id: int = attr()
 
 
+class Tet10Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec10 = Field(default="1,2,3,4,5,6,7,8,9,10")
+    id: int = attr()
+
+
+class Tet15Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec15 = Field(default="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15")
+    id: int = attr()
+
+
 class Hex8Element(BaseXmlModel, tag="elem", validate_assignment=True):
     text: StringUIntVec8 = Field(default="1,2,3,4,5,6,7,8")
+    id: int = attr()
+
+
+class Hex20Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec20 = Field(default="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+    id: int = attr()
+
+
+class Hex27Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec27 = Field(
+        default="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27"
+    )
     id: int = attr()
 
 
@@ -56,23 +78,56 @@ class Tri3Element(BaseXmlModel, tag="elem", validate_assignment=True):
     id: int = attr()
 
 
+class Tri6Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec6 = Field(default="1,2,3,4,5,6")
+    id: int = attr()
+
+
 class Quad4Element(BaseXmlModel, tag="elem", validate_assignment=True):
     text: StringUIntVec4 = Field(default="1,2,3,4")
     id: int = attr()
 
 
-ElementType = Union[Tet4Element, Hex8Element, Penta6Element, Tri3Element, Quad4Element]
+class Quad8Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec8 = Field(default="1,2,3,4,5,6,7,8")
+    id: int = attr()
+
+
+class Quad9Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec9 = Field(default="1,2,3,4,5,6,7,8,9")
+    id: int = attr()
+
+
+class Line2Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec2 = Field(default="1,2")
+    id: int = attr()
+
+
+class Line3Element(BaseXmlModel, tag="elem", validate_assignment=True):
+    text: StringUIntVec3 = Field(default="1,2,3")
+    id: int = attr()
+
+
+ElementType = Union[
+    Tet4Element,
+    Tet10Element,
+    Hex8Element,
+    Hex20Element,
+    Hex27Element,
+    Penta6Element,
+    Tri3Element,
+    Tri6Element,
+    Quad4Element,
+    Quad8Element,
+    Quad9Element,
+]
 
 
 class Elements(BaseXmlModel, tag="elements", validate_assignment=True):
     name: str = attr(default="Part")
-    type: Literal[
-        FEBioElementType.HEX8,
-        FEBioElementType.TET4,
-        FEBioElementType.PENTA6,
-        FEBioElementType.TRI3,
-        FEBioElementType.QUAD4,
-    ] = attr(default="hex8")
+    type: SolidFEBioElementType | ShellFEBioElementType | BeamFEBioElementType = attr(
+        default="hex8"
+    )
     all_elements: List[ElementType] = element(default=[], tag="elem")
 
     def add_element(self, new_element: ElementType):
@@ -97,14 +152,26 @@ class NodeSet(BaseXmlModel, tag="NodeSet", validate_assignment=True):
 
 class Surface(BaseXmlModel, tag="Surface", validate_assignment=True):
     name: str = attr(default="")
-    all_quads: List[Quad4Element] = element(default=[], tag="quad4")
-    all_tris: List[Tri3Element] = element(default=[], tag="tri3")
+    all_tri3: List[Tri3Element] = element(default=[], tag="tri3")
+    all_tri6: List[Tri6Element] = element(default=[], tag="tri6")
+    all_quad4: List[Quad4Element] = element(default=[], tag="quad4")
+    all_quad8: List[Quad8Element] = element(default=[], tag="quad8")
+    all_quad9: List[Quad9Element] = element(default=[], tag="quad9")
 
-    def add_quad(self, new_quad: Quad4Element):
-        self.all_quads.append(new_quad)
+    def add_tri3(self, new_tri: Tri3Element):
+        self.all_tri3.append(new_tri)
 
-    def add_tri(self, new_tri: Tri3Element):
-        self.all_tris.append(new_tri)
+    def add_tri6(self, new_tri: Tri6Element):
+        self.all_tri6.append(new_tri)
+
+    def add_quad4(self, new_quad: Quad4Element):
+        self.all_quad4.append(new_quad)
+
+    def add_quad8(self, new_quad: Quad8Element):
+        self.all_quad8.append(new_quad)
+
+    def add_quad9(self, new_quad: Quad9Element):
+        self.all_quad9.append(new_quad)
 
 
 class SurfacePair(BaseXmlModel, tag="SurfacePair", validate_assignment=True):
