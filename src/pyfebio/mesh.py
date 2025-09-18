@@ -1,5 +1,6 @@
 from typing import List, Literal, Union
 
+import meshio
 from pydantic import Field
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -238,3 +239,59 @@ class Mesh(BaseXmlModel, validate_assignment=True):
         if not new_surface_pair.name:
             new_surface_pair.name = f"SurfacePair{len(self.surface_pairs) + 1}"
         self.surface_pairs.append(new_surface_pair)
+
+
+ELEMENT_MAP: dict[str, SolidFEBioElementType | ShellFEBioElementType | BeamFEBioElementType] = {
+    "tetra": "tet4",
+    "tetra10": "tet10",
+    "hexahedron": "hex8",
+    "hexahedron20": "hex20",
+    "hexahedron27": "hex27",
+    "triangle": "tri3",
+    "triangle6": "tri6",
+    "quad": "quad4",
+    "quad8": "quad8",
+    "quad9": "quad9",
+    "line": "line2",
+    "line3": "line3",
+}
+ELEMENT_CLASS_MAP: dict[str, type[ElementType]] = {
+    "tet4": Tet4Element,
+    "tet10": Tet10Element,
+    "hex8": Hex8Element,
+    "hex20": Hex20Element,
+    "hex27": Hex27Element,
+    "tri3": Tri3Element,
+    "tri6": Tri6Element,
+    "quad4": Quad4Element,
+    "quad8": Quad8Element,
+    "quad9": Quad9Element,
+    "line2": Line2Element,
+    "line3": Line3Element,
+}
+
+
+def translate_meshio(meshobj: meshio.Mesh) -> Mesh:
+    febio_mesh = Mesh()
+    nodes_object = Nodes()
+    for i, node in enumerate(meshobj.points):
+        nodes_object.add_node(Node(id=i + 1, text=",".join(map(str, node))))
+    num_elements = 0
+    for name, entries in meshobj.cell_sets.items():
+        if "gmsh:" in name.lower():
+            continue
+        for i, indices in enumerate(entries):
+            cell_block = meshobj.cells[i]
+            etype = ELEMENT_MAP[cell_block.type]
+            if indices.size > 0:  # type: ignore
+                elements_object = Elements(name=name, type=etype)
+                for j in indices:  # type: ignore
+                    num_elements += 1
+                    elements_object.add_element(
+                        ELEMENT_CLASS_MAP[etype](
+                            id=num_elements, text=",".join(map(str, cell_block.data[j, :] + 1))
+                        )
+                    )
+                febio_mesh.elements.append(elements_object)
+    febio_mesh.nodes.append(nodes_object)
+    return febio_mesh
