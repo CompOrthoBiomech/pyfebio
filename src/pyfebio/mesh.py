@@ -111,6 +111,7 @@ class Line3Element(BaseXmlModel, tag="elem", validate_assignment=True):
 ElementType = Union[
     Tet4Element,
     Tet10Element,
+    Tet15Element,
     Hex8Element,
     Hex20Element,
     Hex27Element,
