@@ -1,6 +1,8 @@
 ## Overview
 
-This is a Python package for generating FEBio input files.
+This is a Python package for generating FEBio input files. We rely heavily on pydantic and pydantic-xml
+for type validation and XML serialization. Many of FEBio's features are covered, but not all. Most critically,
+we need to implement material support for biphasic and multiphasic materials.
 
 ## Getting Started
 
