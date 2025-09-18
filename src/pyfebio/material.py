@@ -323,7 +323,7 @@ UnconstrainedMaterials: TypeAlias = Union[
 
 class MooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="Mooney-Rivlin")
-    type: Literal["Ogden"] = attr(default="Mooney-Rivlin", frozen=True)
+    type: Literal["Mooney-Rivlin"] = attr(default="Mooney-Rivlin", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
@@ -332,7 +332,7 @@ class MooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
 
 
 class UncoupledHolmesMow(BaseXmlModel, tag="material", extra="forbid"):
-    name: str = attr(default="Mooney-Rivlin")
+    name: str = attr(default="Uncoupled-Holmes-Mow")
     type: Literal["uncoupled Holmes-Mow"] = attr(default="uncoupled Holmes-Mow", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
