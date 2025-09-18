@@ -97,9 +97,9 @@ Brief overview, see module documentation for more details. Unchecked to be imple
   - [x] Fiber models
   - [x] Continuous Fiber Distributions
     - [x] Integration Schemes
-  - [] Biphasic Materials
-  - [] Viscoelastic Materials
-  - [] Multiphasic Materials
+  - [ ] Biphasic Materials
+  - [ ] Viscoelastic Materials
+  - [ ] Multiphasic Materials
 - Rigid
   - [x] Fixed Displacement and Rotation
   - [x] Prescribed Displacement and Rotation
