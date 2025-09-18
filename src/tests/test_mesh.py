@@ -63,3 +63,33 @@ def test_quad4_element_definition():
     feb.mesh.Quad4Element(id=1, text=QUAD4_ELEMENT_STRINGS[0])
     with pytest.raises(ValidationError):
         feb.mesh.Quad4Element(id=1, text=HEX8_ELEMENT_STRINGS[0])
+
+
+def test_translate_tet4_mesh(tet4_meshio):
+    mesh = feb.mesh.translate_meshio(tet4_meshio)
+    assert mesh.nodes
+    assert mesh.elements
+
+
+def test_translate_tet10_mesh(tet10_meshio):
+    mesh = feb.mesh.translate_meshio(tet10_meshio)
+    assert mesh.nodes
+    assert mesh.elements
+
+
+def test_translate_hex8_mesh(hex8_meshio):
+    mesh = feb.mesh.translate_meshio(hex8_meshio)
+    assert mesh.nodes
+    assert mesh.elements
+
+
+def test_translate_hex20_mesh(hex20_meshio):
+    mesh = feb.mesh.translate_meshio(hex20_meshio)
+    assert mesh.nodes
+    assert mesh.elements
+
+
+def test_translate_hex27_mesh(hex27_meshio):
+    mesh = feb.mesh.translate_meshio(hex27_meshio)
+    assert mesh.nodes
+    assert mesh.elements
