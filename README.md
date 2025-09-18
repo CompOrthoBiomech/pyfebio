@@ -153,6 +153,15 @@ my_model.load_data.add_load_curve(load_curve1)
 my_model.save("my_model.feb")
 ```
 
+Run the model from the CLI (assuming febio4 is on your PATH):
+
+```{bash}
+febio4 -i my_model.feb
+```
+
+![Short Example Simulation](assets/short_example.gif)
+
+
 ## Features
 
 Brief overview, see module documentation for more details. Unchecked are not yet implemented.
