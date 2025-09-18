@@ -1,4 +1,4 @@
-from pyfebio import mesh, model
+from pyfebio import material, meshdomains, model
 
 
 def test_instantiate_model():
@@ -6,65 +6,51 @@ def test_instantiate_model():
     assert isinstance(my_model, model.Model)
 
 
-def test_add_hex8_mesh(hex8_meshio):
-    my_model = model.Model()
-    nodes_object = mesh.Nodes()
-    for i, node in enumerate(hex8_meshio.points):
-        nodes_object.add_node(mesh.Node(id=i + 1, text=",".join(map(str, node))))
-    elements_object = mesh.Elements()
-    for cell_block in hex8_meshio.cells:
-        for i in range(cell_block.data.shape[0]):
-            elements_object.add_element(
-                mesh.Hex8Element(id=i + 1, text=",".join(map(str, cell_block.data[i, :] + 1)))
-            )
+def test_add_tet4_mesh(tet4_febmesh):
+    my_model = model.Model(mesh=tet4_febmesh)
 
-    my_model.mesh.nodes.append(nodes_object)
-    my_model.mesh.elements.append(elements_object)
+    for i, part in enumerate(tet4_febmesh.elements):
+        my_model.material.add_material(material.NeoHookean(id=i + 1, name=part.name))
+        my_model.mesh_domains.add_solid_domain(
+            meshdomains.SolidDomain(name=part.name, mat=part.name)
+        )
 
 
-def test_add_tet4_mesh(tet4_meshio):
-    my_model = model.Model()
-    nodes_object = mesh.Nodes()
-    for i, node in enumerate(tet4_meshio.points):
-        nodes_object.add_node(mesh.Node(id=i + 1, text=",".join(map(str, node))))
-    elements_object = mesh.Elements(type="tet4")
-    for cell_block in tet4_meshio.cells:
-        for i in range(cell_block.data.shape[0]):
-            elements_object.add_element(
-                mesh.Tet4Element(id=i + 1, text=",".join(map(str, cell_block.data[i, :] + 1)))
-            )
+def test_add_tet10_mesh(tet10_febmesh):
+    my_model = model.Model(mesh=tet10_febmesh)
 
-    my_model.mesh.nodes.append(nodes_object)
-    my_model.mesh.elements.append(elements_object)
+    for i, part in enumerate(tet10_febmesh.elements):
+        my_model.material.add_material(material.NeoHookean(id=i + 1, name=part.name))
+        my_model.mesh_domains.add_solid_domain(
+            meshdomains.SolidDomain(name=part.name, mat=part.name)
+        )
 
 
-def test_add_tet10_mesh(tet10_meshio):
-    my_model = model.Model()
-    nodes_object = mesh.Nodes()
-    for i, node in enumerate(tet10_meshio.points):
-        nodes_object.add_node(mesh.Node(id=i + 1, text=",".join(map(str, node))))
-    elements_object = mesh.Elements(type="tet10")
-    for cell_block in tet10_meshio.cells:
-        for i in range(cell_block.data.shape[0]):
-            elements_object.add_element(
-                mesh.Tet10Element(id=i + 1, text=",".join(map(str, cell_block.data[i, :] + 1)))
-            )
+def test_add_hex8_mesh(hex8_febmesh):
+    my_model = model.Model(mesh=hex8_febmesh)
 
-    my_model.mesh.nodes.append(nodes_object)
-    my_model.mesh.elements.append(elements_object)
+    for i, part in enumerate(hex8_febmesh.elements):
+        my_model.material.add_material(material.NeoHookean(id=i + 1, name=part.name))
+        my_model.mesh_domains.add_solid_domain(
+            meshdomains.SolidDomain(name=part.name, mat=part.name)
+        )
 
 
-def test_add_hex20_mesh(hex20_meshio):
-    my_model = model.Model()
-    nodes_object = mesh.Nodes()
-    for i, node in enumerate(hex20_meshio.points):
-        nodes_object.add_node(mesh.Node(id=i + 1, text=",".join(map(str, node))))
-    elements_object = mesh.Elements(type="tet10")
-    for cell_block in hex20_meshio.cells:
-        for i in range(cell_block.data.shape[0]):
-            elements_object.add_element(
-                mesh.Hex20Element(id=i + 1, text=",".join(map(str, cell_block.data[i, :] + 1)))
-            )
+def test_add_hex20_mesh(hex20_febmesh):
+    my_model = model.Model(mesh=hex20_febmesh)
 
-    my_model.mesh.nodes.append(nodes_object)
-    my_model.mesh.elements.append(elements_object)
+    for i, part in enumerate(hex20_febmesh.elements):
+        my_model.material.add_material(material.NeoHookean(id=i + 1, name=part.name))
+        my_model.mesh_domains.add_solid_domain(
+            meshdomains.SolidDomain(name=part.name, mat=part.name)
+        )
+
+
+def test_add_hex27_mesh(hex27_febmesh):
+    my_model = model.Model(mesh=hex27_febmesh)
+
+    for i, part in enumerate(hex27_febmesh.elements):
+        my_model.material.add_material(material.NeoHookean(id=i + 1, name=part.name))
+        my_model.mesh_domains.add_solid_domain(
+            meshdomains.SolidDomain(name=part.name, mat=part.name)
+        )
