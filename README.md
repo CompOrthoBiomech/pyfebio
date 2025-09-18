@@ -130,7 +130,10 @@ my_model.mesh_domains.add_solid_domain(solid_domain)
 my_model.material.add_material(my_material)
 
 # Fix the bottom nodes (1 means BC DoF is active)
-fixed_bottom = pyfebio.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
+fixed_bottom = pyfebio.boundary.BCZeroDisplacement(node_set="bottom",
+                                                   x_dof=1,
+                                                   y_dof=1,
+                                                   z_dof=1)
 
 # Displace the top nodes in z
 # We need to create a boundary.Value object that references a load curve
