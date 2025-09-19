@@ -244,6 +244,25 @@ class IsotropicElastic(BaseXmlModel, tag="material", extra="forbid"):
     v: MatNonNegativeFloat = element(default=MaterialParameter(text=0.3))
 
 
+class UnconstrainedOgden(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Ogden")
+    type: Literal["Ogden unconstrained"] = attr(default="Ogden unconstrained", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    m1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    m2: Optional[MatPositiveFloat] = element(default=None)
+    c2: Optional[MatPositiveFloat] = element(default=None)
+    m3: Optional[MatPositiveFloat] = element(default=None)
+    c3: Optional[MatPositiveFloat] = element(default=None)
+    m4: Optional[MatPositiveFloat] = element(default=None)
+    c4: Optional[MatPositiveFloat] = element(default=None)
+    m5: Optional[MatPositiveFloat] = element(default=None)
+    c5: Optional[MatPositiveFloat] = element(default=None)
+    m6: Optional[MatPositiveFloat] = element(default=None)
+    c6: Optional[MatPositiveFloat] = element(default=None)
+
+
 class OrthotropicElastic(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="orthotropic elastic")
     type: Literal["orthotropic elastic"] = attr(default="orthotropic elastic", frozen=True)
@@ -315,6 +334,7 @@ UnconstrainedMaterials: TypeAlias = Union[
     NeoHookean,
     PorousNeoHookean,
     IsotropicElastic,
+    UnconstrainedOgden,
     OrthotropicElastic,
     OrthotrpicCLE,
     TransIsoMooneyRivlin,
@@ -350,16 +370,16 @@ class Ogden(BaseXmlModel, tag="material", extra="forbid"):
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
     m1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    m2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    m3: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    c3: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    m4: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    c4: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    m5: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    c5: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    m6: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
-    c6: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    m2: Optional[MatPositiveFloat] = element(default=None)
+    c2: Optional[MatPositiveFloat] = element(default=None)
+    m3: Optional[MatPositiveFloat] = element(default=None)
+    c3: Optional[MatPositiveFloat] = element(default=None)
+    m4: Optional[MatPositiveFloat] = element(default=None)
+    c4: Optional[MatPositiveFloat] = element(default=None)
+    m5: Optional[MatPositiveFloat] = element(default=None)
+    c5: Optional[MatPositiveFloat] = element(default=None)
+    m6: Optional[MatPositiveFloat] = element(default=None)
+    c6: Optional[MatPositiveFloat] = element(default=None)
 
 
 class HolzapfelGasserOgden(BaseXmlModel, tag="material", extra="forbid"):
@@ -367,9 +387,9 @@ class HolzapfelGasserOgden(BaseXmlModel, tag="material", extra="forbid"):
     type: Literal["Holzapfel-Gasser-Ogden"] = attr(default="Holzapfel-Gasser-Ogden", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    c: MatPositiveFloat = element(default=1.0)
-    k1: MatPositiveFloat = element(default=10.0)
-    k2: MatPositiveFloat = element(default=1.0)
+    c: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    k1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    k2: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     gamma: MatLTE_90_GTE_0 = element(default=MaterialParameter(text=45.0))
     kappa: MatLTE_OneThird_GTE_Zero = element(default=MaterialParameter(text=0.1))
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
