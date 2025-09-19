@@ -21,7 +21,7 @@ def test_unconstrained_material(hex8_febmesh, tmp_path):
         )
         my_model.save(model_file)
         result = feb.model.run_model(model_file)
-        assert result.returncode == 0
+        assert result.returncode == 0, f"{material_cls.__name__} failed"
 
 
 def test_uncoupled_material(hex8_febmesh, tmp_path):
@@ -42,4 +42,4 @@ def test_uncoupled_material(hex8_febmesh, tmp_path):
         )
         my_model.save(model_file)
         result = feb.model.run_model(model_file, silent=True)
-        assert result.returncode == 0
+        assert result.returncode == 0, f"{material_cls.__name__} failed"
