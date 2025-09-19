@@ -1,4 +1,6 @@
 import math
+import subprocess
+from pathlib import Path
 from typing import Optional, Union
 
 from pydantic_xml import BaseXmlModel, attr, element
@@ -124,3 +126,7 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
         material = RigidBody(name=name, id=material_id)
         self.material.add_material(material)
         self.mesh_domains.add_solid_domain(SolidDomain(name=name, mat=name))
+
+
+def run_model(filepath: str | Path) -> subprocess.CompletedProcess:
+    return subprocess.run(f"febio4 -i {filepath}", shell=True)
