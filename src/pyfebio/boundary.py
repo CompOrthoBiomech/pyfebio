@@ -10,7 +10,7 @@ from ._types import (
 
 class Value(BaseXmlModel, validate_assignment=True):
     lc: int = attr()
-    text: float = 1.0
+    text: float | StringFloatVec3 = 1.0
 
 
 class BCZeroDisplacement(BaseXmlModel, validate_assignment=True):
@@ -79,7 +79,7 @@ class BCRigidDeformation(BaseXmlModel, validate_assignment=True):
     type: Literal["rigid deformation"] = attr(default="rigid deformation", frozen=True)
     node_set: str = attr()
     pos: StringFloatVec3 = element(default="0.0,0.0,0.0")
-    rot: StringFloatVec3 = element(default="0.0,0.0,0.0")
+    rot: Value = element()
     relative: Literal[0, 1] = element(default=0)
 
 
