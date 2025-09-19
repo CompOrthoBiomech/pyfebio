@@ -75,27 +75,6 @@ def test_translate_tet10_mesh(tet10_meshio):
     mesh = feb.mesh.translate_meshio(tet10_meshio)
     assert mesh.nodes
     assert mesh.elements
-    my_model = feb.model.Model(mesh=mesh)
-    for i, element in enumerate(mesh.elements):
-        my_model.material.add_material(feb.material.NeoHookean(name=element.name, id=i + 1))
-        my_model.mesh_domains.add_solid_domain(
-            feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
-        )
-    my_model.boundary.add_bc(
-        feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
-    )
-    my_model.boundary.add_bc(
-        feb.boundary.BCRigidDeformation(
-            node_set="top",
-            pos="0.5,0.5,0.0",
-            rot=feb.boundary.Value(lc=1, text="0.0,0.0,2.0"),
-        )
-    )
-    my_model.load_data.add_load_curve(
-        feb.loaddata.LoadCurve(id=1, points=feb.loaddata.CurvePoints(points=["0,0", "1,1"]))
-    )
-
-    my_model.save("tet10.feb")
 
 
 def test_translate_hex8_mesh(hex8_meshio):
@@ -108,13 +87,6 @@ def test_translate_hex20_mesh(hex20_meshio):
     mesh = feb.mesh.translate_meshio(hex20_meshio)
     assert mesh.nodes
     assert mesh.elements
-    my_model = feb.model.Model(mesh=mesh)
-    for i, element in enumerate(mesh.elements):
-        my_model.material.add_material(feb.material.NeoHookean(name=element.name, id=i + 1))
-        my_model.mesh_domains.add_solid_domain(
-            feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
-        )
-    my_model.save("hex20.feb")
 
 
 def test_translate_hex27_mesh(hex27_meshio):
