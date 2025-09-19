@@ -22,6 +22,12 @@ class MaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
     text: str | int | float
 
 
+class DynamicMaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
+    type: Optional[Literal["map", "math"]] = attr(default=None)
+    lc: int = attr(default=1, ge=1)
+    text: str | int | float
+
+
 # Material Paramter Validators
 def mat_is_positive_float(parameter: MaterialParameter) -> MaterialParameter:
     if parameter.type == "map" or parameter.type == "math":
@@ -207,6 +213,64 @@ MatStringFloatVec9: TypeAlias = Annotated[
 ]
 
 
+class SolidBoundMolecule(BaseXmlModel, tag="solid_bound", extra="forbid"):
+    sbm: int = attr(default=1)
+    rho0: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    rhomin: MatPositiveFloat = element(default=MaterialParameter(text=0.1))
+    rhomax: MatPositiveFloat = element(default=MaterialParameter(text=5.0))
+
+
+class ArrudaBoyce(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Arruda-Boyce unconstrained")
+    type: Literal["Arruda-Boyce unconstrained"] = attr(
+        default="Arruda-Boyce unconstrained", frozen=True
+    )
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    ksi: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    N: MatPositiveInt = element(default=MaterialParameter(text=5))
+    n_term: int = element(default=3, ge=3, le=30)
+    kappa: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+
+
+class CarterHayes(BaseXmlModel, tag="solid", extra="forbid"):
+    name: str = attr(default="Carter-Hayes")
+    type: Literal["Carter-Hayes"] = attr(default="Carter-Hayes", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    E0: MatPositiveFloat = element(default=MaterialParameter(text=10000.0))
+    rho0: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    gamma: MatPositiveFloat = element(default=MaterialParameter(text=2.0))
+    v: MatNonNegativeFloat = element(default=MaterialParameter(text=0.3))
+    sbm: MatPositiveInt = element(default=MaterialParameter(text=1))
+
+
+class CellGrowth(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Cell Growth")
+    type: Literal["cell growth"] = attr(default="cell growth", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    phir: MatPositiveFloat = element(default=DynamicMaterialParameter(text=10000.0))
+    cr: MatPositiveFloat = element(default=DynamicMaterialParameter(text=1.0))
+    ce: MatPositiveFloat = element(default=MaterialParameter(text=300.0))
+
+
+class KinematicGrowth(BaseXmlModel, tag="material", extra="forbid"):
+    elastic: str = element()
+    growth: Literal["volume", "growth", "area growth", "fiber growth"] = element(default="volume")
+
+
+class CubicCLE(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="cubic CLE")
+    type: Literal["cubic CLE"] = attr(default="cubic CLE", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    lp1: MatPositiveFloat = element(default=MaterialParameter(text=13.01))
+    lm1: MatPositiveFloat = element(default=MaterialParameter(text=0.49))
+    l2: MatPositiveFloat = element(default=MaterialParameter(text=0.66))
+    mu: MatPositiveFloat = element(default=MaterialParameter(text=0.16))
+
+
 class CoupledMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="coupled Mooney-Rivlin")
     type: Literal["coupled Mooney-Rivlin"] = attr(default="coupled Mooney-Rivlin", frozen=True)
@@ -215,6 +279,41 @@ class CoupledMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     c1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
     c2: MatNonNegativeFloat = element(default=MaterialParameter(text=1.0))
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
+
+
+class DonnanEquilibrium(BaseXmlModel, tag="solid", extra="forbid"):
+    type: Literal["Donnan equilibrium"] = attr(default="Donnan equilibrium", frozen=True)
+    phiw0: MatPositiveFloat = element(default=MaterialParameter(text=0.8))
+    cF0: MatPositiveFloat = element(default=DynamicMaterialParameter(text=1.0))
+    bosm: MatPositiveFloat = element(default=MaterialParameter(text=0.8))
+
+
+class EllipsoidalFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
+    type: Literal["ellipsoidal fiber distribution"] = attr(
+        default="ellipsoidal fiber distribution", frozen=True
+    )
+    ksi: StringFloatVec3 = element(default="10,12,15")
+    beta: StringFloatVec3 = element(default="2.5,3,3")
+
+
+class EllipsoidalFiberDistributionNeoHookean(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="EFD neo-Hookean")
+    type: Literal["EFD neo-Hookean"] = attr(default="EFD neo-Hookean", frozen=True)
+    id: int = attr(ge=1)
+    E: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    v: MatPositiveFloat = element(default=MaterialParameter(text=0.3))
+    beta: StringFloatVec3 = element(default="2.5,3,3")
+    ksi: StringFloatVec3 = element(default="1.0,1.0,1.0")
+
+
+class EllipsoidalFiberDistributionDonnanEquilibrium(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="EFD Donnan Equilibrium")
+    type: Literal["EFD Donnan Equilibrium"] = attr(default="EFD Donnan Equilibrium", frozen=True)
+    id: int = attr(ge=1)
+    phiw0: MatPositiveFloat = element(default=MaterialParameter(text=0.8))
+    cF0: DynamicMaterialParameter = element(default=DynamicMaterialParameter(text=0.3))
+    bosm: MaterialParameter = element(default=MaterialParameter(text=300))
+    ksi: StringFloatVec3 = element(default="0.01,0.01,0.01")
 
 
 class NeoHookean(BaseXmlModel, tag="material", extra="forbid"):
@@ -330,7 +429,10 @@ class LargePoissonRatioLigament(BaseXmlModel, tag="material", extra="forbid"):
 
 
 UnconstrainedMaterials: TypeAlias = Union[
+    ArrudaBoyce,
     CoupledMooneyRivlin,
+    CubicCLE,
+    EllipsoidalFiberDistributionNeoHookean,
     NeoHookean,
     PorousNeoHookean,
     IsotropicElastic,
