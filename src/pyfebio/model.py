@@ -128,5 +128,8 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
         self.mesh_domains.add_solid_domain(SolidDomain(name=name, mat=name))
 
 
-def run_model(filepath: str | Path) -> subprocess.CompletedProcess:
-    return subprocess.run(f"febio4 -i {filepath}", shell=True)
+def run_model(filepath: str | Path, silent: bool = False) -> subprocess.CompletedProcess:
+    if silent:
+        return subprocess.run(f"febio4 -i {filepath} -silent", shell=True)
+    else:
+        return subprocess.run(f"febio4 -i {filepath}", shell=True)
