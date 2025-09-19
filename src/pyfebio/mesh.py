@@ -1,6 +1,7 @@
-from typing import List, Literal, Union
+from typing import List, Literal, Optional, Union
 
 import meshio
+import numpy as np
 from pydantic import Field
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -270,28 +271,87 @@ ELEMENT_CLASS_MAP: dict[str, type[ElementType]] = {
     "line3": Line3Element,
 }
 
+EXCLUDE_SET_STR = ("gmsh:bounding_entities",)
 
-def translate_meshio(meshobj: meshio.Mesh) -> Mesh:
+
+def translate_meshio(
+    meshobj: meshio.Mesh,
+    nodeoffset: int = 0,
+    elementoffset: int = 0,
+    surfaceoffset: int = 0,
+    shell_sets: Optional[list[str]] = None,
+) -> Mesh:
+    if shell_sets is None:
+        shell_sets = []
+    solid_nodes = []
+    for key, value in meshobj.cells_dict.items():
+        if meshio._mesh.topological_dimension[key] == 3:
+            solid_nodes.extend(np.unique(value.ravel()).tolist())
+    solid_nodes = set(solid_nodes)
+
+    make_element = {}
+    for key, values in meshobj.cells_dict.items():
+        make_element[key] = []
+        if meshio._mesh.topological_dimension[key] == 2:
+            for element in values:
+                make_element[key].append(
+                    bool(set(np.unique(element.ravel())).difference(solid_nodes))
+                )
+        else:
+            make_element[key].extend([True] * len(values))
+
     febio_mesh = Mesh()
     nodes_object = Nodes()
     for i, node in enumerate(meshobj.points):
-        nodes_object.add_node(Node(id=i + 1, text=",".join(map(str, node))))
+        nodes_object.add_node(Node(id=i + 1 + nodeoffset, text=",".join(map(str, node))))
     num_elements = 0
-    for name, entries in meshobj.cell_sets.items():
-        if "gmsh:" in name.lower():
+    num_surface_elements = 0
+    for name, members in meshobj.cell_sets_dict.items():
+        if any([exclude in name.lower() for exclude in EXCLUDE_SET_STR]):
             continue
-        for i, indices in enumerate(entries):
-            cell_block = meshobj.cells[i]
-            etype = ELEMENT_MAP[cell_block.type]
-            if indices.size > 0:  # type: ignore
-                elements_object = Elements(name=name, type=etype)
-                for j in indices:  # type: ignore
+        shell_set = name in shell_sets
+        for member, offsets in members.items():
+            if len(members.keys()) > 1:
+                set_name = f"{name}_{ELEMENT_MAP[member]}"
+            else:
+                set_name = name
+            etype = ELEMENT_MAP[member]
+            if shell_set or np.array(make_element[member])[offsets].all():
+                elements_object = Elements(name=set_name, type=etype)
+                for offset in offsets:
+                    element = meshobj.cells_dict[member][offset]
                     num_elements += 1
                     elements_object.add_element(
                         ELEMENT_CLASS_MAP[etype](
-                            id=num_elements, text=",".join(map(str, cell_block.data[j, :] + 1))
+                            id=num_elements + elementoffset,
+                            text=",".join(map(str, element + 1)),
                         )
                     )
                 febio_mesh.elements.append(elements_object)
+            else:
+                surface_object = Surface(name=set_name)
+                fn_map = {
+                    "tri3": surface_object.add_tri3,
+                    "tri6": surface_object.add_tri6,
+                    "quad4": surface_object.add_quad4,
+                    "quad8": surface_object.add_quad8,
+                    "quad9": surface_object.add_quad9,
+                }
+                node_set = []
+                for offset in offsets:
+                    num_surface_elements += 1
+                    element = meshobj.cells_dict[member][offset]
+                    fn_map[ELEMENT_MAP[member]](
+                        ELEMENT_CLASS_MAP[etype](
+                            id=num_surface_elements + surfaceoffset,
+                            text=",".join(map(str, element + 1)),
+                        )
+                    )
+                    node_set.extend((element + 1).tolist())
+                node_sets = sorted(set(node_set))
+                febio_mesh.node_sets.append(
+                    NodeSet(name=set_name, text=",".join(map(str, node_sets)))
+                )
+                febio_mesh.surfaces.append(surface_object)
     febio_mesh.nodes.append(nodes_object)
     return febio_mesh
