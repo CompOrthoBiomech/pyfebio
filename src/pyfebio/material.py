@@ -14,7 +14,7 @@ class MaterialAxisVector(BaseXmlModel, validate_assignment=True, extra="forbid")
 
 class FiberVector(BaseXmlModel, validate_assignment=True, extra="forbid"):
     type: Literal["vector"] = attr(default="vector", frozen=True)
-    text: StringFloatVec3 = element(default="1.0,0.0,0.0")
+    text: StringFloatVec3 = "1.0,0.0,0.0"
 
 
 class MaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
@@ -281,8 +281,10 @@ class OrthotrpicCLE(BaseXmlModel, tag="material", extra="forbid"):
 
 
 class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
-    name: str = attr(default="trans-iso Mooney-Rivlin")
-    type: Literal["trans-iso Mooney-Rivlin"] = attr(default="trans-iso Mooney-Rivlin", frozen=True)
+    name: str = attr(default="coupled trans-iso Mooney-Rivlin")
+    type: Literal["coupled trans-iso Mooney-Rivlin"] = attr(
+        default="coupled trans-iso Mooney-Rivlin", frozen=True
+    )
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
@@ -292,7 +294,6 @@ class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     c5: MatPositiveFloat = element(default=MaterialParameter(text=3.0))
     lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.05))
     k: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
-    mat_axis: Optional[MaterialAxisVector] = element(default=None)
     fiber: Optional[FiberVector] = element(default=None)
 
 
