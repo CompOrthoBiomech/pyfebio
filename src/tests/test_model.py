@@ -123,7 +123,7 @@ def test_hex27_model(hex27_febmesh, tmp_path):
         feb.boundary.BCRigidDeformation(
             node_set="top",
             pos="0.5,0.5,0.0",
-            rot=feb.boundary.Value(lc=1, text="0.0,0.0,2.0"),
+            rot=feb.boundary.Value(lc=1, text="0.0,0.0,3.14"),
         )
     )
     my_model.load_data.add_load_curve(
