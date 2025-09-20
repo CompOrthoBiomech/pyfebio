@@ -41,9 +41,7 @@ def mat_is_positive_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than 0.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_non_negative_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -58,9 +56,7 @@ def mat_is_non_negative_float(parameter: MaterialParameter) -> MaterialParameter
             raise ValueError(f"{parameter.text=} must be greater than or equal to 0.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_gte_one_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -75,9 +71,7 @@ def mat_is_gte_one_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than or equal to 1.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_gt_one_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -92,9 +86,7 @@ def mat_is_gt_one_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than 1.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_gte_two_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -109,9 +101,7 @@ def mat_is_gte_two_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than or equal to 2.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_lte_onethird_gte_zero(parameter: MaterialParameter) -> MaterialParameter:
@@ -126,9 +116,7 @@ def mat_is_lte_onethird_gte_zero(parameter: MaterialParameter) -> MaterialParame
             raise ValueError(f"{parameter.text=} must be in domain [0.0, 1./3.]")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_lte_90_gte_0(parameter: MaterialParameter) -> MaterialParameter:
@@ -143,9 +131,7 @@ def mat_is_lte_90_gte_0(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be in domain [0.0, 90.0]")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_positive_int(parameter: MaterialParameter) -> MaterialParameter:
@@ -162,9 +148,7 @@ def mat_is_positive_int(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than 0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_string_float_vec3(parameter: MaterialParameter) -> MaterialParameter:
@@ -194,23 +178,15 @@ def mat_is_string_float_vec9(parameter: MaterialParameter) -> MaterialParameter:
 
 
 MatPositiveFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_positive_float)]
-MatNonNegativeFloat: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_non_negative_float)
-]
+MatNonNegativeFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_non_negative_float)]
 MatGTEOneFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_gte_one_float)]
 MatGTOneFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_gt_one_float)]
 MatGTETwoFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_gte_two_float)]
-MatLTE_OneThird_GTE_Zero: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_lte_onethird_gte_zero)
-]
+MatLTE_OneThird_GTE_Zero: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_lte_onethird_gte_zero)]
 MatLTE_90_GTE_0: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_lte_90_gte_0)]
 MatPositiveInt: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_positive_int)]
-MatStringFloatVec3: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_string_float_vec3)
-]
-MatStringFloatVec9: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_string_float_vec9)
-]
+MatStringFloatVec3: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_string_float_vec3)]
+MatStringFloatVec9: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_string_float_vec9)]
 
 
 class SolidBoundMolecule(BaseXmlModel, tag="solid_bound", extra="forbid"):
@@ -222,9 +198,7 @@ class SolidBoundMolecule(BaseXmlModel, tag="solid_bound", extra="forbid"):
 
 class ArrudaBoyce(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="Arruda-Boyce unconstrained")
-    type: Literal["Arruda-Boyce unconstrained"] = attr(
-        default="Arruda-Boyce unconstrained", frozen=True
-    )
+    type: Literal["Arruda-Boyce unconstrained"] = attr(default="Arruda-Boyce unconstrained", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     ksi: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
@@ -289,9 +263,7 @@ class DonnanEquilibrium(BaseXmlModel, tag="solid", extra="forbid"):
 
 
 class EllipsoidalFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
-    type: Literal["ellipsoidal fiber distribution"] = attr(
-        default="ellipsoidal fiber distribution", frozen=True
-    )
+    type: Literal["ellipsoidal fiber distribution"] = attr(default="ellipsoidal fiber distribution", frozen=True)
     ksi: StringFloatVec3 = element(default="10,12,15")
     beta: StringFloatVec3 = element(default="2.5,3,3")
 
@@ -400,9 +372,7 @@ class OrthotrpicCLE(BaseXmlModel, tag="material", extra="forbid"):
 
 class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="coupled trans-iso Mooney-Rivlin")
-    type: Literal["coupled trans-iso Mooney-Rivlin"] = attr(
-        default="coupled trans-iso Mooney-Rivlin", frozen=True
-    )
+    type: Literal["coupled trans-iso Mooney-Rivlin"] = attr(default="coupled trans-iso Mooney-Rivlin", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
@@ -661,9 +631,7 @@ class CFDVonMises2d(BaseXmlModel, tag="distribution", extra="forbid"):
     b: MatNonNegativeFloat = element(default=MaterialParameter(text=0.5))
 
 
-CFDistributionModel: TypeAlias = Union[
-    CFDCircular, CFDSpherical, CFDVonMises3d, CFDVonMises2d, CFDEllipsoidal
-]
+CFDistributionModel: TypeAlias = Union[CFDCircular, CFDSpherical, CFDVonMises3d, CFDVonMises2d, CFDEllipsoidal]
 
 
 # Continous Fiber Distribution Function Integration Schema
@@ -705,15 +673,11 @@ class TrapezoidalRuleIntegration(BaseXmlModel, tag="scheme", extra="forbid"):
     nth: PositiveInt = element(default=31)
 
 
-IntegrationScheme: TypeAlias = Union[
-    GaussKronrodTrapezoidalIntegration, FiniteElementIntegration, TrapezoidalRuleIntegration
-]
+IntegrationScheme: TypeAlias = Union[GaussKronrodTrapezoidalIntegration, FiniteElementIntegration, TrapezoidalRuleIntegration]
 
 
 class ContinuousFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
-    type: Literal["continuous fiber distribution"] = attr(
-        default="continuous fiber distribution", frozen=True
-    )
+    type: Literal["continuous fiber distribution"] = attr(default="continuous fiber distribution", frozen=True)
     fibers: FiberModel = element(default=FiberNaturalNeoHookean(), tag="fibers")
     distribution: CFDistributionModel = element(default=CFDSpherical())
     scheme: IntegrationScheme = element(default=GaussKronrodTrapezoidalIntegration())
@@ -735,13 +699,9 @@ class SolidMixture(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="solid mixture")
     type: Literal["solid mixture"] = attr(default="solid mixture", frozen=True)
     id: int = attr(ge=1)
-    solid_list: list[UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution] = element(
-        tag="solid", default=[]
-    )
+    solid_list: list[UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution] = element(tag="solid", default=[])
 
-    def add_solid(
-        self, new_solid: UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution
-    ):
+    def add_solid(self, new_solid: UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution):
         self.solid_list.append(new_solid)
 
 
@@ -750,13 +710,9 @@ class SolidMixtureUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="solid mixture")
     type: Literal["solid mixture"] = attr(default="uncoupled solid mixture", frozen=True)
     id: int = attr(ge=1)
-    solid_list: list[UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC] = element(
-        tag="solid", default=[]
-    )
+    solid_list: list[UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC] = element(tag="solid", default=[])
 
-    def add_solid(
-        self, new_solid: UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC
-    ):
+    def add_solid(self, new_solid: UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC):
         self.solid_list.append(new_solid)
 
 
@@ -781,9 +737,7 @@ class PrestrainRamp(BaseXmlModel, tag="ramp", extra="forbid"):
 class PrestrainGradient(BaseXmlModel, tag="prestrain", extra="forbid"):
     type: Literal["prestrain gradient"] = attr(default="prestrain gradient", frozen=True)
     ramp: PrestrainRamp = element()
-    F0: MatStringFloatVec9 = element(
-        default=MaterialParameter(text="1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0")
-    )
+    F0: MatStringFloatVec9 = element(default=MaterialParameter(text="1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0"))
 
 
 class PrestrainElastic(BaseXmlModel, tag="material", extra="forbid"):

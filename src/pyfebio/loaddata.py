@@ -19,9 +19,7 @@ class LoadCurve(BaseXmlModel, tag="load_controller", validate_assignment=True):
     id: int = attr()
     type: Literal["loadcurve"] = attr(default="loadcurve", frozen=True)
     interpolate: Literal["LINEAR", "STEP", "SMOOTH"] = element(default="LINEAR")
-    extend: Literal["CONSTANT", "EXTRAPOLATE", "REPEAT", "REPEAT OFFSET"] = element(
-        default="CONSTANT"
-    )
+    extend: Literal["CONSTANT", "EXTRAPOLATE", "REPEAT", "REPEAT OFFSET"] = element(default="CONSTANT")
     points: CurvePoints = element()
 
 
@@ -42,9 +40,7 @@ class MathController(BaseXmlModel, validate_assignment=True):
 
 
 class LoadData(BaseXmlModel, validate_assignment=True):
-    load_controllers: List[LoadCurve | PIDController | MathController] = element(
-        default=[], tag="load_controller"
-    )
+    load_controllers: List[LoadCurve | PIDController | MathController] = element(default=[], tag="load_controller")
 
     def add_load_curve(self, new_load_curve: LoadCurve):
         self.load_controllers.append(new_load_curve)

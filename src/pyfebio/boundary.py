@@ -43,9 +43,7 @@ class BCPrescribedDisplacement(BaseXmlModel, validate_assignment=True):
 
 
 class BCPrescribedShellDisplacement(BaseXmlModel, validate_assignment=True):
-    type: Literal["prescribed shell displacement"] = attr(
-        default="prescribed shell displacement", frozen=True
-    )
+    type: Literal["prescribed shell displacement"] = attr(default="prescribed shell displacement", frozen=True)
     node_set: str = attr()
     dof: Literal["sx", "sy", "sz"] = element()
     value: Value = element()
@@ -53,9 +51,7 @@ class BCPrescribedShellDisplacement(BaseXmlModel, validate_assignment=True):
 
 
 class BCPrescribedFluidPressure(BaseXmlModel, validate_assignment=True):
-    type: Literal["prescribed fluid pressure"] = attr(
-        default="prescribed fluid pressure", frozen=True
-    )
+    type: Literal["prescribed fluid pressure"] = attr(default="prescribed fluid pressure", frozen=True)
     node_set: str = attr()
     value: Value = element()
     relative: Literal[0, 1] = element(default=0)

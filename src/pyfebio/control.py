@@ -24,9 +24,7 @@ class LinearSolver(BaseXmlModel, validate_assignment=True):
 
 
 class QuasiNewtonMethod(BaseXmlModel, validate_assignment=True):
-    type: Literal["BFGS", "Broyden", "Full Newton", "JFNK", "Modified Newton"] = attr(
-        default="BFGS"
-    )
+    type: Literal["BFGS", "Broyden", "Full Newton", "JFNK", "Modified Newton"] = attr(default="BFGS")
     max_ups: int = element(default=10, ge=0)
     max_buffer_size: int = element(default=0, ge=0)
     cycle_buffer: Literal[0, 1] = element(default=1)
@@ -54,9 +52,7 @@ class Solver(BaseXmlModel, validate_assignment=True, skip_empty=True):
     diverge_reform: Literal[0, 1] = element(default=1)
     min_residual: float = element(default=1e-20, gt=0.0)
     qn_method: QuasiNewtonMethod = element(default=QuasiNewtonMethod())
-    symmetric_stiffness: Literal["symmetric", "non-symmetric", "symmetric-structure"] = element(
-        default="non-symmetric"
-    )
+    symmetric_stiffness: Literal["symmetric", "non-symmetric", "symmetric-structure"] = element(default="non-symmetric")
     equation_scheme: Literal["staggered", "block"] = element(default="staggered")
     equation_order: Literal["default", "reverse", "febio2"] = element(default="default")
     optimize_bw: Literal[0, 1] = element(default=0)
@@ -69,8 +65,8 @@ class Control(BaseXmlModel, tag="Control", validate_assignment=True):
     step_size: float = element(default=0.1)
     plot_zero_state: Literal[0, 1] = element(default=0)
     plot_range: str = element(default="0,-1")
-    plot_level: Literal["PLOT_NEVER", "PLOT_MAJOR_ITRS", "PLOT_MINOR_ITRS", "PLOT_MUST_POINTS"] = (
-        element(default="PLOT_MAJOR_ITRS")
+    plot_level: Literal["PLOT_NEVER", "PLOT_MAJOR_ITRS", "PLOT_MINOR_ITRS", "PLOT_MUST_POINTS"] = element(
+        default="PLOT_MAJOR_ITRS"
     )
     plot_stride: int = element(default=1)
     output_stride: int = element(default=1)

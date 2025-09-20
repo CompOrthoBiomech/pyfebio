@@ -45,9 +45,7 @@ class FluidPressure(BaseXmlModel, tag="surface_load", validate_assignment=True):
 
 
 class Loads(BaseXmlModel, validate_assignment=True):
-    all_surface_loads: List[TractionLoad | PressureLoad | FluidFlux | FluidPressure] = element(
-        default=[]
-    )
+    all_surface_loads: List[TractionLoad | PressureLoad | FluidFlux | FluidPressure] = element(default=[])
     all_nodal_loads: List[NodalLoad] = element(default=[])
 
     def add_surface_load(self, new_load: PressureLoad | TractionLoad | FluidFlux | FluidPressure):

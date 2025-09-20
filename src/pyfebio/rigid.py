@@ -26,9 +26,7 @@ class RigidFixed(BaseXmlModel, tag="rigid_bc", validate_assignment=True):
 
 
 class RigidPrescribed(BaseXmlModel, tag="rigid_bc", validate_assignment=True):
-    type: Literal["rigid_displacement", "rigid_rotation"] = attr(
-        default="rigid_displacement", frozen=True
-    )
+    type: Literal["rigid_displacement", "rigid_rotation"] = attr(default="rigid_displacement", frozen=True)
     rb: str = element()
     dof: Literal["x", "y", "z", "Ru", "Rv", "Rw"] = element()
     relative: Literal[0, 1] = element(default=0)
@@ -240,9 +238,7 @@ class RigidContractileForce(RigidConnector):
 
 RigidBCType = Union[RigidFixed, RigidPrescribed, RigidBodyRotationVector, RigidBodyEulerAngle]
 
-RigidLoadType = Union[
-    RigidForceLoad, RigidFollowerForceLoad, RigidMomentLoad, RigidFollowerMomentLoad
-]
+RigidLoadType = Union[RigidForceLoad, RigidFollowerForceLoad, RigidMomentLoad, RigidFollowerMomentLoad]
 
 RigidConnectorType = Union[
     RigidSphericalJoint,

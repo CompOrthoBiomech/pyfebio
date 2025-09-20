@@ -99,10 +99,7 @@ class RigidConnectorDataEnum(str, Enum):
 
 
 def assemble_data_string(
-    requests: list[RigidBodyDataEnum]
-    | list[NodeDataEnum]
-    | list[ElementDataEnum]
-    | list[RigidConnectorDataEnum],
+    requests: list[RigidBodyDataEnum] | list[NodeDataEnum] | list[ElementDataEnum] | list[RigidConnectorDataEnum],
 ) -> str:
     return ";".join(requests)
 
