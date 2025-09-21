@@ -7,8 +7,11 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
+    - name: Check out code
+        uses: actions/checkout@v1
+
+    - name: Build docs with sphinx and publish to GitHub Pages
+      uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
         with:
           branch: main
           dir_docs: docs
