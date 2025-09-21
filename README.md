@@ -192,9 +192,9 @@ Brief overview, see module documentation for more details. Unchecked are not yet
   - [x] Element Data
     - [x] Scalar
     - [x] Vector3
-  - [x] Surface Data
-    - [x] Scalar
-    - [x] Vector3
+  - [ ] Surface Data
+    - [ ] Scalar
+    - [ ] Vector3
 - Material
   - [x] Most Unconstrained Formulation Materials
   - [x] Most Uncoupled Formulation Materials
@@ -202,7 +202,7 @@ Brief overview, see module documentation for more details. Unchecked are not yet
   - [x] Fiber models
   - [x] Material Axis
     - [x] Vector Definition
-    - [ ]
+  - [x] Fiber Vector
   - [x] Continuous Fiber Distributions
     - [x] Integration Schemes
   - [x] Element-wise, mapped, or math parameter defintion
