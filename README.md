@@ -8,7 +8,7 @@ we need to implement material support for biphasic and multiphasic materials.
 
 - [Installation](#installation)
 - [Short Example](#short-example)
-- Documentation
+- [Documentation](https://comporthobiomech.github.io/pyfebio/index.html)
 - [Features](#features)
 
 ## Installation
