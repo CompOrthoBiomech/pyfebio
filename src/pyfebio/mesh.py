@@ -64,7 +64,9 @@ class Hex20Element(BaseXmlModel, tag="elem", validate_assignment=True):
 
 
 class Hex27Element(BaseXmlModel, tag="elem", validate_assignment=True):
-    text: StringUIntVec27 = Field(default="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27")
+    text: StringUIntVec27 = Field(
+        default="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27"
+    )
     id: int = attr()
 
 
@@ -128,7 +130,9 @@ ElementType = Union[
 
 class Elements(BaseXmlModel, tag="elements", validate_assignment=True):
     name: str = attr(default="Part")
-    type: SolidFEBioElementType | ShellFEBioElementType | BeamFEBioElementType = attr(default="hex8")
+    type: SolidFEBioElementType | ShellFEBioElementType | BeamFEBioElementType = attr(
+        default="hex8"
+    )
     all_elements: List[ElementType] = element(default=[], tag="elem")
 
     def add_element(self, new_element: ElementType):
@@ -290,7 +294,9 @@ def translate_meshio(
         make_element[key] = []
         if meshio._mesh.topological_dimension[key] == 2:
             for element in values:
-                make_element[key].append(bool(set(np.unique(element.ravel())).difference(solid_nodes)))
+                make_element[key].append(
+                    bool(set(np.unique(element.ravel())).difference(solid_nodes))
+                )
         else:
             make_element[key].extend([True] * len(values))
 
@@ -300,35 +306,8 @@ def translate_meshio(
         nodes_object.add_node(Node(id=i + 1 + nodeoffset, text=",".join(map(str, node))))
     num_elements = 0
     num_surface_elements = 0
-    hex27_reorder = [
-        2,
-        6,
-        7,
-        3,
-        1,
-        5,
-        4,
-        0,
-        18,
-        14,
-        19,
-        10,
-        17,
-        12,
-        16,
-        8,
-        9,
-        13,
-        15,
-        11,
-        21,
-        25,
-        20,
-        24,
-        23,
-        22,
-        26,
-    ]
+    hex27_reorder = [2, 6, 7, 3, 1, 5, 4, 0, 18, 14, 19, 10, 17, 12, 16, 8, 9, 13, 15, 11]
+    hex27_reorder.extend([21, 25, 20, 24, 23, 22, 26])
     for name, members in meshobj.cell_sets_dict.items():
         if any([exclude in name.lower() for exclude in EXCLUDE_SET_STR]):
             continue
@@ -375,7 +354,9 @@ def translate_meshio(
                     )
                     node_set.extend((element + 1).tolist())
                 node_sets = sorted(set(node_set))
-                febio_mesh.node_sets.append(NodeSet(name=set_name, text=",".join(map(str, node_sets))))
+                febio_mesh.node_sets.append(
+                    NodeSet(name=set_name, text=",".join(map(str, node_sets)))
+                )
                 febio_mesh.surfaces.append(surface_object)
     febio_mesh.nodes.append(nodes_object)
     return febio_mesh
