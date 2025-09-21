@@ -3,19 +3,29 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+  
+permissions:
+  contents: write
 
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v1
-  
-      - name: Build docs with sphinx and publish to GitHub Pages
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - name: Install dependencies
+        run: |
+          pip install sphinx sphinx_rtd_theme myst_parser
+      - name: Sphinx build
+        run: |
+          sphinx-build doc _build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
-          branch: main
-          dir_docs: docs
-          sphinx-apidoc-opts: "--separate -o . ../"
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _build/
+          force_orphan: truejobs:
           sphinx-apidoc-exclude: "../*setup* ../*.ipynb"
           sphinx-opts: ""
