@@ -7,14 +7,14 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code
+      - name: Check out code
         uses: actions/checkout@v1
-
-    - name: Build docs with sphinx and publish to GitHub Pages
-      uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
-        with:
-          branch: main
-          dir_docs: docs
-          sphinx-apidoc-opts: "--separate -o . ../"
-          sphinx-apidoc-exclude: "../*setup* ../*.ipynb"
-          sphinx-opts: ""
+  
+      - name: Build docs with sphinx and publish to GitHub Pages
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
+          with:
+            branch: main
+            dir_docs: docs
+            sphinx-apidoc-opts: "--separate -o . ../"
+            sphinx-apidoc-exclude: "../*setup* ../*.ipynb"
+            sphinx-opts: ""
