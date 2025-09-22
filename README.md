@@ -1,13 +1,12 @@
 ## Overview
 
 This is a Python package for generating FEBio input files. We rely heavily on pydantic and pydantic-xml
-for type validation and XML serialization. Many of FEBio's features are covered, but not all. Most critically,
-we need to implement material support for biphasic and multiphasic materials.
+for type validation and XML serialization. Many of FEBio's features are covered, but not all.
 
 ## Getting Started
 
 - [Installation](#installation)
-- [Short Example](#short-example)
+- [Example](#example)
 - [Documentation](https://comporthobiomech.github.io/pyfebio/index.html)
 - [Features](#features)
 
@@ -63,7 +62,7 @@ Install the package:
 pip install -e .
 ```
 
-## Short Example
+## Example
 
 ```python
 import pyfebio
@@ -206,8 +205,8 @@ Brief overview, see module documentation for more details. Unchecked are not yet
   - [x] Continuous Fiber Distributions
     - [x] Integration Schemes
   - [x] Element-wise, mapped, or math parameter defintion
-  - [ ] Biphasic Materials
-  - [ ] Viscoelastic Materials
+  - [x] Biphasic Materials
+  - [x] Viscoelastic Materials
   - [ ] Multiphasic Materials
   - [ ] Biphasic-solute Materials
   - [ ] Chemical Reactions
