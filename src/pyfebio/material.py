@@ -1348,10 +1348,6 @@ class BiphasicMaterial(BaseXmlModel, tag="material", extra="forbid"):
     )
     permeability: PermeabilityType = element(default=ConstantIsoPerm())
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.permeability.id = self.id
-
 
 MaterialType = Union[
     UnconstrainedMaterials,
