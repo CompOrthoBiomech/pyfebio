@@ -207,6 +207,15 @@ MatStringFloatVec3: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_
 MatStringFloatVec9: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_string_float_vec9)]
 
 
+class ActiveContraction(BaseXmlModel, tag="active_contraction", extra="forbid"):
+    type: Literal["active contraction"] = attr(default="active contraction", frozen=True)
+    ascl: DynamicMaterialParameter = element(default=DynamicMaterialParameter(text=1.0))
+    ca0: MatPositiveFloat = element(default=MaterialParameter(text=4.35))
+    beta: MatPositiveFloat = element(default=MaterialParameter(text=4.75))
+    l0: MatPositiveFloat = element(default=MaterialParameter(text=1.58))
+    refl: MatPositiveFloat = element(default=MaterialParameter(text=2.04))
+
+
 class SolidBoundMolecule(BaseXmlModel, tag="solid_bound", extra="forbid"):
     sbm: int = attr(default=1)
     rho0: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
