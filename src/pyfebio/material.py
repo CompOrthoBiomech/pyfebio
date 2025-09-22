@@ -25,7 +25,7 @@ class MaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
 class DynamicMaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
     type: Optional[Literal["map", "math"]] = attr(default=None)
     lc: int = attr(default=1, ge=1)
-    text: str | int | float
+    text: str | int | float = 1.0
 
 
 # Material Paramter Validators
