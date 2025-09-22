@@ -1258,19 +1258,17 @@ class PrestrainElasticUC(BaseXmlModel, tag="material", extra="forbid"):
 
 
 class ConstantIsoPerm(BaseXmlModel, tag="permeability", extra="forbid"):
-    name: str = attr(default="perm-const-iso")
+    type: Literal["perm-const-iso"] = attr(default="perm-const-iso", frozen=True)
     perm: MatPositiveFloat = element(default=MaterialParameter(text=1e-3))
 
 
 class ExponentialIsoPerm(BaseXmlModel, tag="permeability", extra="forbid"):
-    name: str = attr(default="perm-exp-iso")
     type: Literal["perm-exp-iso"] = attr(default="perm-exp-iso", frozen=True)
     perm: MatPositiveFloat = element(default=MaterialParameter(text=1e-3))
     M: MatPositiveFloat = element(default=MaterialParameter(text=1.5))
 
 
 class HolmesMowPerm(BaseXmlModel, tag="permeability", extra="forbid"):
-    name: str = attr(default="perm-Holmes-Mow")
     type: Literal["perm-Holmes-Mow"] = attr(default="perm-Holmes-Mow", frozen=True)
     perm: MatPositiveFloat = element(default=MaterialParameter(text=1e-3))
     M: MatNonNegativeFloat = element(default=MaterialParameter(text=1.5))
@@ -1278,7 +1276,6 @@ class HolmesMowPerm(BaseXmlModel, tag="permeability", extra="forbid"):
 
 
 class RefIsoPerm(BaseXmlModel, tag="permeability", extra="forbid"):
-    name: str = attr(default="perm-ref-iso")
     type: Literal["perm-ref-iso"] = attr(default="perm-ref-iso", frozen=True)
     perm0: MatPositiveFloat = element(default=MaterialParameter(text=1e-3))
     perm1: MatPositiveFloat = element(default=MaterialParameter(text=5e-3))
@@ -1288,7 +1285,6 @@ class RefIsoPerm(BaseXmlModel, tag="permeability", extra="forbid"):
 
 
 class RefOrthoPerm(BaseXmlModel, tag="permeability", extra="forbid"):
-    name: str = attr(default="perm-ref-ortho")
     type: Literal["perm-ref-ortho"] = attr(default="perm-ref-ortho", frozen=True)
     perm0: MatPositiveFloat = element(default=MaterialParameter(text=1e-3))
     perm1: MatStringFloatVec3 = element(default=MaterialParameter(text="0.01,0.02,0.03"))
@@ -1300,7 +1296,6 @@ class RefOrthoPerm(BaseXmlModel, tag="permeability", extra="forbid"):
 
 
 class RefTransIsoPerm(BaseXmlModel, tag="permeability", extra="forbid"):
-    name: str = attr(default="perm-ref-trans-iso")
     type: Literal["perm-ref-trans-iso"] = attr(default="perm-ref-trans-iso", frozen=True)
     perm0: MatPositiveFloat = element(default=MaterialParameter(text=2e-3))
     perm1A: MatPositiveFloat = element(default=MaterialParameter(text=1e-2))
@@ -1344,7 +1339,7 @@ class BiphasicMaterial(BaseXmlModel, tag="material", extra="forbid"):
     id: int = attr(ge=1)
     phi0: MatPositiveFloat = element(default=MaterialParameter(text=0.2))
     solid: UnconstrainedMaterials | UncoupledMaterials | SolidMixture | SolidMixtureUC = element(
-        default=NeoHookean, tag="solid"
+        default=NeoHookean(id=1), tag="solid"
     )
     permeability: PermeabilityType = element(default=ConstantIsoPerm())
 
@@ -1356,6 +1351,7 @@ MaterialType = Union[
     RigidBody,
     SolidMixture,
     SolidMixtureUC,
+    BiphasicMaterial,
 ]
 
 

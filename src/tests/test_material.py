@@ -13,8 +13,12 @@ def test_unconstrained_material(hex8_febmesh, tmp_path):
             elif hasattr(my_mat, "fiber"):
                 my_mat.fiber = feb.material.FiberVector()
             my_model.material.add_material(my_mat)
-            my_model.mesh_domains.add_solid_domain(feb.meshdomains.SolidDomain(name=element.name, mat=element.name))
-        model_file = tmp_path.joinpath(f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb")
+            my_model.mesh_domains.add_solid_domain(
+                feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
+            )
+        model_file = tmp_path.joinpath(
+            f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb"
+        )
         my_model.save(model_file)
         result = feb.model.run_model(model_file)
         assert result.returncode == 0, f"{material_cls.__name__} failed"
@@ -27,12 +31,20 @@ def test_efd_donnan_equilibrium(hex8_febmesh, tmp_path):
             name=element.name, id=i + 1, cF0=feb.material.DynamicMaterialParameter(lc=i + 1, text=1)
         )
         my_model.material.add_material(my_mat)
-        my_model.mesh_domains.add_solid_domain(feb.meshdomains.SolidDomain(name=element.name, mat=element.name))
-        my_model.load_data.add_load_curve(
-            feb.loaddata.LoadCurve(id=i + 1, points=feb.loaddata.CurvePoints(points=["0,0", "1,150"]))
+        my_model.mesh_domains.add_solid_domain(
+            feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
         )
-    my_model.boundary.add_bc(feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1))
-    model_file = tmp_path.joinpath(f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb")
+        my_model.load_data.add_load_curve(
+            feb.loaddata.LoadCurve(
+                id=i + 1, points=feb.loaddata.CurvePoints(points=["0,0", "1,150"])
+            )
+        )
+    my_model.boundary.add_bc(
+        feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
+    )
+    model_file = tmp_path.joinpath(
+        f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb"
+    )
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=True)
     assert result.returncode == 0
@@ -43,16 +55,28 @@ def test_osmotic_virial_pressure(hex20_febmesh, tmp_path):
     for i, element in enumerate(my_model.mesh.elements):
         my_mat = feb.material.SolidMixture(name=element.name, id=i + 1)
         my_mat.add_solid(
-            feb.material.OsmoticVirialPressure(id=i + 1, cr=feb.material.DynamicMaterialParameter(lc=i + 1, text=5000.0))
+            feb.material.OsmoticVirialPressure(
+                id=i + 1, cr=feb.material.DynamicMaterialParameter(lc=i + 1, text=5000.0)
+            )
         )
         my_mat.add_solid(feb.material.ContinuousFiberDistribution())
         my_model.material.add_material(my_mat)
-        my_model.mesh_domains.add_solid_domain(feb.meshdomains.SolidDomain(name=element.name, mat=element.name))
-        my_model.load_data.add_load_curve(
-            feb.loaddata.LoadCurve(id=i + 1, interpolate="SMOOTH", points=feb.loaddata.CurvePoints(points=["0,0", "1,1"]))
+        my_model.mesh_domains.add_solid_domain(
+            feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
         )
-    my_model.boundary.add_bc(feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1))
-    model_file = tmp_path.joinpath(f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb")
+        my_model.load_data.add_load_curve(
+            feb.loaddata.LoadCurve(
+                id=i + 1,
+                interpolate="SMOOTH",
+                points=feb.loaddata.CurvePoints(points=["0,0", "1,1"]),
+            )
+        )
+    my_model.boundary.add_bc(
+        feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
+    )
+    model_file = tmp_path.joinpath(
+        f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb"
+    )
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=False)
     assert result.returncode == 0
@@ -72,17 +96,27 @@ def test_perfect_osmometer(hex20_febmesh, tmp_path):
         )
         my_mat.add_solid(
             feb.material.NeoHookean(
-                id=i + 1, E=feb.material.MaterialParameter(text=1.0), v=feb.material.MaterialParameter(text=0.0)
+                id=i + 1,
+                E=feb.material.MaterialParameter(text=1.0),
+                v=feb.material.MaterialParameter(text=0.0),
             )
         )
         my_model.material.add_material(my_mat)
-        my_model.mesh_domains.add_solid_domain(feb.meshdomains.SolidDomain(name=element.name, mat=element.name))
+        my_model.mesh_domains.add_solid_domain(
+            feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
+        )
         my_model.load_data.add_load_curve(
-            feb.loaddata.LoadCurve(id=i + 1, points=feb.loaddata.CurvePoints(points=["0,300", "1,1500"]))
+            feb.loaddata.LoadCurve(
+                id=i + 1, points=feb.loaddata.CurvePoints(points=["0,300", "1,1500"])
+            )
         )
     my_model.globals.constants.T = 310
-    my_model.boundary.add_bc(feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1))
-    model_file = tmp_path.joinpath(f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb")
+    my_model.boundary.add_bc(
+        feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
+    )
+    model_file = tmp_path.joinpath(
+        f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb"
+    )
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=False)
     assert result.returncode == 0
@@ -98,8 +132,49 @@ def test_uncoupled_material(hex8_febmesh, tmp_path):
             elif hasattr(my_mat, "fiber"):
                 my_mat.fiber = feb.material.FiberVector()
             my_model.material.add_material(my_mat)
-            my_model.mesh_domains.add_solid_domain(feb.meshdomains.SolidDomain(name=element.name, mat=element.name))
-        model_file = tmp_path.joinpath(f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb")
+            my_model.mesh_domains.add_solid_domain(
+                feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
+            )
+        model_file = tmp_path.joinpath(
+            f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb"
+        )
         my_model.save(model_file)
         result = feb.model.run_model(model_file, silent=True)
         assert result.returncode == 0, f"{material_cls.__name__} failed"
+
+
+def test_biphasic_material(hex20_febmesh, tmp_path):
+    my_model = feb.model.Model(
+        mesh=hex20_febmesh,
+        module=feb.module.Module(type="biphasic"),
+        control=feb.control.Control(analysis="STEADY-STATE"),
+    )
+    for perm_cls in get_args(feb.material.PermeabilityType):
+        for i, element in enumerate(my_model.mesh.elements):
+            my_mat = feb.material.BiphasicMaterial(
+                name=element.name, id=i + 1, permeability=perm_cls()
+            )
+            my_model.material.add_material(my_mat)
+            my_model.mesh_domains.add_solid_domain(
+                feb.meshdomains.SolidDomain(name=element.name, mat=element.name)
+            )
+        model_file = tmp_path.joinpath(
+            f"{my_model.material.all_materials[0].type.replace(' ', '_')}.feb"
+        )
+        fixed_bottom = feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
+        move_top = feb.boundary.BCPrescribedDisplacement(
+            node_set="top", dof="z", value=feb.boundary.Value(lc=1, text=-0.1)
+        )
+        fix_top = feb.boundary.BCZeroDisplacement(node_set="top", x_dof=1, y_dof=1, z_dof=0)
+        draining_surface = feb.boundary.BCZeroFluidPressure(node_set="top")
+        my_model.boundary.add_bc(fixed_bottom)
+        my_model.boundary.add_bc(move_top)
+        my_model.boundary.add_bc(fix_top)
+        my_model.boundary.add_bc(draining_surface)
+        my_model.load_data.add_load_curve(
+            feb.loaddata.LoadCurve(id=1, points=feb.loaddata.CurvePoints(points=["0,0", "1,1"]))
+        )
+
+        my_model.save(model_file)
+        result = feb.model.run_model(model_file, silent=False)
+        assert result.returncode == 0, f"{perm_cls.__name__} failed"
