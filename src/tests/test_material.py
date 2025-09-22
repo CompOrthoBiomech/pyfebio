@@ -147,3 +147,65 @@ def test_biphasic_material(hex20_febmesh, tmp_path):
         my_model.save(model_file)
         result = feb.model.run_model(model_file, silent=False)
         assert result.returncode == 0, f"{perm_cls.__name__} failed"
+
+
+def test_viscoelastic_material(hex20_febmesh, tmp_path):
+    my_model = feb.model.Model(
+        mesh=hex20_febmesh,
+    )
+    for i, element in enumerate(my_model.mesh.elements):
+        my_mat = feb.material.ViscoelasticMaterial(
+            name=element.name,
+            id=i + 1,
+            g1=feb.material.MaterialParameter(text=0.95),
+            t1=feb.material.MaterialParameter(text=0.01),
+        )
+        my_model.material.add_material(my_mat)
+        my_model.mesh_domains.add_solid_domain(feb.meshdomains.SolidDomain(name=element.name, mat=element.name))
+    model_file = tmp_path.joinpath("viscoelastic.feb")
+    fixed_bottom = feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
+    move_top = feb.boundary.BCPrescribedDisplacement(node_set="top", dof="z", value=feb.boundary.Value(lc=1, text=-0.5))
+    my_model.boundary.add_bc(fixed_bottom)
+    my_model.boundary.add_bc(move_top)
+    my_model.load_data.add_load_curve(
+        feb.loaddata.LoadCurve(
+            id=1,
+            interpolate="SMOOTH",
+            points=feb.loaddata.CurvePoints(points=["0,0", "0.1,1.0", "0.3,-1.0", "0.5,1.0", "0.7,-1.0", "0.9,1.0", "1.0,0.0"]),
+        )
+    )
+
+    my_model.save(model_file)
+    result = feb.model.run_model(model_file, silent=False)
+    assert result.returncode == 0
+
+
+def test_viscoelastic_uc_material(hex20_febmesh, tmp_path):
+    my_model = feb.model.Model(
+        mesh=hex20_febmesh,
+    )
+    for i, element in enumerate(my_model.mesh.elements):
+        my_mat = feb.material.ViscoelasticMaterialUC(
+            name=element.name,
+            id=i + 1,
+            g1=feb.material.MaterialParameter(text=0.95),
+            t1=feb.material.MaterialParameter(text=0.01),
+        )
+        my_model.material.add_material(my_mat)
+        my_model.mesh_domains.add_solid_domain(feb.meshdomains.SolidDomain(name=element.name, mat=element.name))
+    model_file = tmp_path.joinpath("viscoelastic_uc.feb")
+    fixed_bottom = feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
+    move_top = feb.boundary.BCPrescribedDisplacement(node_set="top", dof="z", value=feb.boundary.Value(lc=1, text=-0.5))
+    my_model.boundary.add_bc(fixed_bottom)
+    my_model.boundary.add_bc(move_top)
+    my_model.load_data.add_load_curve(
+        feb.loaddata.LoadCurve(
+            id=1,
+            interpolate="SMOOTH",
+            points=feb.loaddata.CurvePoints(points=["0,0", "0.1,1.0", "0.3,-1.0", "0.5,1.0", "0.7,-1.0", "0.9,1.0", "1.0,0.0"]),
+        )
+    )
+
+    my_model.save(model_file)
+    result = feb.model.run_model(model_file, silent=False)
+    assert result.returncode == 0

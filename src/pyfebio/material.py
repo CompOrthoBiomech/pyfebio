@@ -41,9 +41,7 @@ def mat_is_positive_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than 0.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_non_negative_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -58,9 +56,7 @@ def mat_is_non_negative_float(parameter: MaterialParameter) -> MaterialParameter
             raise ValueError(f"{parameter.text=} must be greater than or equal to 0.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_gte_one_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -75,9 +71,7 @@ def mat_is_gte_one_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than or equal to 1.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_gt_one_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -92,9 +86,7 @@ def mat_is_gt_one_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than 1.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_gte_two_float(parameter: MaterialParameter) -> MaterialParameter:
@@ -109,9 +101,7 @@ def mat_is_gte_two_float(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than or equal to 2.0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_lte_onethird_gte_zero(parameter: MaterialParameter) -> MaterialParameter:
@@ -126,9 +116,7 @@ def mat_is_lte_onethird_gte_zero(parameter: MaterialParameter) -> MaterialParame
             raise ValueError(f"{parameter.text=} must be in domain [0.0, 1./3.]")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_lte_90_gte_0(parameter: MaterialParameter) -> MaterialParameter:
@@ -143,9 +131,7 @@ def mat_is_lte_90_gte_0(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be in domain [0.0, 90.0]")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_positive_int(parameter: MaterialParameter) -> MaterialParameter:
@@ -162,9 +148,7 @@ def mat_is_positive_int(parameter: MaterialParameter) -> MaterialParameter:
             raise ValueError(f"{parameter.text=} must be greater than 0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_positive_int_mult10(parameter: MaterialParameter) -> MaterialParameter:
@@ -181,9 +165,7 @@ def mat_is_positive_int_mult10(parameter: MaterialParameter) -> MaterialParamete
             raise ValueError(f"{parameter.text=} must be a multiple of 10 and greater than 0")
         return parameter
     else:
-        raise ValueError(
-            f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'"
-        )
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
 def mat_is_string_float_vec3(parameter: MaterialParameter) -> MaterialParameter:
@@ -213,26 +195,16 @@ def mat_is_string_float_vec9(parameter: MaterialParameter) -> MaterialParameter:
 
 
 MatPositiveFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_positive_float)]
-MatNonNegativeFloat: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_non_negative_float)
-]
+MatNonNegativeFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_non_negative_float)]
 MatGTEOneFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_gte_one_float)]
 MatGTOneFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_gt_one_float)]
 MatGTETwoFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_gte_two_float)]
-MatLTE_OneThird_GTE_Zero: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_lte_onethird_gte_zero)
-]
+MatLTE_OneThird_GTE_Zero: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_lte_onethird_gte_zero)]
 MatLTE_90_GTE_0: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_lte_90_gte_0)]
 MatPositiveInt: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_positive_int)]
-MatPositiveIntMult10: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_positive_int_mult10)
-]
-MatStringFloatVec3: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_string_float_vec3)
-]
-MatStringFloatVec9: TypeAlias = Annotated[
-    MaterialParameter, AfterValidator(mat_is_string_float_vec9)
-]
+MatPositiveIntMult10: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_positive_int_mult10)]
+MatStringFloatVec3: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_string_float_vec3)]
+MatStringFloatVec9: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_string_float_vec9)]
 
 
 class ActiveContraction(BaseXmlModel, tag="active_contraction", extra="forbid"):
@@ -253,9 +225,7 @@ class SolidBoundMolecule(BaseXmlModel, tag="solid_bound", extra="forbid"):
 
 class ArrudaBoyce(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="Arruda-Boyce unconstrained")
-    type: Literal["Arruda-Boyce unconstrained"] = attr(
-        default="Arruda-Boyce unconstrained", frozen=True
-    )
+    type: Literal["Arruda-Boyce unconstrained"] = attr(default="Arruda-Boyce unconstrained", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     ksi: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
@@ -309,9 +279,7 @@ class CoupledMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
 
 class CoupledVerondaWestmann(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="coupled Veronda-Westmann")
-    type: Literal["coupled Veronda-Westmann"] = attr(
-        default="coupled Veronda-Westmann", frozen=True
-    )
+    type: Literal["coupled Veronda-Westmann"] = attr(default="coupled Veronda-Westmann", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
@@ -327,9 +295,7 @@ class DonnanEquilibrium(BaseXmlModel, tag="solid", extra="forbid"):
 
 
 class EllipsoidalFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
-    type: Literal["ellipsoidal fiber distribution"] = attr(
-        default="ellipsoidal fiber distribution", frozen=True
-    )
+    type: Literal["ellipsoidal fiber distribution"] = attr(default="ellipsoidal fiber distribution", frozen=True)
     ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="10,12,15"))
     beta: MatStringFloatVec3 = element(default=MaterialParameter(text="2.5,3,3"))
 
@@ -514,9 +480,7 @@ class OrthotropicCLE(BaseXmlModel, tag="material", extra="forbid"):
 class OsmoticVirialPressure(BaseXmlModel, tag="solid", extra="forbid"):
     name: str = attr(default="osmotic virial expansion")
     id: int = attr(ge=1)
-    type: Literal["osmotic virial expansion"] = attr(
-        default="osmotic virial expansion", frozen=True
-    )
+    type: Literal["osmotic virial expansion"] = attr(default="osmotic virial expansion", frozen=True)
     phiw0: MaterialParameter = element(default=MaterialParameter(text=0.8))
     cr: DynamicMaterialParameter = element(default=DynamicMaterialParameter(text=100.0))
     c1: MaterialParameter = element(default=MaterialParameter(text=2.436e-6))
@@ -559,9 +523,7 @@ class ShenoyWang(BaseXmlModel, tag="material", extra="forbid"):
 
 class SphericalFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
     name: str = attr(default="spherical fiber distribution")
-    type: Literal["spherical fiber distribution"] = attr(
-        default="spherical fiber distribution", frozen=True
-    )
+    type: Literal["spherical fiber distribution"] = attr(default="spherical fiber distribution", frozen=True)
     id: int = attr(ge=1)
     ksi: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
     alpha: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
@@ -570,9 +532,7 @@ class SphericalFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
 
 class SphericalFiberDistributionSBM(BaseXmlModel, tag="solid", extra="forbid"):
     name: str = attr(default="spherical fiber distribution sbm")
-    type: Literal["spherical fiber distribution"] = attr(
-        default="spherical fiber distribution sbm", frozen=True
-    )
+    type: Literal["spherical fiber distribution"] = attr(default="spherical fiber distribution sbm", frozen=True)
     id: int = attr(ge=1)
     alpha: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
     beta: MatGTETwoFloat = element(default=MaterialParameter(text=2.5))
@@ -584,9 +544,7 @@ class SphericalFiberDistributionSBM(BaseXmlModel, tag="solid", extra="forbid"):
 
 class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="coupled trans-iso Mooney-Rivlin")
-    type: Literal["coupled trans-iso Mooney-Rivlin"] = attr(
-        default="coupled trans-iso Mooney-Rivlin", frozen=True
-    )
+    type: Literal["coupled trans-iso Mooney-Rivlin"] = attr(default="coupled trans-iso Mooney-Rivlin", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
@@ -601,9 +559,7 @@ class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
 
 class TransIsoVerondaWestmann(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="coupled trans-iso Veronda-Westmann")
-    type: Literal["coupled trans-iso Veronda-Westmann"] = attr(
-        default="coupled trans-iso Veronda-Westmann", frozen=True
-    )
+    type: Literal["coupled trans-iso Veronda-Westmann"] = attr(default="coupled trans-iso Veronda-Westmann", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
@@ -824,9 +780,7 @@ class TendonUC(BaseXmlModel, tag="material", extra="forbid"):
 
 class TensionCompressionNonlinearOrthoUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="TC nonlinear orthotropic")
-    type: Literal["TC nonlinear orthotropic"] = attr(
-        default="TC nonlinear orthotropic", frozen=True
-    )
+    type: Literal["TC nonlinear orthotropic"] = attr(default="TC nonlinear orthotropic", frozen=True)
     id: int = attr(ge=1)
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
@@ -854,9 +808,7 @@ class TransIsoMooneyRivlinUC(BaseXmlModel, tag="material", extra="forbid"):
 
 class TransIsoVerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="trans iso Veronda-Westmann")
-    type: Literal["trans iso Veronda-Westmann"] = attr(
-        default="trans iso Veronda-Westmann", frozen=True
-    )
+    type: Literal["trans iso Veronda-Westmann"] = attr(default="trans iso Veronda-Westmann", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=13.85))
@@ -882,9 +834,7 @@ class VerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
 
 class MooneyRivlinVonMisesFibersUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="Mooney-Rivlin von Mises Fibers")
-    type: Literal["Mooney-Rivlin von Mises Fibers"] = attr(
-        default="Mooney-Rivlin von Mises Fibers", frozen=True
-    )
+    type: Literal["Mooney-Rivlin von Mises Fibers"] = attr(default="Mooney-Rivlin von Mises Fibers", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
@@ -903,9 +853,7 @@ class MooneyRivlinVonMisesFibersUC(BaseXmlModel, tag="material", extra="forbid")
 
 class LeeSacksUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="uncoupled isotropic Lee-Sacks")
-    type: Literal["uncoupled isotropic Lee-Sacks"] = attr(
-        default="uncoupled isotropic Lee-Sacks", frozen=True
-    )
+    type: Literal["uncoupled isotropic Lee-Sacks"] = attr(default="uncoupled isotropic Lee-Sacks", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c0: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
@@ -1109,9 +1057,7 @@ class CFDVonMises2d(BaseXmlModel, tag="distribution", extra="forbid"):
     b: MatNonNegativeFloat = element(default=MaterialParameter(text=0.5))
 
 
-CFDistributionModel: TypeAlias = Union[
-    CFDCircular, CFDSpherical, CFDVonMises3d, CFDVonMises2d, CFDEllipsoidal
-]
+CFDistributionModel: TypeAlias = Union[CFDCircular, CFDSpherical, CFDVonMises3d, CFDVonMises2d, CFDEllipsoidal]
 
 
 # Continous Fiber Distribution Function Integration Schema
@@ -1153,15 +1099,11 @@ class TrapezoidalRuleIntegration(BaseXmlModel, tag="scheme", extra="forbid"):
     nth: PositiveInt = element(default=31)
 
 
-IntegrationScheme: TypeAlias = Union[
-    GaussKronrodTrapezoidalIntegration, FiniteElementIntegration, TrapezoidalRuleIntegration
-]
+IntegrationScheme: TypeAlias = Union[GaussKronrodTrapezoidalIntegration, FiniteElementIntegration, TrapezoidalRuleIntegration]
 
 
 class ContinuousFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
-    type: Literal["continuous fiber distribution"] = attr(
-        default="continuous fiber distribution", frozen=True
-    )
+    type: Literal["continuous fiber distribution"] = attr(default="continuous fiber distribution", frozen=True)
     fibers: FiberModel = element(default=FiberNaturalNeoHookean(), tag="fibers")
     distribution: CFDistributionModel = element(default=CFDSpherical())
     scheme: IntegrationScheme = element(default=GaussKronrodTrapezoidalIntegration())
@@ -1183,19 +1125,13 @@ class SolidMixture(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="solid mixture")
     type: Literal["solid mixture"] = attr(default="solid mixture", frozen=True)
     id: int = attr(ge=1)
-    solid_list: list[
-        UnconstrainedMaterials
-        | FiberModel
-        | ContinuousFiberDistribution
-        | EvolvingUnconstrainedMaterials
-    ] = element(tag="solid", default=[])
+    solid_list: list[UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution | EvolvingUnconstrainedMaterials] = (
+        element(tag="solid", default=[])
+    )
 
     def add_solid(
         self,
-        new_solid: UnconstrainedMaterials
-        | FiberModel
-        | ContinuousFiberDistribution
-        | EvolvingUnconstrainedMaterials,
+        new_solid: UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution | EvolvingUnconstrainedMaterials,
     ):
         self.solid_list.append(new_solid)
 
@@ -1205,14 +1141,52 @@ class SolidMixtureUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="solid mixture")
     type: Literal["solid mixture"] = attr(default="uncoupled solid mixture", frozen=True)
     id: int = attr(ge=1)
-    solid_list: list[UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC] = element(
-        tag="solid", default=[]
-    )
+    solid_list: list[UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC] = element(tag="solid", default=[])
 
-    def add_solid(
-        self, new_solid: UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC
-    ):
+    def add_solid(self, new_solid: UncoupledMaterials | FiberModelUC | ContinuousFiberDistributionUC):
         self.solid_list.append(new_solid)
+
+
+# Viscoelastic Material
+class ViscoelasticMaterial(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="viscoelastic")
+    type: Literal["viscoelastic"] = attr(default="viscoelastic", frozen=True)
+    id: int = attr(ge=1)
+    g0: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    g1: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g3: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g4: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g5: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g6: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    t1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t2: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t3: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t4: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t5: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t6: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    elastic: UnconstrainedMaterials | SolidMixture = element(default=NeoHookean(id=1), tag="elastic")
+
+
+# Viscoelastic Material
+class ViscoelasticMaterialUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="uncoupled viscoelastic")
+    type: Literal["uncoupled viscoelastic"] = attr(default="uncoupled viscoelastic", frozen=True)
+    id: int = attr(ge=1)
+    g0: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    g1: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g3: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g4: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g5: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    g6: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    t1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t2: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t3: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t4: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t5: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    t6: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    elastic: UncoupledMaterials | SolidMixtureUC = element(default=MooneyRivlinUC(id=1), tag="elastic")
 
 
 # Prestrain
@@ -1236,9 +1210,7 @@ class PrestrainRamp(BaseXmlModel, tag="ramp", extra="forbid"):
 class PrestrainGradient(BaseXmlModel, tag="prestrain", extra="forbid"):
     type: Literal["prestrain gradient"] = attr(default="prestrain gradient", frozen=True)
     ramp: PrestrainRamp = element()
-    F0: MatStringFloatVec9 = element(
-        default=MaterialParameter(text="1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0")
-    )
+    F0: MatStringFloatVec9 = element(default=MaterialParameter(text="1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0"))
 
 
 class PrestrainElastic(BaseXmlModel, tag="material", extra="forbid"):
@@ -1328,9 +1300,7 @@ def tension_only_nonlinear_spring(slack: float, e0: float, k: float) -> str:
     return " + ".join([toe_region, linear_region])
 
 
-PermeabilityType = Union[
-    ConstantIsoPerm, ExponentialIsoPerm, HolmesMowPerm, RefIsoPerm, RefOrthoPerm, RefTransIsoPerm
-]
+PermeabilityType = Union[ConstantIsoPerm, ExponentialIsoPerm, HolmesMowPerm, RefIsoPerm, RefOrthoPerm, RefTransIsoPerm]
 
 
 class BiphasicMaterial(BaseXmlModel, tag="material", extra="forbid"):
@@ -1352,6 +1322,8 @@ MaterialType = Union[
     SolidMixture,
     SolidMixtureUC,
     BiphasicMaterial,
+    ViscoelasticMaterial,
+    ViscoelasticMaterialUC,
 ]
 
 
