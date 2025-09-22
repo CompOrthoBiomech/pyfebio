@@ -1,17 +1,21 @@
 name: Test
-on: [release, workflow_dispatch]
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v4
       - name: Set up Python
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+        uses: actions/setup-python@v5
       - name: Install dependencies
         run: |
           pip install pytest pytest-cov
           pip install .
-          
+
       - name: Test and Coverage
         run: python -m pytest --cov --cov-report json
 
