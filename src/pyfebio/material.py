@@ -151,6 +151,23 @@ def mat_is_positive_int(parameter: MaterialParameter) -> MaterialParameter:
         raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
 
 
+def mat_is_positive_int_mult10(parameter: MaterialParameter) -> MaterialParameter:
+    if parameter.type == "map" or parameter.type == "math":
+        if not isinstance(parameter.text, str):
+            raise ValueError(
+                f"MaterialParameter {parameter.type=}, which requires parameter.text to be of type(str), but {parameter.text=}."
+            )
+        return parameter
+    elif isinstance(parameter.text, float):
+        raise ValueError(f"{parameter.text=} must be type(int)")
+    elif isinstance(parameter.text, int):
+        if parameter.text % 10 != 0 and parameter.text > 0:
+            raise ValueError(f"{parameter.text=} must be a multiple of 10 and greater than 0")
+        return parameter
+    else:
+        raise ValueError(f"{parameter.text=} of type(str) but {parameter.type=} when it must be 'map' or 'math'")
+
+
 def mat_is_string_float_vec3(parameter: MaterialParameter) -> MaterialParameter:
     if parameter.type == "map" or parameter.type == "math":
         if not isinstance(parameter.text, str):
@@ -185,6 +202,7 @@ MatGTETwoFloat: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_g
 MatLTE_OneThird_GTE_Zero: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_lte_onethird_gte_zero)]
 MatLTE_90_GTE_0: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_lte_90_gte_0)]
 MatPositiveInt: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_positive_int)]
+MatPositiveIntMult10: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_positive_int_mult10)]
 MatStringFloatVec3: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_string_float_vec3)]
 MatStringFloatVec9: TypeAlias = Annotated[MaterialParameter, AfterValidator(mat_is_string_float_vec9)]
 
