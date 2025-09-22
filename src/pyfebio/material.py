@@ -296,8 +296,8 @@ class DonnanEquilibrium(BaseXmlModel, tag="solid", extra="forbid"):
 
 class EllipsoidalFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
     type: Literal["ellipsoidal fiber distribution"] = attr(default="ellipsoidal fiber distribution", frozen=True)
-    ksi: StringFloatVec3 = element(default="10,12,15")
-    beta: StringFloatVec3 = element(default="2.5,3,3")
+    ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="10,12,15"))
+    beta: MatStringFloatVec3 = element(default=MaterialParameter(text="2.5,3,3"))
 
 
 class EllipsoidalFiberDistributionNeoHookean(BaseXmlModel, tag="material", extra="forbid"):
@@ -306,8 +306,8 @@ class EllipsoidalFiberDistributionNeoHookean(BaseXmlModel, tag="material", extra
     id: int = attr(ge=1)
     E: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     v: MatPositiveFloat = element(default=MaterialParameter(text=0.3))
-    beta: StringFloatVec3 = element(default="2.5,3.0,3.0")
-    ksi: StringFloatVec3 = element(default="1.0,1.0,1.0")
+    beta: MatStringFloatVec3 = element(default=MaterialParameter(text="2.5,3.0,3.0"))
+    ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="1.0,1.0,1.0"))
 
 
 class EllipsoidalFiberDistributionDonnanEquilibrium(BaseXmlModel, tag="material", extra="forbid"):
@@ -317,8 +317,8 @@ class EllipsoidalFiberDistributionDonnanEquilibrium(BaseXmlModel, tag="material"
     phiw0: MatPositiveFloat = element(default=MaterialParameter(text=0.8))
     cF0: DynamicMaterialParameter = element(default=DynamicMaterialParameter(text=0.3))
     bosm: MaterialParameter = element(default=MaterialParameter(text=300))
-    beta: StringFloatVec3 = element(default="2.5,3.0,3.0")
-    ksi: StringFloatVec3 = element(default="1.0,1.0,1.0")
+    beta: MatStringFloatVec3 = element(default=MaterialParameter(text="2.5,3.0,3.0"))
+    ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="1.0,1.0,1.0"))
 
 
 class FungOrthotropicCompressible(BaseXmlModel, tag="material", extra="forbid"):
@@ -410,6 +410,19 @@ class LargePoissonRatioLigament(BaseXmlModel, tag="material", extra="forbid"):
     k: MatPositiveFloat = element(default=MaterialParameter(text=1.55))
 
 
+class Lung(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="lung")
+    type: Literal["lung"] = attr(default="lung", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    E: MatPositiveFloat = element(default=MaterialParameter(text=1913.7))
+    v: MatPositiveFloat = element(default=MaterialParameter(text=0.3413))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=278.2))
+    c3: MatPositiveFloat = element(default=MaterialParameter(text=5.766))
+    d1: MatPositiveFloat = element(default=MaterialParameter(text=3.0))
+    d3: MatPositiveFloat = element(default=MaterialParameter(text=6.0))
+
+
 class NaturalNeoHookean(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="natural neo-Hookean")
     type: Literal["natural neo-Hookean"] = attr(default="natural neo-Hookean", frozen=True)
@@ -475,6 +488,16 @@ class OsmoticVirialPressure(BaseXmlModel, tag="solid", extra="forbid"):
     c3: MaterialParameter = element(default=MaterialParameter(text=0.0))
 
 
+class PerfectOsmometer(BaseXmlModel, tag="solid", extra="forbid"):
+    name: str = attr(default="perfect osmometer")
+    type: Literal["perfect osmometer"] = attr(default="perfect osmometer", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    phiw0: MatPositiveFloat = element(default=MaterialParameter(text=0.8))
+    iosm: MatPositiveFloat = element(default=MaterialParameter(text=300.0))
+    bosm: DynamicMaterialParameter = element(default=DynamicMaterialParameter(text=1.0))
+
+
 class PorousNeoHookean(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="porous neo-Hookean")
     type: Literal["porous neo-Hookean"] = attr(default="porous neo-Hookean", frozen=True)
@@ -482,6 +505,41 @@ class PorousNeoHookean(BaseXmlModel, tag="material", extra="forbid"):
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     E: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     phi0: MatPositiveFloat = element(default=MaterialParameter(text=0.5))
+
+
+class ShenoyWang(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Shenoy")
+    type: Literal["Shenoy"] = attr(default="Shenoy", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    mu: MatPositiveFloat = element(default=MaterialParameter(text=0.7692))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1.667))
+    Ef: MatPositiveFloat = element(default=MaterialParameter(text=134.6))
+    lam_c: MatPositiveFloat = element(default=MaterialParameter(text=1.02))
+    lam_t: MatPositiveFloat = element(default=MaterialParameter(text=0.255))
+    n: MatPositiveFloat = element(default=MaterialParameter(text=5))
+    m: MatPositiveFloat = element(default=MaterialParameter(text=30))
+
+
+class SphericalFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
+    name: str = attr(default="spherical fiber distribution")
+    type: Literal["spherical fiber distribution"] = attr(default="spherical fiber distribution", frozen=True)
+    id: int = attr(ge=1)
+    ksi: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    alpha: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    beta: MatGTETwoFloat = element(default=MaterialParameter(text=2.5))
+
+
+class SphericalFiberDistributionSBM(BaseXmlModel, tag="solid", extra="forbid"):
+    name: str = attr(default="spherical fiber distribution sbm")
+    type: Literal["spherical fiber distribution"] = attr(default="spherical fiber distribution sbm", frozen=True)
+    id: int = attr(ge=1)
+    alpha: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    beta: MatGTETwoFloat = element(default=MaterialParameter(text=2.5))
+    ksi0: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    gamma: MatPositiveFloat = element(default=MaterialParameter(text=2.0))
+    rho0: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    sbm: MatPositiveInt = element(default=MaterialParameter(text=1))
 
 
 class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
@@ -496,6 +554,21 @@ class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     c5: MatPositiveFloat = element(default=MaterialParameter(text=3.0))
     lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.05))
     k: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    fiber: Optional[FiberVector] = element(default=None)
+
+
+class TransIsoVerondaWestmann(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="coupled trans-iso Veronda-Westmann")
+    type: Literal["coupled trans-iso Veronda-Westmann"] = attr(default="coupled trans-iso Veronda-Westmann", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.1))
+    c3: MatNonNegativeFloat = element(default=MaterialParameter(text=1.0))
+    c4: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c5: MatPositiveFloat = element(default=MaterialParameter(text=1.34))
+    lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.3), alias="lambda")
+    k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
     fiber: Optional[FiberVector] = element(default=None)
 
 
@@ -531,21 +604,119 @@ UnconstrainedMaterials: TypeAlias = Union[
     IsotropicElastic,
     IsotropicHencky,
     LargePoissonRatioLigament,
+    Lung,
     NaturalNeoHookean,
     NeoHookean,
     PorousNeoHookean,
     OrthotropicElastic,
     OrthotropicCLE,
+    ShenoyWang,
     TransIsoMooneyRivlin,
+    TransIsoVerondaWestmann,
     UnconstrainedOgden,
 ]
 
 EvolvingUnconstrainedMaterials: TypeAlias = Union[
-    EllipsoidalFiberDistributionDonnanEquilibrium, CellGrowth, OsmoticVirialPressure
+    EllipsoidalFiberDistributionDonnanEquilibrium, CellGrowth, OsmoticVirialPressure, PerfectOsmometer
 ]
 
 
-class MooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
+class ArrudaBoyceUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Arruda-Boyce")
+    type: Literal["Arruda-Boyce"] = attr(default="Arruda-Boyce", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    mu: MatPositiveFloat = element(default=MaterialParameter(text=0.09))
+    N: MatPositiveFloat = element(default=MaterialParameter(text=26.5))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
+
+
+class EllipsoidalFiberDistributionUC(BaseXmlModel, tag="solid", extra="forbid"):
+    name: str = attr(default="EFD uncoupled")
+    type: Literal["EFD uncoupled"] = attr(default="EFD uncoupled", frozen=True)
+    id: int = attr(ge=1)
+    ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="10,12,15"))
+    beta: MatStringFloatVec3 = element(default=MaterialParameter(text="2.5,3,3"))
+
+
+class EllipsoidalFiberDistributionMooneyRivlinUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="EFD Mooney-Rivlin")
+    type: Literal["EFD Mooney-Rivlin"] = attr(default="EFD Mooney-Rivlin", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    beta: MatStringFloatVec3 = element(default=MaterialParameter(text="4.5,4.5,4.5"))
+    ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="1,1,1"))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1000.0))
+
+
+class EllipsoidalFiberDistributionVerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="EFD Veronda-Westmann")
+    type: Literal["EFD Veronda-Westmann"] = attr(default="EFD Veronda-Westmann", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.5))
+    beta: MatStringFloatVec3 = element(default=MaterialParameter(text="4.5,4.5,4.5"))
+    ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="1,1,1"))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1000.0))
+
+
+class FungOrthotropicUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Fung orthotropic")
+    type: Literal["Fung orthotropic"] = attr(default="Fung orthotropic", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    E1: MatPositiveFloat = element(default=MaterialParameter(text=124.0))
+    E2: MatPositiveFloat = element(default=MaterialParameter(text=124.0))
+    E3: MatPositiveFloat = element(default=MaterialParameter(text=36.0))
+    G12: MatPositiveFloat = element(default=MaterialParameter(text=67.0))
+    G23: MatPositiveFloat = element(default=MaterialParameter(text=40.0))
+    G31: MatPositiveFloat = element(default=MaterialParameter(text=40.0))
+    v12: MatPositiveFloat = element(default=MaterialParameter(text=0.075))
+    v23: MatPositiveFloat = element(default=MaterialParameter(text=0.87))
+    v31: MatPositiveFloat = element(default=MaterialParameter(text=0.26))
+    c: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=120000.0))
+
+
+class GentUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Gent")
+    type: Literal["Gent"] = attr(default="Gent", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    G: MatPositiveFloat = element(default=MaterialParameter(text=3.14))
+    Jm: MatPositiveFloat = element(default=MaterialParameter(text=1.5))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1e5))
+
+
+class HolmesMowUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="uncoupled Holmes-Mow")
+    type: Literal["uncoupled Holmes-Mow"] = attr(default="uncoupled Holmes-Mow", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    mu: MatPositiveFloat = element(default=MaterialParameter(text=0.5))
+    beta: MatPositiveFloat = element(default=MaterialParameter(text=2.0))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1000.0))
+
+
+class HolzapfelGasserOgdenUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Holzapfel-Gasser-Ogden")
+    type: Literal["Holzapfel-Gasser-Ogden"] = attr(default="Holzapfel-Gasser-Ogden", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    k1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    k2: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    gamma: MatLTE_90_GTE_0 = element(default=MaterialParameter(text=45.0))
+    kappa: MatLTE_OneThird_GTE_Zero = element(default=MaterialParameter(text=0.1))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
+    mat_axis: Optional[MaterialAxisVector] = element(default=None)
+    fiber: Optional[FiberVector] = element(default=None)
+
+
+class MooneyRivlinUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="Mooney-Rivlin")
     type: Literal["Mooney-Rivlin"] = attr(default="Mooney-Rivlin", frozen=True)
     id: int = attr(ge=1)
@@ -555,17 +726,23 @@ class MooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     k: MatPositiveFloat = element(default=MaterialParameter(text=1000.0))
 
 
-class UncoupledHolmesMow(BaseXmlModel, tag="material", extra="forbid"):
-    name: str = attr(default="Uncoupled-Holmes-Mow")
-    type: Literal["uncoupled Holmes-Mow"] = attr(default="uncoupled Holmes-Mow", frozen=True)
+class MuscleUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="muscle material")
+    type: Literal["muscle material"] = attr(default="muscle material", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    mu: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    beta: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
+    g1: MatPositiveFloat = element(default=MaterialParameter(text=500.0))
+    g2: MatPositiveFloat = element(default=MaterialParameter(text=500.0))
+    p1: MatPositiveFloat = element(default=MaterialParameter(text=0.5))
+    p2: MatPositiveFloat = element(default=MaterialParameter(text=6.6))
+    smax: MatPositiveFloat = element(default=MaterialParameter(text=3e5))
+    Lofl: MatGTOneFloat = element(default=MaterialParameter(text=1.07))
+    lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.4))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1e6))
+    fiber: FiberVector = element(default=FiberVector())
 
 
-class Ogden(BaseXmlModel, tag="material", extra="forbid"):
+class OgdenUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="Ogden")
     type: Literal["Ogden"] = attr(default="Ogden", frozen=True)
     id: int = attr(ge=1)
@@ -585,22 +762,137 @@ class Ogden(BaseXmlModel, tag="material", extra="forbid"):
     c6: Optional[MatPositiveFloat] = element(default=None)
 
 
-class HolzapfelGasserOgden(BaseXmlModel, tag="material", extra="forbid"):
-    name: str = attr(default="Holzapfel-Gasser-Ogden")
-    type: Literal["Holzapfel-Gasser-Ogden"] = attr(default="Holzapfel-Gasser-Ogden", frozen=True)
+class TendonUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="tendon material")
+    type: Literal["tendon material"] = attr(default="tendon material", frozen=True)
+    id: int = attr(ge=1)
+    g1: MatPositiveFloat = element(default=MaterialParameter(text=5e4))
+    g2: MatNonNegativeFloat = element(default=MaterialParameter(text=5e4))
+    l1: MatPositiveFloat = element(default=MaterialParameter(text=2.7e6))
+    l2: MatPositiveFloat = element(default=MaterialParameter(text=46.4))
+    lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.03))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1e7))
+    fiber: FiberVector = element(default=FiberVector())
+
+
+class TensionCompressionNonlinearOrthoUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="TC nonlinear orthotropic")
+    type: Literal["TC nonlinear orthotropic"] = attr(default="TC nonlinear orthotropic", frozen=True)
+    id: int = attr(ge=1)
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=100))
+    beta: MatStringFloatVec3 = element(default=MaterialParameter(text="4.3,4.3,4.3"))
+    ksi: MatStringFloatVec3 = element(default=MaterialParameter(text="4525,4525,4525"))
+    mat_axis: MaterialAxisVector = element(default=MaterialAxisVector())
+
+
+class TransIsoMooneyRivlinUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="trans iso Mooney-Rivlin")
+    type: Literal["trans iso Mooney-Rivlin"] = attr(default="trans iso Mooney-Rivlin", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    c: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    k1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
-    k2: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    gamma: MatLTE_90_GTE_0 = element(default=MaterialParameter(text=45.0))
-    kappa: MatLTE_OneThird_GTE_Zero = element(default=MaterialParameter(text=0.1))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=13.85))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    c3: MatNonNegativeFloat = element(default=MaterialParameter(text=2.07))
+    c4: MatPositiveFloat = element(default=MaterialParameter(text=61.44))
+    c5: MatPositiveFloat = element(default=MaterialParameter(text=640.7))
+    lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.03))
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
-    mat_axis: Optional[MaterialAxisVector] = element(default=None)
     fiber: Optional[FiberVector] = element(default=None)
+    active_contraction: Optional[ActiveContraction] = element(default=None)
 
 
-UncoupledMaterials: TypeAlias = Union[MooneyRivlin, Ogden, HolzapfelGasserOgden]
+class TransIsoVerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="trans iso Veronda-Westmann")
+    type: Literal["trans iso Veronda-Westmann"] = attr(default="trans iso Veronda-Westmann", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=13.85))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    c3: MatNonNegativeFloat = element(default=MaterialParameter(text=2.07))
+    c4: MatPositiveFloat = element(default=MaterialParameter(text=61.44))
+    c5: MatPositiveFloat = element(default=MaterialParameter(text=640.7))
+    lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.03))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
+    fiber: Optional[FiberVector] = element(default=None)
+    active_contraction: Optional[ActiveContraction] = element(default=None)
+
+
+class VerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Veronda-Westmann")
+    type: Literal["Veronda-Westmann"] = attr(default="Veronda-Westmann", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=1000.0))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=2000.0))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1000.0))
+
+
+class MooneyRivlinVonMisesFibersUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Mooney-Rivlin von Mises Fibers")
+    type: Literal["Mooney-Rivlin von Mises Fibers"] = attr(default="Mooney-Rivlin von Mises Fibers", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    c3: MatPositiveFloat = element(default=MaterialParameter(text=50.0))
+    c4: MatPositiveFloat = element(default=MaterialParameter(text=5.0))
+    c5: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=100000.0))
+    kf: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    vmc: MatPositiveFloat = element(default=MaterialParameter(text=2.0))
+    var_n: MatPositiveFloat = element(default=MaterialParameter(text=2.0))
+    tp: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
+    gipt: MatPositiveIntMult10 = element(default=MaterialParameter(text=40))
+    mat_axis: MaterialAxisVector = element(default=MaterialAxisVector())
+
+
+class LeeSacksUC(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="uncoupled isotropic Lee-Sacks")
+    type: Literal["uncoupled isotropic Lee-Sacks"] = attr(default="uncoupled isotropic Lee-Sacks", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c0: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=0.209))
+    c2: MatNonNegativeFloat = element(default=MaterialParameter(text=9.046))
+    tangent_scale: MatGTEOneFloat = element(default=MaterialParameter(text=1.0))
+    k: MatPositiveFloat = element(default=MaterialParameter(text=1000.0))
+
+
+class Yeoh(BaseXmlModel, tag="material", extra="forbid"):
+    name: str = attr(default="Yeoh")
+    type: Literal["Yeoh"] = attr(default="Yeoh", frozen=True)
+    id: int = attr(ge=1)
+    density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
+    c1: MatPositiveFloat = element(default=MaterialParameter(text=0.75))
+    c2: Optional[MatNonNegativeFloat] = element(default=None)
+    c3: Optional[MatNonNegativeFloat] = element(default=None)
+    c4: Optional[MatNonNegativeFloat] = element(default=None)
+    c5: Optional[MatNonNegativeFloat] = element(default=None)
+    c6: Optional[MatNonNegativeFloat] = element(default=None)
+    k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
+
+
+UncoupledMaterials: TypeAlias = Union[
+    ArrudaBoyceUC,
+    EllipsoidalFiberDistributionMooneyRivlinUC,
+    EllipsoidalFiberDistributionVerondaWestmannUC,
+    FungOrthotropicUC,
+    GentUC,
+    HolmesMowUC,
+    HolzapfelGasserOgdenUC,
+    MooneyRivlinUC,
+    MuscleUC,
+    OgdenUC,
+    TendonUC,
+    TensionCompressionNonlinearOrthoUC,
+    TransIsoMooneyRivlinUC,
+    TransIsoVerondaWestmannUC,
+    MooneyRivlinVonMisesFibersUC,
+    LeeSacksUC,
+    Yeoh,
+]
 
 
 class RigidBody(BaseXmlModel, tag="material", extra="forbid"):
