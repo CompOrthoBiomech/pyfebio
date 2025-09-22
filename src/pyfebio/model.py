@@ -8,7 +8,7 @@ from pydantic_xml import BaseXmlModel, attr, element
 from .boundary import Boundary
 from .constraints import Constraints
 from .contact import Contact
-from .control import Control
+from .control import Control, Solver
 from .discrete import Discrete
 from .globals import Globals
 from .include import Include
@@ -126,6 +126,11 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
         material = RigidBody(name=name, id=material_id)
         self.material.add_material(material)
         self.mesh_domains.add_solid_domain(SolidDomain(name=name, mat=name))
+
+
+class BiphasicModel(Model):
+    module: Optional[Module] = element(default=Module(type="biphasic"))
+    control: Optional[Control] = element(default=Control(analysis="STEADY-STATE", solver=Solver(type="biphasic", ptol=0.01)))
 
 
 def run_model(filepath: str | Path, silent: bool = False) -> subprocess.CompletedProcess:

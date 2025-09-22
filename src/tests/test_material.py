@@ -113,10 +113,8 @@ def test_uncoupled_material(hex8_febmesh, tmp_path):
 
 def test_biphasic_material(hex20_febmesh, tmp_path):
     for perm_cls in get_args(feb.material.PermeabilityType):
-        my_model = feb.model.Model(
+        my_model = feb.model.BiphasicModel(
             mesh=hex20_febmesh,
-            module=feb.module.Module(type="biphasic"),
-            control=feb.control.Control(analysis="STEADY-STATE", solver=feb.control.Solver(type="biphasic", ptol=0.01)),
         )
         for i, element in enumerate(my_model.mesh.elements):
             my_mat = feb.material.BiphasicMaterial(name=element.name, id=i + 1, permeability=perm_cls())
