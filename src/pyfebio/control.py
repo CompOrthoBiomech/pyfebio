@@ -71,5 +71,5 @@ class Control(BaseXmlModel, tag="Control", validate_assignment=True):
     plot_stride: int = element(default=1)
     output_stride: int = element(default=1)
     adaptor_re_solve: int = element(default=1)
-    time_stepper: TimeStepper = element(default=TimeStepper())
+    time_stepper: Optional[TimeStepper] = element(default=TimeStepper())
     solver: Solver = element(default=Solver())

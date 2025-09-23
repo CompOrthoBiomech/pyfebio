@@ -109,7 +109,7 @@ class ErosionAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["erosion"] = attr(default="erosion", frozen=True)
     elem_set: Optional[str] = attr(default=None)
     max_iters: int = element(default=1)
-    max_elems: int = element(default=3)
+    max_elements: int = element(default=3)
     remove_islands: Literal[0, 1] = element(default=0)
     sort: Literal[0, 1] = element(default=1)
     erode_surfaces: Literal["no", "yes", "grow", "reconstruct"] = element(default="no")
@@ -120,7 +120,7 @@ class MMGRemeshAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["mmg_remesh"] = attr(default="mmg_remesh", frozen=True)
     elem_set: Optional[str] = attr(default=None)
     max_iters: int = element(default=1)
-    max_elems: int = element(default=-1)
+    max_elements: int = element(default=-1)
     min_element_size: float = element(default=0.1)
     hausdorff: float = element(default=0.01)
     gradation: float = element(default=1.3, gt=1.0)
@@ -135,9 +135,11 @@ class HexRefine2dAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["hex_refine2d"] = attr(default="hex_refine2d", frozen=True)
     elem_set: Optional[str] = attr(default=None)
     max_iters: int = element(default=1)
-    max_elems: int = element(default=-1)
+    max_elements: int = element(default=-1)
     max_elem_refine: int = element(default=0)
     max_value: float = element(default=0.01)
+    nnc: int = element(default=8)
+    nsdim: int = element(default=3)
     criterion: CriterionType = element(default=RelativeErrorCriterion(data=StressCriterion()))
 
 
@@ -145,16 +147,18 @@ class HexRefineAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["hex_refine"] = attr(default="hex_refine", frozen=True)
     elem_set: Optional[str] = attr(default=None)
     max_iters: int = element(default=1)
-    max_elems: int = element(default=-1)
+    max_elements: int = element(default=-1)
     max_elem_refine: int = element(default=0)
     max_value: float = element(default=0.01)
+    nnc: int = element(default=8)
+    nsdim: int = element(default=3)
     criterion: CriterionType = element(default=RelativeErrorCriterion(data=StressCriterion()))
 
 
 AdaptorType = Union[ErosionAdaptor, MMGRemeshAdaptor, HexRefine2dAdaptor, HexRefineAdaptor]
 
 
-class MeshAdaptor(BaseXmlModel):
+class MeshAdaptor(BaseXmlModel, tag="MeshAdaptor"):
     all_adaptors: list[AdaptorType] = element(default=[])
 
     def add_adaptor(self, adaptor: AdaptorType):

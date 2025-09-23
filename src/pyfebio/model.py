@@ -23,6 +23,7 @@ from .mesh import (
     Nodes,
     Tet4Element,
 )
+from .meshadaptor import MeshAdaptor
 from .meshdata import MeshData
 from .meshdomains import MeshDomains, SolidDomain
 from .module import Module
@@ -80,6 +81,7 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
     mesh: Mesh = element(default=Mesh(), tag="Mesh")
     mesh_domains: MeshDomains = element(default=MeshDomains(), tag="MeshDomains")
     mesh_data: MeshData = element(default=MeshData(), tag="MeshData")
+    meshadaptor: MeshAdaptor = element(default=MeshAdaptor())
     discrete: Discrete = element(default=Discrete(), tag="Discrete")
     load_data: LoadData = element(default=LoadData(), tag="LoadData")
     loads: Loads = element(default=Loads(), tag="Loads")
@@ -91,7 +93,6 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
     step: Step = element(default=Step(), tag="Step")
     output: Output = element(default=Output(), tag="Output")
 
-    # mesh_adaptor: MeshAdaptor = element()
     def save(self, filename: str):
         xml = self.to_xml(
             pretty_print=True,

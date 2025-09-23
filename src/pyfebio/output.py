@@ -260,6 +260,7 @@ PlotDataVariables = Literal[
     "SPR-P1 stress",
     "strain energy density",
     "stress",
+    "stress error",
     "surface traction",
     "uncoupled pressure",
     "ut4 nodal stress",
