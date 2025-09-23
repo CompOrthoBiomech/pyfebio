@@ -170,8 +170,12 @@ febio4 -i my_model.feb
 
 Brief overview, see module documentation for more details. Unchecked are not yet implemented.
 
+:white_check_mark: Implemented and tested
+:ballot_box_with_check: Implemented but untested
+:x: Not yet impolemented
+
 - Control
-  - [x] All control settings
+  - :white_check_mark: All control settings
 - Mesh Section
   - [x] Nodes
   - [x] Solid Elements:
@@ -194,6 +198,20 @@ Brief overview, see module documentation for more details. Unchecked are not yet
   - [ ] Surface Data
     - [ ] Scalar
     - [ ] Vector3
+- MeshAdaptor
+  - :ballot_box_with_check: Erosion
+  - :ballot_box_with_check: MMG3d Remeshing
+  - :ballot_box_with_check: hex_refine
+  - :ballot_box_with_check: hex_refine2d
+  - :ballot_box_with_check: Criteria
+  - :ballot_box_with_check: element selection
+  - :ballot_box_with_check: math
+  - :ballot_box_with_check: min-max filter
+  - :ballot_box_with_check: relative error
+  - :ballot_box_with_check: stress
+  - :ballot_box_with_check: contact gap
+  - :ballot_box_with_check: damage
+  - :ballot_box_with_check: max variable
 - Material
   - [x] Most Unconstrained Formulation Materials
   - [x] Most Uncoupled Formulation Materials
