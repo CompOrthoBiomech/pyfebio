@@ -171,119 +171,125 @@ febio4 -i my_model.feb
 Brief overview, see module documentation for more details. Unchecked are not yet implemented.
 
 :white_check_mark: Implemented and tested
+
 :ballot_box_with_check: Implemented but untested
-:x: Not yet impolemented
+
+:x: Not yet implemented
 
 - Control
   - :white_check_mark: All control settings
 - Mesh Section
-  - [x] Nodes
-  - [x] Solid Elements:
+  - :white_check_mark: Nodes
+  - :white_check_mark: Solid Elements:
      - tet4, tet10, hex8, hex20, hex27, penta6
-  - [x] Shell Elements:
+  - :ballot_box_with_check: Shell Elements:
      - tri3, tri6, quad4, quad8, quad9, q4ans, q4eas
-  - [x] Beam Elements:
+  - :ballot_box_with_check: Beam Elements:
      - line2, line3
-  - [x] Node, Element, Surface Sets
+  - :white_check_mark: Node, Element, Surface Sets
 - MeshDomain
-  - [x] Solid, Shell, and Beam Domains
-  - [x] Granular control for integration schmemes, etc.
+  - :white_check_mark: Solid Domain
+  - :ballot_box_with_check: Shell Domain
+  - :ballot_box_with_check: Beam Domain
+  - :ballot_box_with_check: Granular control for integration schemes, etc.
 - MeshData Section
-  - [x] Node Data
-    - [x] Scalar
-    - [x] Vector3
-  - [x] Element Data
-    - [x] Scalar
-    - [x] Vector3
-  - [ ] Surface Data
-    - [ ] Scalar
-    - [ ] Vector3
+  - :ballot_box_with_check: Node Data
+  - :ballot_box_with_check: Scalar
+  - :ballot_box_with_check: Vector3
+  - :ballot_box_with_check: Element Data
+  - :ballot_box_with_check: Scalar
+  - :ballot_box_with_check: Vector3
+  - :x: Surface Data
+    - :x: Scalar
+    - :x: Vector3
 - MeshAdaptor
   - :ballot_box_with_check: Erosion
-  - :ballot_box_with_check: MMG3d Remeshing
-  - :ballot_box_with_check: hex_refine
-  - :ballot_box_with_check: hex_refine2d
+  - :white_check_mark: MMG3d Remeshing
+  - :white_check_mark: hex_refine
+  - :white_check_mark: hex_refine2d
   - :ballot_box_with_check: Criteria
   - :ballot_box_with_check: element selection
   - :ballot_box_with_check: math
   - :ballot_box_with_check: min-max filter
-  - :ballot_box_with_check: relative error
-  - :ballot_box_with_check: stress
+  - :white_check_mark: relative error
+  - :white_check_mark: stress
   - :ballot_box_with_check: contact gap
   - :ballot_box_with_check: damage
   - :ballot_box_with_check: max variable
 - Material
-  - [x] Most Unconstrained Formulation Materials
-  - [x] Most Uncoupled Formulation Materials
-  - [x] Prestrain Material
-  - [x] Fiber models
-  - [x] Material Axis
-    - [x] Vector Definition
-  - [x] Fiber Vector
-  - [x] Continuous Fiber Distributions
-    - [x] Integration Schemes
-  - [x] Element-wise, mapped, or math parameter defintion
-  - [x] Biphasic Materials
-  - [x] Viscoelastic Materials
-  - [ ] Multiphasic Materials
-  - [ ] Biphasic-solute Materials
-  - [ ] Chemical Reactions
-  - [ ] Active Contraction Materials
-  - [ ] Damage Materials
-  - [ ] First-order Homogenization
+  - :white_check_mark: Most Unconstrained Formulation Materials
+  - :white_check_mark: Most Uncoupled Formulation Materials
+  - :ballot_box_with_check: Prestrain Material
+  - :ballot_box_with_check: Fiber models
+  - :white_check_mark: Material Axis
+    - :white_check_mark: Vector Definition
+    - :white_check_mark: Fiber Vector
+  - :ballot_box_with_check: Continuous Fiber Distributions
+  - :ballot_box_with_check: Integration Schemes
+  - :ballot_box_with_check: Element-wise, mapped, or math parameter defintion
+  - :white_check_mark: Biphasic Materials
+  - :white_check_mark: Viscoelastic Materials
+  - :x: Multiphasic Materials
+  - :x: Biphasic-solute Materials
+  - :x: Chemical Reactions
+  - :x: Active Contraction Materials
+  - :x: Damage Materials
+  - :x: First-order Homogenization
 - Rigid
-  - [x] Fixed Displacement and Rotation
-  - [x] Prescribed Displacement and Rotation
-  - [x] Precribed Rotation about Vector
-  - [x] Prescribed Euler Rotation
-  - [x] All Connectors
-  - [x] Follower Loads
+  - :ballot_box_with_check: Fixed Displacement and Rotation
+  - :ballot_box_with_check: Prescribed Displacement and Rotation
+  - :ballot_box_with_check: Precribed Rotation about Vector
+  - :ballot_box_with_check: Prescribed Euler Rotation
+  - :ballot_box_with_check: All Connectors
+  - :ballot_box_with_check: Follower Loads
 - Initial
-  - [x] Initial Velocity
-  - [x] Initial Pre-strain
+  - :ballot_box_with_check: Initial Velocity
+  - :ballot_box_with_check: Initial Pre-strain
 - Loads
-  - [x] Nodal Loads
-  - [x] Traction Loads (surface)
-  - [x] Pressure Loads (surface)
-  - [x] Fluid Flux (surface)
-  - [x] Fluid Pressure (surface)
+  - :ballot_box_with_check: Nodal Loads
+  - :ballot_box_with_check: Traction Loads (surface)
+  - :ballot_box_with_check: Pressure Loads (surface)
+  - :ballot_box_with_check: Fluid Flux (surface)
+  - :ballot_box_with_check: Fluid Pressure (surface)
 - LoadData
-  - [x] Load Curves
-    - [x] All Options
-  - [x] PID Controllers
-  - [x] Math Controllers
+  - :white_check_mark: Load Curves
+    - :balloit_box_with_check: All Options
+  - :ballot_box_with_check: PID Controllers
+  - :ballot_box_with_check: Math Controllers
 - Boundary
-  - [x] Fixed Displacement (solid and shell)
-  - [x] Prescribed Displacement (solid and shell)
-  - [x] Precribed Deformation Gradient
-  - [x] Displacment Along Normals
-  - [x] Fix to Rigid Body
-  - [x] Rigid Node Set Deformation (translation and rotation)
-  - [x] Zero Fluid Pressure
-  - [x] Prescribed Fluid Pressure
+  - :white_check_mark: Fixed Displacement (solid)
+  - :white_check_mark: Prescribed Displacement (solid)
+  - :ballot_box_with_check: Fixed Displacement (shell)
+  - :ballot_box_with_check: Prescribed Displacement (shell)
+  - :ballot_box_with_check: Precribed Deformation Gradient
+  - :ballot_box_with_check: Displacement Along Normals
+  - :ballot_box_with_check: Fix to Rigid Body
+  - :white_check_mark: Rigid Node Set Deformation (rotation about axis)
+  - :white_check_mark: Zero Fluid Pressure
+  - :ballot_box_with_check: Prescribed Fluid Pressure
 - Constraints
-  - [x] Symmetry Plane
-  - [x] Prestrain
-  - [x] In-Situ Stretch
+  - :ballot_box_with_check: Symmetry Plane
+  - :ballot_box_with_check: Prestrain
+  - :ballot_box_with_check: In-Situ Stretch
 - Contact
-  - [x] Sliding
-    - [x] Elastic
-    - [x] Facet-Facet
-    - [x] Node-Facet
-    - [x] Biphasic
-    - [x] Sliding2
-    - [x] Contact Potential Formulation
-  - [x] Tie
-    - [x] Elastic
-    - [x] Facet-Facet
-    - [x] Node-Facet
-    - [x] Biphasic
+  - :ballot_box_with_check: Sliding
+  - :ballot_box_with_check: Elastic
+  - :ballot_box_with_check: Facet-Facet
+  - :ballot_box_with_check: Node-Facet
+  - :ballot_box_with_check: Biphasic
+  - :ballot_box_with_check: Sliding2
+  - :ballot_box_with_check: Contact Potential Formulation
+  - :ballot_box_with_check: Tie
+  - :ballot_box_with_check: Elastic
+  - :ballot_box_with_check: Facet-Facet
+  - :ballot_box_with_check: Node-Facet
+  - :ballot_box_with_check: Biphasic
 - Step
-  - [x] Multistep Analysis
+  - :ballot_box_with_check: Multistep Analysis
 - Output
-  - [x] Log File Configuration
-  - [x] Plot File Configuration
-  - [x] Node Variables
-  - [x] Element Variables
-  - [x] Rigid Body Variables
-  - [x] Rigid Connector Variables
+  - :ballot_box_with_check: Log File Configuration
+  - :ballot_box_with_check: Plot File Configuration
+  - :ballot_box_with_check: Node Variables
+  - :ballot_box_with_check: Element Variables
+  - :ballot_box_with_check: Rigid Body Variables
+  - :ballot_box_with_check: Rigid Connector Variables
