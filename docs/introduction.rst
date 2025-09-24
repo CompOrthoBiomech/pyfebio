@@ -20,7 +20,7 @@ Clone with ssh:
 
 **Using uv:**
 
-Install uv from [here](https://docs.astral.sh/uv/getting-started/installation/)
+Install uv from `here <https://docs.astral.sh/uv/getting-started/installation/>`_
 
 In top-level repository directory:
 
@@ -52,11 +52,38 @@ Install the package:
 
     pip install -e .
 
+If you want to run the tests, additionally install the dev group dependencies:
+
+.. code-block:: bash
+
+    pip install . --group dev
+
 To verify the installation, run:
 
 .. code-block:: bash
 
     python -c "import pyfebio"
+
+Testing
+~~~~~~~
+
+We rely on FEBio to check our generated models are valid. Therefore, you will need to have FEBio installed and available in your PATH.
+
+To run all the tests, execute the following command:
+
+.. code-block:: bash
+
+    cd src
+    pytest
+
+For tests that depend on running finite element simulations, you can find them in the pytest tmp_path directory, which varies by operating system.
+
+For the latest run:
+
+on Linux,
+
+.. code-block:: bash
+    cd /tmp/pytest-of-[USER]/pytest-current/[TEST_FUNCTION_NAME]current
 
 General Overview
 ----------------
