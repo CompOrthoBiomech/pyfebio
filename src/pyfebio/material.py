@@ -1173,6 +1173,7 @@ class ViscoelasticMaterialUC(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="uncoupled viscoelastic")
     type: Literal["uncoupled viscoelastic"] = attr(default="uncoupled viscoelastic", frozen=True)
     id: int = attr(ge=1)
+    k: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
     g0: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     g1: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))
     g2: MatNonNegativeFloat = element(default=MaterialParameter(text=0.0))

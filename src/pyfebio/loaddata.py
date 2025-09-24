@@ -4,14 +4,13 @@ from pydantic_xml import BaseXmlModel, attr, element
 
 from ._types import (
     StringFloatVec2,
-    StringUIntVec2,
 )
 
 
 class CurvePoints(BaseXmlModel, validate_assignment=True):
     points: List[StringFloatVec2] = element(default=[], tag="pt")
 
-    def add_point(self, new_point: StringUIntVec2):
+    def add_point(self, new_point: StringFloatVec2):
         self.points.append(new_point)
 
 
