@@ -6,6 +6,7 @@ for type validation and XML serialization. Many of FEBio's features are covered,
 ## Getting Started
 
 - [Installation](#installation)
+- [Testing](#testing)
 - [Example](#example)
 - [Documentation](https://comporthobiomech.github.io/pyfebio/index.html)
 - [Features](#features)
@@ -59,7 +60,34 @@ source .venv/bin/activate
 Install the package:
 
 ```bash
-pip install -e .
+pip install .
+```
+
+If you want to run the tests, additionally install the dev group dependencies:
+
+```bash
+pip install . --group dev
+```
+
+## Testing
+
+We rely on FEBio to check our generated models are valid. Therefore, you will need to have FEBio installed and available in your PATH.
+
+To run all the tests, execute the following command:
+
+```bash
+cd src
+pytest
+```
+
+For tests that depend on running finite element simulations, you can find them in the pytest tmp_path directory, which varies by operating system.
+
+For the latest run:
+
+on Linux,
+
+```bash
+cd /tmp/pytest-of-[USER]/pytest-current/[TEST_FUNCTION_NAME]current
 ```
 
 ## Example
