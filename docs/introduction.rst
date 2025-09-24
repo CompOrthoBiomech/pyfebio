@@ -83,6 +83,7 @@ For the latest run:
 on Linux,
 
 .. code-block:: bash
+
     cd /tmp/pytest-of-[USER]/pytest-current/[TEST_FUNCTION_NAME]current
 
 General Overview
@@ -170,3 +171,110 @@ The modules in pyfebio are divided and named based on this structure.
 - loaddata.py
 - step.py
 - output.py
+
+We have two additional modules:
+
+- model.py -- Assembles the XML tree
+- _types.py -- Defines custom types used throughout the package
+
+All XML elements of the FEBio model are defined as **BaseXmlModel** classes. These inherit from
+the pydantic BaseModel class, but add support for XML serialization and deserialization. pydantic-xml
+also provides the **element** and **attr** classes. These allow the definition of XML sub-elements and XML attributes of a
+BaseXmlModel class, respectively.
+
+For example, the **BCZeroDisplacement** class that defines a zero displacement boundary condition,
+
+.. code-block:: python
+
+    class BCZeroDisplacement(BaseXmlModel, validate_assignment=True):
+        type: Literal["zero displacement"] = attr(default="zero displacement", frozen=True)
+        node_set: str = attr()
+        x_dof: Literal[0, 1] = element(default=0)
+        y_dof: Literal[0, 1] = element(default=0)
+        z_dof: Literal[0, 1] = element(default=0)
+
+a boundary condition fixing x displacement is instantiated as,
+
+.. code-block:: python
+
+    fixed_displacment = BCDisplacement(node_set="my_node_set", x_dof=1)
+
+yielding the XML element,
+
+.. code-block:: xml
+
+    <bc type="zero displacement" node_set="my_node_set">
+        <x_dof>1</x_dof>
+        <y_dof>0</y_dof>
+        <z_dof>0</z_dof>
+    </bc>
+
+Note how the XML tag is the class attribute name (this can be overridden by setting the *alias* argument if needed).
+
+The Python type hint following each attribute variable is enforced by pydantic at runtime. Therefore for the BCZeroDisplacement
+class,
+
+- type -- can only be "zero displacement"
+- node_set -- must be a str and must also be provided at instantiation
+- x_dof -- must be either 0 or 1
+- y_dof -- must be either 0 or 1
+- z_dof -- must be either 0 or 1
+
+We could also place different constraints on the attribute values, such as requiring a float to be greater than zero, or even more elaborate
+constraints via a validator function.
+
+Often, we need to define sub-elements, which have there own sub-elements and attributes. We handle these cases, by defining BaseXmlModel classes
+for these sub-elements.
+
+
+For example, a load-curve is defined as,
+
+.. code-block:: python
+
+    class LoadCurve(BaseXmlModel, tag="load_controller", validate_assignment=True):
+        id: int = attr()
+        type: Literal["loadcurve"] = attr(default="loadcurve", frozen=True)
+        interpolate: Literal["LINEAR", "STEP", "SMOOTH"] = element(default="LINEAR")
+        extend: Literal["CONSTANT", "EXTRAPOLATE", "REPEAT", "REPEAT OFFSET"] = element(default="CONSTANT")
+        points: CurvePoints = element()
+
+Notice the *points* attribute is of type *CurvePoints*, which is defined as,
+
+.. code-block:: python
+
+    class CurvePoints(BaseXmlModel, tag="points", validate_assignment=True):
+        points: list[StringFloatVec2] = element(default=[], tag="pt")
+
+        def add_point(self, new_point: StringFloatVec2):
+            self.points.append(new_point)
+
+This has a few things to note:
+
+- The *StringFloatVec2* is a custom type that enforces a regex constraint on a str such that it looks like "0.0,1.5"
+- When the type is an iterable, pydantic-xml will automatically create an element entry for each item
+- The add_point() function allows you to append additional points to the *points* attribute
+
+Putting it all together, we can create a load curve via,
+
+.. code-block:: python
+
+    load_curve = LoadCurve(id=1, points=CurvePoints(points=["0.0,0.0", "0.1,1.0", "1.0,1.0")])
+
+and add a point,
+
+.. code-block:: python
+
+    load_curve.points.add_point("2.0,2.0")
+
+producing:
+
+.. code-block:: xml
+
+    <load_controller id="1" type="loadcurve" interpolate="LINEAR" extend="CONSTANT">
+        <points>
+            <pt>0.0,0.0</pt>
+            <pt>0.1,1.0</pt>
+            <pt>1.0,1.0</pt>
+            <pt>2.0,2.0</pt>
+        </points>
+    </load_controller>
