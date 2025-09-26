@@ -32,6 +32,7 @@ class SlidingElastic(SlidingBase):
     flip_secondary: Literal[0, 1] = element(default=0)
     shell_bottom_primary: Literal[0, 1] = element(default=0)
     shell_bottom_secondary: Literal[0, 1] = element(default=0)
+    search_radius: Literal[0] | float = element(default=1)
     offset: Literal[0] | float = element(default=0)
 
 
@@ -47,6 +48,19 @@ class SlidingNodeOnFacet(SlidingBase):
     ktmult: Literal[0] | float = element(default=0)
 
 
+SlidingContactType = Union[SlidingElastic, SlidingFacetOnFacet, SlidingNodeOnFacet]
+
+
+class ContactPotential(BaseXmlModel, validate_assignment=True):
+    type: Literal["contact potential"] = attr(default="contact potential", frozen=True)
+    name: str = attr()
+    surface_pair: str = attr()
+    kc: float = element(default=1e-6)
+    p: int = element(default=4)
+    R_in: float = element(default=0.01)
+    R_out: float = element(default=0.05)
+
+
 class SlidingBiphasic(SlidingBase):
     type: Literal["sliding-biphasic"] = attr(default="sliding-biphasic")
     ptol: Literal[0] | float = element(default=0)
@@ -56,6 +70,7 @@ class SlidingBiphasic(SlidingBase):
     contact_frac: float = element(default=0.0)
     smooth_aug: int = element(default=0)
     smooth_fls: int = element(default=0)
+    search_radius: Literal[0] | float = element(default=1)
     flip_primary: Literal[0, 1] = element(default=0)
     flip_secondary: Literal[0, 1] = element(default=0)
     shell_bottom_primary: Literal[0, 1] = element(default=0)
@@ -67,18 +82,12 @@ class Sliding2(SlidingBase):
     ptol: Literal[0] | float = element(default=0)
     pressure_penalty: float = element(default=1)
     symmetric_stiffness: Literal[0, 1] = element(default=1)
+    search_radius: Literal[0] | float = element(default=1)
     smooth_aug: int = element(default=0)
     dual_proj: Literal[0, 1] = element(default=1)
 
 
-class ContactPotential(BaseXmlModel, validate_assignment=True):
-    type: Literal["contact potential"] = attr(default="contact potential", frozen=True)
-    name: str = attr()
-    surface_pair: str = attr()
-    kc: float = element(default=1e-6)
-    p: int = element(default=4)
-    R_in: float = element(default=0.01)
-    R_out: float = element(default=0.05)
+SlidingBiphasicContactType = Union[SlidingBiphasic, Sliding2]
 
 
 class TiedBase(BaseXmlModel, validate_assignment=True):
