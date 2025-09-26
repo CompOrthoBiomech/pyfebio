@@ -59,3 +59,33 @@ def hex20_febmesh(hex20_meshio):
 @pytest.fixture(scope="session")
 def hex27_febmesh(hex27_meshio):
     return mesh.translate_meshio(hex27_meshio)
+
+
+@pytest.fixture(scope="session")
+def tet4_contact_febmesh():
+    mesh_obj = meshio.gmsh.read(GMSH_DIR.joinpath("tet4_contact.msh"))
+    return mesh.translate_meshio(mesh_obj)
+
+
+@pytest.fixture(scope="session")
+def tet10_contact_febmesh():
+    mesh_obj = meshio.gmsh.read(GMSH_DIR.joinpath("tet10_contact.msh"))
+    return mesh.translate_meshio(mesh_obj)
+
+
+@pytest.fixture(scope="session")
+def hex8_contact_febmesh():
+    mesh_obj = meshio.gmsh.read(GMSH_DIR.joinpath("hex8_contact.msh"))
+    return mesh.translate_meshio(mesh_obj)
+
+
+@pytest.fixture(scope="session")
+def hex20_contact_febmesh():
+    mesh_obj = meshio.gmsh.read(GMSH_DIR.joinpath("hex20_contact.msh"))
+    return mesh.translate_meshio(mesh_obj)
+
+
+@pytest.fixture(scope="session")
+def hex27_contact_febmesh():
+    mesh_obj = meshio.gmsh.read(GMSH_DIR.joinpath("hex27_contact.msh"))
+    return mesh.translate_meshio(mesh_obj)
