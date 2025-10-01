@@ -131,7 +131,14 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
 
 class BiphasicModel(Model):
     module: Optional[Module] = element(default=Module(type="biphasic"))
-    control: Optional[Control] = element(default=Control(analysis="STEADY-STATE", solver=Solver(type="biphasic", ptol=0.01)))
+    control: Optional[Control] = element(
+        default=Control(
+            analysis="TRANSIENT",
+            solver=Solver(type="biphasic", ptol=0.01),
+            time_steps=100,
+            step_size=0.01,
+        )
+    )
 
 
 def run_model(filepath: str | Path, silent: bool = False) -> subprocess.CompletedProcess:
