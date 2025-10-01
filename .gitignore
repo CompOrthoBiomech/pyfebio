@@ -1,5 +1,7 @@
 # Additional Filetypes
 *.xplt
+*.feb
+*.log
 # Specific Directories
 assets/gmsh/
 
