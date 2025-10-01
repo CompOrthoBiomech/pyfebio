@@ -1,3 +1,5 @@
+# Additional Filetypes
+*.xplt
 # Specific Directories
 assets/gmsh/
 
