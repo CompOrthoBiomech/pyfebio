@@ -8,6 +8,7 @@ pyfebio: A Python API for the FEBio finite element solver
    :caption: Contents:
 
    introduction
+   examples
    modules
 
 

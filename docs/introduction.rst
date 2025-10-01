@@ -250,7 +250,7 @@ Notice the *points* attribute is of type *CurvePoints*, which is defined as,
 
 This has a few things to note:
 
-- The *StringFloatVec2* is a custom type that enforces a regex constraint on a str such that it looks like "0.0,1.5"
+- The *StringFloatVec2* is a custom type that enforces a regex constraint on a str such that it looks like "{float},{float}" including scientific notation.
 - When the type is an iterable, pydantic-xml will automatically create an element entry for each item
 - The add_point() function allows you to append additional points to the *points* attribute
 
