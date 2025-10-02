@@ -278,3 +278,21 @@ producing:
             <pt>2.0,2.0</pt>
         </points>
     </load_controller>
+
+Recommendations
+---------------
+
+Use an IDE
+~~~~~~~~~~
+
+pyfebio is type annotated, which enables an IDE (with language server protocol support) to provide intelligent code completion and error checking.
+Popular IDEs that will mostly work out-of-the-box (possibly requiring extensions to be installed but with little to no configuration) include:
+
+- PyCharm
+- VSCode
+- Zed
+
+More customized solutions (where you'll need to handle LSP, linter, fomatter installation and config) include,
+
+- neovim
+- emacs (recommend doom emacs variant)

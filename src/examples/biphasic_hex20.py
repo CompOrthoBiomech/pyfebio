@@ -43,6 +43,7 @@ my_model.output.add_plotfile(
         all_vars=[
             feb.output.Var(type="displacement"),
             feb.output.Var(type="effective fluid pressure"),
+            feb.output.Var(type="nodal fluid flux"),
         ]
     )
 )
