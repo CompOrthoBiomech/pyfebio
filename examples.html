@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; pyfebio 0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=837179f8"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyfebio" href="modules.html" />
+    <link rel="prev" title="Getting Started" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyfebio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#elastic-hex20">Elastic Hex20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#biphasic-hex20">Biphasic Hex20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sliding-contact">Sliding Contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adaptive-remeshing">Adaptive Remeshing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyfebio</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyfebio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<section id="elastic-hex20">
+<h2>Elastic Hex20<a class="headerlink" href="#elastic-hex20" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">meshio</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyfebio</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">feb</span>
+
+<span class="c1"># import a mesh from gmsh format</span>
+<span class="n">from_gmsh</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">gmsh</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;../../assets/gmsh/hex20.msh&quot;</span><span class="p">)</span>
+<span class="c1"># use translation function to convert meshio object to an febio mesh</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">translate_meshio</span><span class="p">(</span><span class="n">from_gmsh</span><span class="p">)</span>
+
+<span class="c1"># creat a base febio model</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="c1"># loop over the discovered Elements (parts) and assign materials</span>
+<span class="c1"># and solid domains</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">NeoHookean</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">E</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">MaterialParameter</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="n">v</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">MaterialParameter</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">add_material</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">mesh_domains</span><span class="o">.</span><span class="n">add_solid_domain</span><span class="p">(</span>
+        <span class="n">feb</span><span class="o">.</span><span class="n">meshdomains</span><span class="o">.</span><span class="n">SolidDomain</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="c1"># fix the bottom nodes in space</span>
+<span class="n">fix_bottom</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroDisplacement</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="n">x_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">z_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># let&#39;s twist the top nodes by pi radians about their central z-axis</span>
+<span class="n">twist_top</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCRigidDeformation</span><span class="p">(</span>
+        <span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;0.5,0.5,0.0&quot;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">lc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;0.0,0.0,3.14&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># the load curve for our twist</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">load_data</span><span class="o">.</span><span class="n">add_load_curve</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">LoadCurve</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">CurvePoints</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;0.0,0.0&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0,1.0&quot;</span><span class="p">]))</span>
+<span class="p">)</span>
+
+<span class="c1"># save the model</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;elastic_hex20.feb&quot;</span><span class="p">)</span>
+
+<span class="c1"># run the model</span>
+<span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">run_model</span><span class="p">(</span><span class="s2">&quot;elastic_hex20.feb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="biphasic-hex20">
+<h2>Biphasic Hex20<a class="headerlink" href="#biphasic-hex20" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">meshio.gmsh</span><span class="w"> </span><span class="kn">import</span> <span class="n">read</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyfebio</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">feb</span>
+
+<span class="c1"># import mesh from gmsh format</span>
+<span class="n">from_gmsh</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="s2">&quot;../../assets/gmsh/hex20.msh&quot;</span><span class="p">)</span>
+<span class="c1"># translate meshio mesh to febio mesh</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">translate_meshio</span><span class="p">(</span><span class="n">from_gmsh</span><span class="p">)</span>
+
+<span class="c1"># initialize a biphasic febio modelk</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">BiphasicModel</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="c1"># loop over Elements (parts) and assign biphasic materials</span>
+<span class="c1"># and also assign solid domains</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">BiphasicMaterial</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">solid</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">NeoHookean</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">permeability</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">ConstantIsoPerm</span><span class="p">(</span>
+            <span class="n">perm</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">MaterialParameter</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="mf">1e-3</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">add_material</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">mesh_domains</span><span class="o">.</span><span class="n">add_solid_domain</span><span class="p">(</span>
+        <span class="n">feb</span><span class="o">.</span><span class="n">meshdomains</span><span class="o">.</span><span class="n">SolidDomain</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="c1"># fix the bottom nodes in space</span>
+<span class="n">fix_bottom</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroDisplacement</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="n">x_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">z_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># fix the bottom nodes in fluid pressure</span>
+<span class="n">fix_bottom_fluid</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroFluidPressure</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">))</span>
+
+<span class="c1"># fix the bottom nodes in fluid flux</span>
+<span class="n">fix_bottom_flux</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroFluidPressure</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">))</span>
+
+<span class="c1"># set zero fluid pressure bc on top nodes to allow for free-draining</span>
+<span class="n">drain_top</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroFluidPressure</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">))</span>
+
+<span class="c1"># displace the top nodes by -0.5 mm in z</span>
+<span class="n">move_top</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCPrescribedDisplacement</span><span class="p">(</span>
+        <span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="n">dof</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">lc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># load curve to apply displacement</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">load_data</span><span class="o">.</span><span class="n">add_load_curve</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">LoadCurve</span><span class="p">(</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">CurvePoints</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;0.0,0.0&quot;</span><span class="p">,</span> <span class="s2">&quot;0.1,1.0&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0,1.0&quot;</span><span class="p">])</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># add some additonial variables to plotfile</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">add_plotfile</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">OutputPlotfile</span><span class="p">(</span>
+        <span class="n">all_vars</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;displacement&quot;</span><span class="p">),</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;effective fluid pressure&quot;</span><span class="p">),</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;nodal fluid flux&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># save the model to disk</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;biphasic_hex20.feb&quot;</span><span class="p">)</span>
+<span class="c1"># run the model</span>
+<span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">run_model</span><span class="p">(</span><span class="s2">&quot;biphasic_hex20.feb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sliding-contact">
+<h2>Sliding Contact<a class="headerlink" href="#sliding-contact" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">meshio</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyfebio</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">feb</span>
+
+<span class="c1"># read a 27 node hex mesh in gmsh format</span>
+<span class="n">from_gmsh</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">gmsh</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;../../assets/gmsh/hex27_contact.msh&quot;</span><span class="p">)</span>
+<span class="c1"># translate gmsh meshio object to an febio mesh</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">translate_meshio</span><span class="p">(</span><span class="n">from_gmsh</span><span class="p">)</span>
+
+<span class="c1"># initialize and febio model with default settings</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="c1"># loop over the mesh Elements (parts) and assign materials</span>
+<span class="c1"># and solid domains</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">NeoHookean</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">E</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">MaterialParameter</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+        <span class="n">v</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">MaterialParameter</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">add_material</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">mesh_domains</span><span class="o">.</span><span class="n">add_solid_domain</span><span class="p">(</span>
+        <span class="n">feb</span><span class="o">.</span><span class="n">meshdomains</span><span class="o">.</span><span class="n">SolidDomain</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="c1"># add a surface pair for the contact definition</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">add_surface_pair</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">SurfacePair</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;contact&quot;</span><span class="p">,</span> <span class="n">primary</span><span class="o">=</span><span class="s2">&quot;bottom-box-top&quot;</span><span class="p">,</span> <span class="n">secondary</span><span class="o">=</span><span class="s2">&quot;top-box-bottom&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># fix the bottom nodes of the bottom box in space</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroDisplacement</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;bottom-box-bottom&quot;</span><span class="p">,</span> <span class="n">x_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">z_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># fix the top nodes of the top box in the y dimension</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroDisplacement</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;top-box-top&quot;</span><span class="p">,</span> <span class="n">x_dof</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">z_dof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># move the top nodes of the top box in the the dimension</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCPrescribedDisplacement</span><span class="p">(</span>
+        <span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;top-box-top&quot;</span><span class="p">,</span> <span class="n">dof</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">lc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="o">=-</span><span class="mf">0.15</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># move the top nodes of the top box in the x dimension</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCPrescribedDisplacement</span><span class="p">(</span>
+        <span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;top-box-top&quot;</span><span class="p">,</span> <span class="n">dof</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">lc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># add a sliding contact definition. enforce it with augmented lagrangian multiplier</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">add_contact</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">SlidingElastic</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sliding_contact&quot;</span><span class="p">,</span> <span class="n">surface_pair</span><span class="o">=</span><span class="s2">&quot;contact&quot;</span><span class="p">,</span> <span class="n">auto_penalty</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">laugon</span><span class="o">=</span><span class="s2">&quot;AUGLAG&quot;</span><span class="p">,</span> <span class="n">two_pass</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># load curve controlling the top nodes displacement</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">load_data</span><span class="o">.</span><span class="n">add_load_curve</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">LoadCurve</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">CurvePoints</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;0,0&quot;</span><span class="p">,</span> <span class="s2">&quot;1,1&quot;</span><span class="p">]))</span>
+<span class="p">)</span>
+
+<span class="c1"># add variables to the plotfile output</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">add_plotfile</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">OutputPlotfile</span><span class="p">(</span>
+        <span class="n">all_vars</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;displacement&quot;</span><span class="p">),</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;contact pressure&quot;</span><span class="p">),</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;contact gap&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># save the model to disk</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;contact.feb&quot;</span><span class="p">)</span>
+<span class="c1"># run the model</span>
+<span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">run_model</span><span class="p">(</span><span class="s2">&quot;contact.feb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adaptive-remeshing">
+<h2>Adaptive Remeshing<a class="headerlink" href="#adaptive-remeshing" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">meshio</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyfebio</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">feb</span>
+
+<span class="c1"># import an 8 node hex mesh in gmsh format</span>
+<span class="n">from_gmsh</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">gmsh</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;../../assets/gmsh/hex8.msh&quot;</span><span class="p">)</span>
+
+<span class="c1"># convert the meshio object to febio mesh</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">translate_meshio</span><span class="p">(</span><span class="n">from_gmsh</span><span class="p">)</span>
+
+<span class="c1"># crete a base febio model but override the control section to have constant time step</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">control</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">Control</span><span class="p">(</span><span class="n">time_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">time_stepper</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># loop over all Elements in the mesh and assign materials and solid domains</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">NeoHookean</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">E</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">MaterialParameter</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="mf">10.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="n">v</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">MaterialParameter</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">add_material</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">my_model</span><span class="o">.</span><span class="n">mesh_domains</span><span class="o">.</span><span class="n">add_solid_domain</span><span class="p">(</span>
+        <span class="n">feb</span><span class="o">.</span><span class="n">meshdomains</span><span class="o">.</span><span class="n">SolidDomain</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="c1"># fix the bottom nodes</span>
+<span class="n">fix_bottom</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCZeroDisplacement</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="n">x_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">z_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># displace the top nodes in z by -0.5 mm</span>
+<span class="n">move_top</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">add_bc</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">BCPrescribedDisplacement</span><span class="p">(</span>
+        <span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="n">dof</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">lc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># load curve controlling the top nodes displacement</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">load_data</span><span class="o">.</span><span class="n">add_load_curve</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">LoadCurve</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">loaddata</span><span class="o">.</span><span class="n">CurvePoints</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;0.0,0.0&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0,1.0&quot;</span><span class="p">]))</span>
+<span class="p">)</span>
+
+<span class="c1"># creat are mesh adaptor to refine the mesh based</span>
+<span class="c1"># on the stress error criterion</span>
+<span class="n">adaptor</span> <span class="o">=</span> <span class="n">feb</span><span class="o">.</span><span class="n">meshadaptor</span><span class="o">.</span><span class="n">HexRefineAdaptor</span><span class="p">(</span>
+    <span class="n">elem_set</span><span class="o">=</span><span class="s2">&quot;bottom-layer&quot;</span><span class="p">,</span>
+    <span class="n">max_iters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">criterion</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">meshadaptor</span><span class="o">.</span><span class="n">RelativeErrorCriterion</span><span class="p">(</span>
+        <span class="n">error</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">feb</span><span class="o">.</span><span class="n">meshadaptor</span><span class="o">.</span><span class="n">StressCriterion</span><span class="p">()</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">meshadaptor</span><span class="o">.</span><span class="n">add_adaptor</span><span class="p">(</span><span class="n">adaptor</span><span class="p">)</span>
+
+<span class="c1"># we have to add the stress error output to the plotfile so our mesh</span>
+<span class="c1"># adaptor works</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">add_plotfile</span><span class="p">(</span>
+    <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">OutputPlotfile</span><span class="p">(</span>
+        <span class="n">all_vars</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;displacement&quot;</span><span class="p">),</span>
+            <span class="n">feb</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;stress error&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># save our madel to disk</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;mesh_adapt.feb&quot;</span><span class="p">)</span>
+<span class="c1"># run the model</span>
+<span class="n">feb</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">run_model</span><span class="p">(</span><span class="s2">&quot;mesh_adapt.feb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="pyfebio" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Scott Sibole.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
