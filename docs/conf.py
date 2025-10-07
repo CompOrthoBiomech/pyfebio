@@ -24,6 +24,7 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx_rtd_theme",
     "sphinxcontrib.autodoc_pydantic",
+    "sphinx_copybutton",
 ]
 
 templates_path = ["_templates"]
