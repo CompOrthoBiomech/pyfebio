@@ -9,6 +9,9 @@ mesh = feb.mesh.translate_meshio(from_gmsh)
 
 # initialize a biphasic febio modelk
 my_model = feb.model.BiphasicModel(mesh=mesh)
+assert my_model.control is not None
+my_model.control.step_size = 0.1
+my_model.control.time_stepper = feb.control.TimeStepper(dtmax=feb.control.TimeStepValue(text=1.0))
 
 # loop over Elements (parts) and assign biphasic materials
 # and also assign solid domains
@@ -34,9 +37,6 @@ fix_bottom = my_model.boundary.add_bc(
 # fix the bottom nodes in fluid pressure
 fix_bottom_fluid = my_model.boundary.add_bc(feb.boundary.BCZeroFluidPressure(node_set="bottom"))
 
-# fix the bottom nodes in fluid flux
-fix_bottom_flux = my_model.boundary.add_bc(feb.boundary.BCZeroFluidPressure(node_set="bottom"))
-
 # set zero fluid pressure bc on top nodes to allow for free-draining
 drain_top = my_model.boundary.add_bc(feb.boundary.BCZeroFluidPressure(node_set="top"))
 
@@ -50,7 +50,7 @@ move_top = my_model.boundary.add_bc(
 # load curve to apply displacement
 my_model.load_data.add_load_curve(
     feb.loaddata.LoadCurve(
-        id=1, points=feb.loaddata.CurvePoints(points=["0.0,0.0", "0.1,1.0", "1.0,1.0"])
+        id=1, points=feb.loaddata.CurvePoints(points=["0.0,0.0", "0.1,1.0", "10.0,1.0"])
     )
 )
 
