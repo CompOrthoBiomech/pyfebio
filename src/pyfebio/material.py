@@ -1,6 +1,6 @@
-from typing import Annotated, Literal, TypeAlias, Union
+from typing import Annotated, Literal, TypeAlias
 
-from pydantic import AfterValidator, PositiveInt
+from pydantic import AfterValidator, Field, PositiveInt
 from pydantic_xml import BaseXmlModel, attr, element
 
 from ._types import StringFloatVec3, StringFloatVec9
@@ -19,13 +19,13 @@ class FiberVector(BaseXmlModel, validate_assignment=True, extra="forbid"):
 
 class MaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
     type: Literal["map", "math"] | None = attr(default=None)
-    text: str | int | float
+    text: float | int | str = Field(union_mode="left_to_right")
 
 
 class DynamicMaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
     type: Literal["map", "math"] | None = attr(default=None)
     lc: int = attr(default=1, ge=1)
-    text: str | int | float = 1.0
+    text: float | int | str = Field(union_mode="left_to_right")
 
 
 # Material Paramter Validators
@@ -435,7 +435,7 @@ class NaturalNeoHookean(BaseXmlModel, tag="material", extra="forbid"):
 class NeoHookean(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="neo-Hookean")
     type: Literal["neo-Hookean"] = attr(default="neo-Hookean", frozen=True)
-    id: int = attr(ge=1)
+    id: int | None = attr(default=None)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     E: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     v: MatNonNegativeFloat = element(default=MaterialParameter(text=0.3))
@@ -591,37 +591,34 @@ class UnconstrainedOgden(BaseXmlModel, tag="material", extra="forbid"):
     c6: MatPositiveFloat | None = element(default=None)
 
 
-UnconstrainedMaterials: TypeAlias = Union[
-    ArrudaBoyce,
-    CoupledMooneyRivlin,
-    CoupledVerondaWestmann,
-    CubicCLE,
-    EllipsoidalFiberDistributionNeoHookean,
-    FungOrthotropicCompressible,
-    GentCompressible,
-    HolmesMow,
-    HolzapfelGasserOgdenUnconstrained,
-    IsotropicElastic,
-    IsotropicHencky,
-    LargePoissonRatioLigament,
-    Lung,
-    NaturalNeoHookean,
-    NeoHookean,
-    PorousNeoHookean,
-    OrthotropicElastic,
-    OrthotropicCLE,
-    ShenoyWang,
-    TransIsoMooneyRivlin,
-    TransIsoVerondaWestmann,
-    UnconstrainedOgden,
-]
+UnconstrainedMaterials: TypeAlias = (
+    ArrudaBoyce
+    | CoupledMooneyRivlin
+    | CoupledVerondaWestmann
+    | CubicCLE
+    | EllipsoidalFiberDistributionNeoHookean
+    | FungOrthotropicCompressible
+    | GentCompressible
+    | HolmesMow
+    | HolzapfelGasserOgdenUnconstrained
+    | IsotropicElastic
+    | IsotropicHencky
+    | LargePoissonRatioLigament
+    | Lung
+    | NaturalNeoHookean
+    | NeoHookean
+    | PorousNeoHookean
+    | OrthotropicElastic
+    | OrthotropicCLE
+    | ShenoyWang
+    | TransIsoMooneyRivlin
+    | TransIsoVerondaWestmann
+    | UnconstrainedOgden
+)
 
-EvolvingUnconstrainedMaterials: TypeAlias = Union[
-    EllipsoidalFiberDistributionDonnanEquilibrium,
-    CellGrowth,
-    OsmoticVirialPressure,
-    PerfectOsmometer,
-]
+EvolvingUnconstrainedMaterials: TypeAlias = (
+    EllipsoidalFiberDistributionDonnanEquilibrium | CellGrowth | OsmoticVirialPressure | PerfectOsmometer
+)
 
 
 class ArrudaBoyceUC(BaseXmlModel, tag="material", extra="forbid"):
@@ -877,25 +874,25 @@ class Yeoh(BaseXmlModel, tag="material", extra="forbid"):
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
 
 
-UncoupledMaterials: TypeAlias = Union[
-    ArrudaBoyceUC,
-    EllipsoidalFiberDistributionMooneyRivlinUC,
-    EllipsoidalFiberDistributionVerondaWestmannUC,
-    FungOrthotropicUC,
-    GentUC,
-    HolmesMowUC,
-    HolzapfelGasserOgdenUC,
-    MooneyRivlinUC,
-    MuscleUC,
-    OgdenUC,
-    TendonUC,
-    TensionCompressionNonlinearOrthoUC,
-    TransIsoMooneyRivlinUC,
-    TransIsoVerondaWestmannUC,
-    MooneyRivlinVonMisesFibersUC,
-    LeeSacksUC,
-    Yeoh,
-]
+UncoupledMaterials: TypeAlias = (
+    ArrudaBoyceUC
+    | EllipsoidalFiberDistributionMooneyRivlinUC
+    | EllipsoidalFiberDistributionVerondaWestmannUC
+    | FungOrthotropicUC
+    | GentUC
+    | HolmesMowUC
+    | HolzapfelGasserOgdenUC
+    | MooneyRivlinUC
+    | MuscleUC
+    | OgdenUC
+    | TendonUC
+    | TensionCompressionNonlinearOrthoUC
+    | TransIsoMooneyRivlinUC
+    | TransIsoVerondaWestmannUC
+    | MooneyRivlinVonMisesFibersUC
+    | LeeSacksUC
+    | Yeoh
+)
 
 
 class RigidBody(BaseXmlModel, tag="material", extra="forbid"):
@@ -965,15 +962,15 @@ class FiberEntropyChain(BaseXmlModel, tag="solid", extra="forbid"):
     fiber: FiberVector | None = element(default=None)
 
 
-FiberModel: TypeAlias = Union[
-    FiberNeoHookean,
-    FiberNaturalNeoHookean,
-    FiberToeLinear,
-    FiberEntropyChain,
-    FiberExponentialPower,
-    FiberExponentialLinear,
-    FiberEntropyChain,
-]
+FiberModel: TypeAlias = (
+    FiberNeoHookean
+    | FiberNaturalNeoHookean
+    | FiberToeLinear
+    | FiberEntropyChain
+    | FiberExponentialPower
+    | FiberExponentialLinear
+    | FiberEntropyChain
+)
 
 
 # Uncoupled Fibers
@@ -1018,13 +1015,7 @@ class FiberEntropyChainUC(BaseXmlModel, tag="solid", extra="forbid"):
     fiber: FiberVector | None = element(default=None)
 
 
-FiberModelUC: TypeAlias = Union[
-    FiberToeLinearUC,
-    FiberKiousisUC,
-    FiberExponentialPowerUC,
-    FiberExponentialLinearUC,
-    FiberEntropyChainUC,
-]
+FiberModelUC: TypeAlias = FiberToeLinearUC | FiberKiousisUC | FiberExponentialPowerUC | FiberExponentialLinearUC | FiberEntropyChainUC
 
 
 # Continuous Fiber Distribution Functions
@@ -1057,7 +1048,7 @@ class CFDVonMises2d(BaseXmlModel, tag="distribution", extra="forbid"):
     b: MatNonNegativeFloat = element(default=MaterialParameter(text=0.5))
 
 
-CFDistributionModel: TypeAlias = Union[CFDCircular, CFDSpherical, CFDVonMises3d, CFDVonMises2d, CFDEllipsoidal]
+CFDistributionModel: TypeAlias = CFDCircular | CFDSpherical | CFDVonMises3d | CFDVonMises2d | CFDEllipsoidal
 
 
 # Continous Fiber Distribution Function Integration Schema
@@ -1099,7 +1090,7 @@ class TrapezoidalRuleIntegration(BaseXmlModel, tag="scheme", extra="forbid"):
     nth: PositiveInt = element(default=31)
 
 
-IntegrationScheme: TypeAlias = Union[GaussKronrodTrapezoidalIntegration, FiniteElementIntegration, TrapezoidalRuleIntegration]
+IntegrationScheme: TypeAlias = GaussKronrodTrapezoidalIntegration | FiniteElementIntegration | TrapezoidalRuleIntegration
 
 
 class ContinuousFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
@@ -1299,7 +1290,7 @@ def tension_only_nonlinear_spring(slack: float, e0: float, k: float) -> str:
     return " + ".join([toe_region, linear_region])
 
 
-PermeabilityType = Union[ConstantIsoPerm, ExponentialIsoPerm, HolmesMowPerm, RefIsoPerm, RefOrthoPerm, RefTransIsoPerm]
+PermeabilityType = ConstantIsoPerm | ExponentialIsoPerm | HolmesMowPerm | RefIsoPerm | RefOrthoPerm | RefTransIsoPerm
 
 
 class BiphasicMaterial(BaseXmlModel, tag="material", extra="forbid"):
@@ -1311,17 +1302,17 @@ class BiphasicMaterial(BaseXmlModel, tag="material", extra="forbid"):
     permeability: PermeabilityType = element(default=ConstantIsoPerm())
 
 
-MaterialType = Union[
-    UnconstrainedMaterials,
-    EvolvingUnconstrainedMaterials,
-    UncoupledMaterials,
-    RigidBody,
-    SolidMixture,
-    SolidMixtureUC,
-    BiphasicMaterial,
-    ViscoelasticMaterial,
-    ViscoelasticMaterialUC,
-]
+MaterialType = (
+    UnconstrainedMaterials
+    | EvolvingUnconstrainedMaterials
+    | UncoupledMaterials
+    | RigidBody
+    | SolidMixture
+    | SolidMixtureUC
+    | BiphasicMaterial
+    | ViscoelasticMaterial
+    | ViscoelasticMaterialUC
+)
 
 
 class Material(BaseXmlModel, validate_assignment=True):
