@@ -1,10 +1,10 @@
-from typing import List, Literal, Optional, Union
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
 
 class SlidingBase(BaseXmlModel, validate_assignment=True):
-    name: Optional[str] = attr(default=None)
+    name: str | None = attr(default=None)
     surface_pair: str = attr()
     laugon: Literal["PENALTY", "AUGLAG"] = element(default="PENALTY")
     two_pass: Literal[0, 1] = element(default=0)
@@ -48,7 +48,7 @@ class SlidingNodeOnFacet(SlidingBase):
     ktmult: Literal[0] | float = element(default=0)
 
 
-SlidingContactType = Union[SlidingElastic, SlidingFacetOnFacet, SlidingNodeOnFacet]
+SlidingContactType = SlidingElastic | SlidingFacetOnFacet | SlidingNodeOnFacet
 
 
 class ContactPotential(BaseXmlModel, validate_assignment=True):
@@ -87,7 +87,7 @@ class Sliding2(SlidingBase):
     dual_proj: Literal[0, 1] = element(default=1)
 
 
-SlidingBiphasicContactType = Union[SlidingBiphasic, Sliding2]
+SlidingBiphasicContactType = SlidingBiphasic | Sliding2
 
 
 class TiedBase(BaseXmlModel, validate_assignment=True):
@@ -113,14 +113,18 @@ class TiedElastic(TiedBase):
 
 
 class TiedFacetOnFacet(TiedBase):
-    type: Literal["tied-facet-on-facet"] = attr(default="tied-facet-on-facet", frozen=True)
+    type: Literal["tied-facet-on-facet"] = attr(
+        default="tied-facet-on-facet", frozen=True
+    )
     tolerance: float = element(default=0.01)
     search_tolerance: float = element(default=0.0001)
     gap_offset: Literal[0, 1] = element(default=0)
 
 
 class TiedNodeOnFacet(TiedBase):
-    type: Literal["tied-node-on-facet"] = attr(default="tied-node-on-facet", frozen=True)
+    type: Literal["tied-node-on-facet"] = attr(
+        default="tied-node-on-facet", frozen=True
+    )
     tolerance: float = element(default=0.01)
     search_tolerance: float = element(default=0.0001)
     offset_shells: Literal[0, 1] = element(default=0)
@@ -143,24 +147,26 @@ class TiedBiphasic(TiedBase):
     symmetric_stiffness: Literal[0, 1] = element(default=1)
 
 
-ContactType = Union[
-    SlidingElastic,
-    SlidingFacetOnFacet,
-    SlidingNodeOnFacet,
-    SlidingBiphasic,
-    Sliding2,
-    ContactPotential,
-    TiedElastic,
-    TiedFacetOnFacet,
-    TiedNodeOnFacet,
-    TiedBiphasic,
-]
+ContactType = (
+    SlidingElastic
+    | SlidingFacetOnFacet
+    | SlidingNodeOnFacet
+    | SlidingBiphasic
+    | Sliding2
+    | ContactPotential
+    | TiedElastic
+    | TiedFacetOnFacet
+    | TiedNodeOnFacet
+    | TiedBiphasic
+)
 
 
 class Contact(BaseXmlModel, tag="Contact", validate_assignment=True):
-    all_contact_interfaces: List[ContactType] = element(default=[], tag="contact")
+    all_contact_interfaces: list[ContactType] = element(default=[], tag="contact")
 
     def add_contact(self, new_contact: ContactType):
         if new_contact.name is None:
-            new_contact.name = f"{new_contact.type}_{len(self.all_contact_interfaces) + 1}"
+            new_contact.name = (
+                f"{new_contact.type}_{len(self.all_contact_interfaces) + 1}"
+            )
         self.all_contact_interfaces.append(new_contact)
