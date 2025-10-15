@@ -8,54 +8,42 @@ from_gmsh = read("../../assets/gmsh/hex20.msh")
 mesh = feb.mesh.translate_meshio(from_gmsh)
 
 # initialize a biphasic febio modelk
-my_model = feb.model.BiphasicModel(mesh=mesh)
-assert my_model.control is not None
-my_model.control.step_size = 0.1
-my_model.control.time_stepper = feb.control.TimeStepper(dtmax=feb.control.TimeStepValue(text=1.0))
+my_model = feb.model.BiphasicModel(mesh_=mesh)
+assert my_model.control_ is not None
+my_model.control_.step_size = 0.1
+my_model.control_.time_stepper = feb.control.TimeStepper(dtmax=feb.control.TimeStepValue(text=1.0))
 
 # loop over Elements (parts) and assign biphasic materials
 # and also assign solid domains
-for i, part in enumerate(my_model.mesh.elements):
+for i, part in enumerate(my_model.mesh_.elements):
     mat = feb.material.BiphasicMaterial(
         name=part.name,
         id=i + 1,
         solid=feb.material.NeoHookean(id=i + 1),
-        permeability=feb.material.ConstantIsoPerm(
-            perm=feb.material.MaterialParameter(text=1e-3 * (i + 1))
-        ),
+        permeability=feb.material.ConstantIsoPerm(perm=feb.material.MaterialParameter(text=1e-3 * (i + 1))),
     )
-    my_model.material.add_material(mat)
-    my_model.mesh_domains.add_solid_domain(
-        feb.meshdomains.SolidDomain(name=part.name, mat=part.name)
-    )
+    my_model.material_.add_material(mat)
+    my_model.meshdomains_.add_solid_domain(feb.meshdomains.SolidDomain(name=part.name, mat=part.name))
 
 # fix the bottom nodes in space
-fix_bottom = my_model.boundary.add_bc(
-    feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1)
-)
+fix_bottom = my_model.boundary_.add_bc(feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1))
 
 # fix the bottom nodes in fluid pressure
-fix_bottom_fluid = my_model.boundary.add_bc(feb.boundary.BCZeroFluidPressure(node_set="bottom"))
+fix_bottom_fluid = my_model.boundary_.add_bc(feb.boundary.BCZeroFluidPressure(node_set="bottom"))
 
 # set zero fluid pressure bc on top nodes to allow for free-draining
-drain_top = my_model.boundary.add_bc(feb.boundary.BCZeroFluidPressure(node_set="top"))
+drain_top = my_model.boundary_.add_bc(feb.boundary.BCZeroFluidPressure(node_set="top"))
 
 # displace the top nodes by -0.5 mm in z
-move_top = my_model.boundary.add_bc(
-    feb.boundary.BCPrescribedDisplacement(
-        node_set="top", dof="z", value=feb.boundary.Value(lc=1, text=-0.5)
-    )
+move_top = my_model.boundary_.add_bc(
+    feb.boundary.BCPrescribedDisplacement(node_set="top", dof="z", value=feb.boundary.Value(lc=1, text=-0.5))
 )
 
 # load curve to apply displacement
-my_model.load_data.add_load_curve(
-    feb.loaddata.LoadCurve(
-        id=1, points=feb.loaddata.CurvePoints(points=["0.0,0.0", "0.1,1.0", "10.0,1.0"])
-    )
-)
+my_model.loaddata_.add_load_curve(feb.loaddata.LoadCurve(id=1, points=feb.loaddata.CurvePoints(points=["0.0,0.0", "0.1,1.0", "10.0,1.0"])))
 
 # add some additonial variables to plotfile
-my_model.output.add_plotfile(
+my_model.output_.add_plotfile(
     feb.output.OutputPlotfile(
         all_vars=[
             feb.output.Var(type="displacement"),
