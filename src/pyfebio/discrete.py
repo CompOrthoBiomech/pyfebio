@@ -1,4 +1,4 @@
-from typing import List, Literal, Union
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -30,10 +30,10 @@ class DiscreteEntry(BaseXmlModel, tag="discrete", validate_assignment=True):
 
 
 class Discrete(BaseXmlModel, validate_assignment=True):
-    discrete_materials: List[Union[NonlinearSpring, Spring]] = element(default=[])
-    discrete_elements: List[DiscreteEntry] = element(default=[])
+    discrete_materials: list[NonlinearSpring | Spring] = element(default=[])
+    discrete_elements: list[DiscreteEntry] = element(default=[])
 
-    def add_discrete_material(self, new_material: Union[NonlinearSpring, Spring]):
+    def add_discrete_material(self, new_material: NonlinearSpring | Spring):
         self.discrete_materials.append(new_material)
 
     def add_discrete_element(self, new_element: DiscreteEntry):

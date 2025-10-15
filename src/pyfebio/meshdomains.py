@@ -1,22 +1,14 @@
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
 
 class SolidDomain(BaseXmlModel, validate_assignment=True):
     name: str = attr(default="SolidPart")
-    type: Optional[
-        Literal[
-            "elastic-solid",
-            "three-field-solid",
-            "rigid-solid",
-            "udg-hex",
-            "sri-solid",
-            "remodelling-solid",
-            "ut4-solid",
-        ]
-    ] = attr(default=None)
-    elem_type: Optional[
+    type: Literal["elastic-solid", "three-field-solid", "rigid-solid", "udg-hex", "sri-solid", "remodelling-solid", "ut4-solid"] | None = (
+        attr(default=None)
+    )
+    elem_type: (
         Literal[
             "HEX8G6",
             "HEX8G8",
@@ -31,10 +23,11 @@ class SolidDomain(BaseXmlModel, validate_assignment=True):
             "TET15G15",
             "PENTA15G8",
         ]
-    ] = attr(default=None)
+        | None
+    ) = attr(default=None)
     mat: str = attr(default="material")
-    alpha: Optional[float] = element(default=None)
-    iso_stab: Optional[Literal[0, 1]] = element(default=None)
+    alpha: float | None = element(default=None)
+    iso_stab: Literal[0, 1] | None = element(default=None)
 
 
 class ShellDomain(BaseXmlModel, validate_assignment=True):

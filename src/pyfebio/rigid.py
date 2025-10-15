@@ -1,4 +1,4 @@
-from typing import List, Literal, Union
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -114,7 +114,7 @@ class RigidCableLoad(BaseXmlModel, tag="rigid_load", validate_assignment=True):
     force_direction: StringFloatVec3 = element()
     relative: Literal[0, 1] = element(default=1)
     force: Value = element()
-    rigid_cable_point: List[CablePoint] = element(default=[])
+    rigid_cable_point: list[CablePoint] = element(default=[])
 
 
 class RigidConnector(
@@ -236,28 +236,28 @@ class RigidContractileForce(RigidConnector):
     f0: Value = element()
 
 
-RigidBCType = Union[RigidFixed, RigidPrescribed, RigidBodyRotationVector, RigidBodyEulerAngle]
+RigidBCType = RigidFixed | RigidPrescribed | RigidBodyRotationVector | RigidBodyEulerAngle
 
-RigidLoadType = Union[RigidForceLoad, RigidFollowerForceLoad, RigidMomentLoad, RigidFollowerMomentLoad]
+RigidLoadType = RigidForceLoad | RigidFollowerForceLoad | RigidMomentLoad | RigidFollowerMomentLoad
 
-RigidConnectorType = Union[
-    RigidSphericalJoint,
-    RigidRevoluteJoint,
-    RigidCylindricalJoint,
-    RigidPrismaticJoint,
-    RigidPlanarJoint,
-    RigidLock,
-    RigidSpring,
-    RigidDamper,
-    RigidAngularDamper,
-    RigidContractileForce,
-]
+RigidConnectorType = (
+    RigidSphericalJoint
+    | RigidRevoluteJoint
+    | RigidCylindricalJoint
+    | RigidPrismaticJoint
+    | RigidPlanarJoint
+    | RigidLock
+    | RigidSpring
+    | RigidDamper
+    | RigidAngularDamper
+    | RigidContractileForce
+)
 
 
 class Rigid(BaseXmlModel, tag="Rigid", validate_assignment=True):
-    all_rigid_bcs: List[RigidBCType] = element(default=[], tag="rigid_bc")
-    all_rigid_loads: List[RigidLoadType] = element(default=[], tag="rigid_load")
-    all_rigid_connectors: List[RigidConnectorType] = element(default=[], tag="rigid_connector")
+    all_rigid_bcs: list[RigidBCType] = element(default=[], tag="rigid_bc")
+    all_rigid_loads: list[RigidLoadType] = element(default=[], tag="rigid_load")
+    all_rigid_connectors: list[RigidConnectorType] = element(default=[], tag="rigid_connector")
 
     def add_rigid_bc(
         self,

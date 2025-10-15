@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Literal, Optional
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -106,19 +106,19 @@ def assemble_data_string(
 
 class DataEntry(BaseXmlModel, validate_assignment=True):
     data: str = attr(default="")
-    file: Optional[str] = attr(default=None)
+    file: str | None = attr(default=None)
     delim: str = attr(default=" ")
-    format: Optional[str] = attr(default=None)
-    text: Optional[str] = None
+    format: str | None = attr(default=None)
+    text: str | None = None
 
 
 class OutputLogfile(BaseXmlModel, tag="logfile", validate_assignment=True):
-    file: Optional[str] = attr(default=None)
-    node_data: List[DataEntry] = element(default=[], tag="node_data")
-    element_data: List[DataEntry] = element(default=[], tag="element_data")
-    face_data: List[DataEntry] = element(default=[], tag="face_data")
-    rigid_body_data: List[DataEntry] = element(default=[], tag="rigid_body_data")
-    rigid_connector_data: List[DataEntry] = element(default=[], tag="rigid_connector_data")
+    file: str | None = attr(default=None)
+    node_data: list[DataEntry] = element(default=[], tag="node_data")
+    element_data: list[DataEntry] = element(default=[], tag="element_data")
+    face_data: list[DataEntry] = element(default=[], tag="face_data")
+    rigid_body_data: list[DataEntry] = element(default=[], tag="rigid_body_data")
+    rigid_connector_data: list[DataEntry] = element(default=[], tag="rigid_connector_data")
 
     def add_node_data(self, new_output: DataEntry):
         self.node_data.append(new_output)
@@ -280,8 +280,8 @@ class Var(BaseXmlModel, validate_assignment=True):
 
 class OutputPlotfile(BaseXmlModel, tag="plotfile", validate_assignment=True):
     type: Literal["febio", "vtk"] = attr(default="febio")
-    file: Optional[str] = attr(default=None)
-    all_vars: List[Var] = element(default=[], tag="var")
+    file: str | None = attr(default=None)
+    all_vars: list[Var] = element(default=[], tag="var")
 
     def add_var(self, new_var: Var):
         self.all_vars.append(new_var)

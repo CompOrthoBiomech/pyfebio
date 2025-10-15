@@ -1,10 +1,10 @@
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
 
 class TimeStepValue(BaseXmlModel, validate_assignment=True):
-    lc: Optional[int] = attr(default=None)
+    lc: int | None = attr(default=None)
     text: float = 0.1
 
 
@@ -44,7 +44,7 @@ class Solver(BaseXmlModel, validate_assignment=True, skip_empty=True):
     dtol: float = element(default=0.001, gt=0)
     etol: float = element(default=0.01, ge=0)
     rtol: float = element(default=0, ge=0)
-    ptol: Optional[float] = element(default=None)
+    ptol: float | None = element(default=None)
     lstol: float = element(default=0.9, ge=0)
     lsmin: float = element(default=0.01, gt=0)
     lsiter: int = element(default=5, ge=0)
@@ -65,11 +65,9 @@ class Control(BaseXmlModel, tag="Control", validate_assignment=True):
     step_size: float = element(default=0.1)
     plot_zero_state: Literal[0, 1] = element(default=0)
     plot_range: str = element(default="0,-1")
-    plot_level: Literal["PLOT_NEVER", "PLOT_MAJOR_ITRS", "PLOT_MINOR_ITRS", "PLOT_MUST_POINTS"] = element(
-        default="PLOT_MAJOR_ITRS"
-    )
+    plot_level: Literal["PLOT_NEVER", "PLOT_MAJOR_ITRS", "PLOT_MINOR_ITRS", "PLOT_MUST_POINTS"] = element(default="PLOT_MAJOR_ITRS")
     plot_stride: int = element(default=1)
     output_stride: int = element(default=1)
     adaptor_re_solve: int = element(default=1)
-    time_stepper: Optional[TimeStepper] = element(default=TimeStepper())
+    time_stepper: TimeStepper | None = element(default=TimeStepper())
     solver: Solver = element(default=Solver())

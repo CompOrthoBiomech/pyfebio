@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -45,8 +45,8 @@ class FluidPressure(BaseXmlModel, tag="surface_load", validate_assignment=True):
 
 
 class Loads(BaseXmlModel, validate_assignment=True):
-    all_surface_loads: List[TractionLoad | PressureLoad | FluidFlux | FluidPressure] = element(default=[])
-    all_nodal_loads: List[NodalLoad] = element(default=[])
+    all_surface_loads: list[TractionLoad | PressureLoad | FluidFlux | FluidPressure] = element(default=[])
+    all_nodal_loads: list[NodalLoad] = element(default=[])
 
     def add_surface_load(self, new_load: PressureLoad | TractionLoad | FluidFlux | FluidPressure):
         self.all_surface_loads.append(new_load)

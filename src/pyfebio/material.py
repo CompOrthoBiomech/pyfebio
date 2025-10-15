@@ -1,4 +1,4 @@
-from typing import Annotated, List, Literal, Optional, TypeAlias, Union
+from typing import Annotated, Literal, TypeAlias, Union
 
 from pydantic import AfterValidator, PositiveInt
 from pydantic_xml import BaseXmlModel, attr, element
@@ -18,12 +18,12 @@ class FiberVector(BaseXmlModel, validate_assignment=True, extra="forbid"):
 
 
 class MaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
-    type: Optional[Literal["map", "math"]] = attr(default=None)
+    type: Literal["map", "math"] | None = attr(default=None)
     text: str | int | float
 
 
 class DynamicMaterialParameter(BaseXmlModel, validate_assignment=True, extra="forbid"):
-    type: Optional[Literal["map", "math"]] = attr(default=None)
+    type: Literal["map", "math"] | None = attr(default=None)
     lc: int = attr(default=1, ge=1)
     text: str | int | float = 1.0
 
@@ -370,8 +370,8 @@ class HolzapfelGasserOgdenUnconstrained(BaseXmlModel, tag="material", extra="for
     gamma: MatLTE_90_GTE_0 = element(default=MaterialParameter(text=49.98))
     kappa: MatLTE_OneThird_GTE_Zero = element(default=MaterialParameter(text=0.226))
     k: MatPositiveFloat = element(default=MaterialParameter(text=7.64e3))
-    mat_axis: Optional[MaterialAxisVector] = element(default=None)
-    fiber: Optional[FiberVector] = element(default=None)
+    mat_axis: MaterialAxisVector | None = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class IsotropicElastic(BaseXmlModel, tag="material", extra="forbid"):
@@ -455,7 +455,7 @@ class OrthotropicElastic(BaseXmlModel, tag="material", extra="forbid"):
     G12: MatPositiveFloat = element(default=MaterialParameter(text=4.6))
     G23: MatPositiveFloat = element(default=MaterialParameter(text=6.2))
     G31: MatPositiveFloat = element(default=MaterialParameter(text=5.8))
-    mat_axis: Optional[MaterialAxisVector] = element(default=None)
+    mat_axis: MaterialAxisVector | None = element(default=None)
 
 
 class OrthotropicCLE(BaseXmlModel, tag="material", extra="forbid"):
@@ -554,7 +554,7 @@ class TransIsoMooneyRivlin(BaseXmlModel, tag="material", extra="forbid"):
     c5: MatPositiveFloat = element(default=MaterialParameter(text=3.0))
     lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.05))
     k: MatPositiveFloat = element(default=MaterialParameter(text=10.0))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class TransIsoVerondaWestmann(BaseXmlModel, tag="material", extra="forbid"):
@@ -569,7 +569,7 @@ class TransIsoVerondaWestmann(BaseXmlModel, tag="material", extra="forbid"):
     c5: MatPositiveFloat = element(default=MaterialParameter(text=1.34))
     lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.3), alias="lambda")
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class UnconstrainedOgden(BaseXmlModel, tag="material", extra="forbid"):
@@ -579,16 +579,16 @@ class UnconstrainedOgden(BaseXmlModel, tag="material", extra="forbid"):
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     m1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    m2: Optional[MatPositiveFloat] = element(default=None)
-    c2: Optional[MatPositiveFloat] = element(default=None)
-    m3: Optional[MatPositiveFloat] = element(default=None)
-    c3: Optional[MatPositiveFloat] = element(default=None)
-    m4: Optional[MatPositiveFloat] = element(default=None)
-    c4: Optional[MatPositiveFloat] = element(default=None)
-    m5: Optional[MatPositiveFloat] = element(default=None)
-    c5: Optional[MatPositiveFloat] = element(default=None)
-    m6: Optional[MatPositiveFloat] = element(default=None)
-    c6: Optional[MatPositiveFloat] = element(default=None)
+    m2: MatPositiveFloat | None = element(default=None)
+    c2: MatPositiveFloat | None = element(default=None)
+    m3: MatPositiveFloat | None = element(default=None)
+    c3: MatPositiveFloat | None = element(default=None)
+    m4: MatPositiveFloat | None = element(default=None)
+    c4: MatPositiveFloat | None = element(default=None)
+    m5: MatPositiveFloat | None = element(default=None)
+    c5: MatPositiveFloat | None = element(default=None)
+    m6: MatPositiveFloat | None = element(default=None)
+    c6: MatPositiveFloat | None = element(default=None)
 
 
 UnconstrainedMaterials: TypeAlias = Union[
@@ -715,8 +715,8 @@ class HolzapfelGasserOgdenUC(BaseXmlModel, tag="material", extra="forbid"):
     gamma: MatLTE_90_GTE_0 = element(default=MaterialParameter(text=45.0))
     kappa: MatLTE_OneThird_GTE_Zero = element(default=MaterialParameter(text=0.1))
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
-    mat_axis: Optional[MaterialAxisVector] = element(default=None)
-    fiber: Optional[FiberVector] = element(default=None)
+    mat_axis: MaterialAxisVector | None = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class MooneyRivlinUC(BaseXmlModel, tag="material", extra="forbid"):
@@ -753,16 +753,16 @@ class OgdenUC(BaseXmlModel, tag="material", extra="forbid"):
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
     m1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    m2: Optional[MatPositiveFloat] = element(default=None)
-    c2: Optional[MatPositiveFloat] = element(default=None)
-    m3: Optional[MatPositiveFloat] = element(default=None)
-    c3: Optional[MatPositiveFloat] = element(default=None)
-    m4: Optional[MatPositiveFloat] = element(default=None)
-    c4: Optional[MatPositiveFloat] = element(default=None)
-    m5: Optional[MatPositiveFloat] = element(default=None)
-    c5: Optional[MatPositiveFloat] = element(default=None)
-    m6: Optional[MatPositiveFloat] = element(default=None)
-    c6: Optional[MatPositiveFloat] = element(default=None)
+    m2: MatPositiveFloat | None = element(default=None)
+    c2: MatPositiveFloat | None = element(default=None)
+    m3: MatPositiveFloat | None = element(default=None)
+    c3: MatPositiveFloat | None = element(default=None)
+    m4: MatPositiveFloat | None = element(default=None)
+    c4: MatPositiveFloat | None = element(default=None)
+    m5: MatPositiveFloat | None = element(default=None)
+    c5: MatPositiveFloat | None = element(default=None)
+    m6: MatPositiveFloat | None = element(default=None)
+    c6: MatPositiveFloat | None = element(default=None)
 
 
 class TendonUC(BaseXmlModel, tag="material", extra="forbid"):
@@ -802,8 +802,8 @@ class TransIsoMooneyRivlinUC(BaseXmlModel, tag="material", extra="forbid"):
     c5: MatPositiveFloat = element(default=MaterialParameter(text=640.7))
     lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.03))
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
-    fiber: Optional[FiberVector] = element(default=None)
-    active_contraction: Optional[ActiveContraction] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
+    active_contraction: ActiveContraction | None = element(default=None)
 
 
 class TransIsoVerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
@@ -818,8 +818,8 @@ class TransIsoVerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
     c5: MatPositiveFloat = element(default=MaterialParameter(text=640.7))
     lam_max: MatGTOneFloat = element(default=MaterialParameter(text=1.03))
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
-    fiber: Optional[FiberVector] = element(default=None)
-    active_contraction: Optional[ActiveContraction] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
+    active_contraction: ActiveContraction | None = element(default=None)
 
 
 class VerondaWestmannUC(BaseXmlModel, tag="material", extra="forbid"):
@@ -869,11 +869,11 @@ class Yeoh(BaseXmlModel, tag="material", extra="forbid"):
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     c1: MatPositiveFloat = element(default=MaterialParameter(text=0.75))
-    c2: Optional[MatNonNegativeFloat] = element(default=None)
-    c3: Optional[MatNonNegativeFloat] = element(default=None)
-    c4: Optional[MatNonNegativeFloat] = element(default=None)
-    c5: Optional[MatNonNegativeFloat] = element(default=None)
-    c6: Optional[MatNonNegativeFloat] = element(default=None)
+    c2: MatNonNegativeFloat | None = element(default=None)
+    c3: MatNonNegativeFloat | None = element(default=None)
+    c4: MatNonNegativeFloat | None = element(default=None)
+    c5: MatNonNegativeFloat | None = element(default=None)
+    c6: MatNonNegativeFloat | None = element(default=None)
     k: MatPositiveFloat = element(default=MaterialParameter(text=100.0))
 
 
@@ -903,7 +903,7 @@ class RigidBody(BaseXmlModel, tag="material", extra="forbid"):
     type: Literal["rigid body"] = attr(default="rigid body", frozen=True)
     id: int = attr(ge=1)
     density: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    center_of_mass: Optional[StringFloatVec3] = element(default=None)
+    center_of_mass: StringFloatVec3 | None = element(default=None)
     E: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     v: MatNonNegativeFloat = element(default=MaterialParameter(text=0.3))
 
@@ -915,20 +915,20 @@ class FiberExponentialPower(BaseXmlModel, tag="solid", extra="forbid"):
     alpha: MatNonNegativeFloat = element(default=MaterialParameter(text=20.0))
     beta: MatGTETwoFloat = element(default=MaterialParameter(text=2.0))
     lam0: MatGTOneFloat = element(default=MaterialParameter(text=1.0))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberNeoHookean(BaseXmlModel, tag="solid", extra="forbid"):
     type: str = attr(default="fiber-NH", frozen=True)
     mu: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberNaturalNeoHookean(BaseXmlModel, tag="solid", extra="forbid"):
     type: str = attr(default="fiber-natural-NH", frozen=True)
     ksi: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     lam0: MatGTEOneFloat = element(default=MaterialParameter(text=1.0))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberToeLinear(BaseXmlModel, tag="solid", extra="forbid"):
@@ -936,7 +936,7 @@ class FiberToeLinear(BaseXmlModel, tag="solid", extra="forbid"):
     E: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     beta: MatGTETwoFloat = element(default=MaterialParameter(text=2.0))
     lam0: MatGTOneFloat = element(default=MaterialParameter(text=1.01))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberExponentialPowerLinear(BaseXmlModel, tag="solid", extra="forbid"):
@@ -945,7 +945,7 @@ class FiberExponentialPowerLinear(BaseXmlModel, tag="solid", extra="forbid"):
     alpha: MatNonNegativeFloat = element(default=MaterialParameter(text=1400.0))
     beta: MatGTETwoFloat = element(default=MaterialParameter(text=2.73))
     lam0: MatGTOneFloat = element(default=MaterialParameter(text=1.01))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberExponentialLinear(BaseXmlModel, tag="solid", extra="forbid"):
@@ -954,7 +954,7 @@ class FiberExponentialLinear(BaseXmlModel, tag="solid", extra="forbid"):
     c4: MatPositiveFloat = element(default=MaterialParameter(text=43.0))
     c5: MatPositiveFloat = element(default=MaterialParameter(text=3.0))
     lam0: MatGTOneFloat = element(default=MaterialParameter(text=1.05), tag="lambda")
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberEntropyChain(BaseXmlModel, tag="solid", extra="forbid"):
@@ -962,7 +962,7 @@ class FiberEntropyChain(BaseXmlModel, tag="solid", extra="forbid"):
     ksi: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     N: MatGTOneFloat = element(default=MaterialParameter(text=2.0))
     n_term: MatPositiveInt = element(default=MaterialParameter(text=2))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 FiberModel: TypeAlias = Union[
@@ -982,7 +982,7 @@ class FiberExponentialPowerUC(BaseXmlModel, tag="solid", extra="forbid"):
     ksi: MatPositiveFloat = element(default=MaterialParameter(text=5.0))
     alpha: MatNonNegativeFloat = element(default=MaterialParameter(text=20.0))
     beta: MatGTETwoFloat = element(default=MaterialParameter(text=3.0))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberKiousisUC(BaseXmlModel, tag="solid", extra="forbid"):
@@ -990,7 +990,7 @@ class FiberKiousisUC(BaseXmlModel, tag="solid", extra="forbid"):
     d1: MatPositiveFloat = element(default=MaterialParameter(text=500.0))
     d2: MatGTOneFloat = element(default=MaterialParameter(text=2.25))
     n: MatNonNegativeFloat = element(default=MaterialParameter(text=3))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberToeLinearUC(BaseXmlModel, tag="solid", extra="forbid"):
@@ -998,7 +998,7 @@ class FiberToeLinearUC(BaseXmlModel, tag="solid", extra="forbid"):
     E: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     beta: MatGTETwoFloat = element(default=MaterialParameter(text=2.0))
     lam0: MatGTOneFloat = element(default=MaterialParameter(text=1.01))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberExponentialLinearUC(BaseXmlModel, tag="solid", extra="forbid"):
@@ -1007,7 +1007,7 @@ class FiberExponentialLinearUC(BaseXmlModel, tag="solid", extra="forbid"):
     c4: MatPositiveFloat = element(default=MaterialParameter(text=43.0))
     c5: MatPositiveFloat = element(default=MaterialParameter(text=3.0))
     lam0: MatGTOneFloat = element(default=MaterialParameter(text=1.05), tag="lambda")
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 class FiberEntropyChainUC(BaseXmlModel, tag="solid", extra="forbid"):
@@ -1015,7 +1015,7 @@ class FiberEntropyChainUC(BaseXmlModel, tag="solid", extra="forbid"):
     ksi: MatPositiveFloat = element(default=MaterialParameter(text=1.0))
     N: MatGTOneFloat = element(default=MaterialParameter(text=2.0))
     n_term: MatPositiveInt = element(default=MaterialParameter(text=2))
-    fiber: Optional[FiberVector] = element(default=None)
+    fiber: FiberVector | None = element(default=None)
 
 
 FiberModelUC: TypeAlias = Union[
@@ -1107,17 +1107,15 @@ class ContinuousFiberDistribution(BaseXmlModel, tag="solid", extra="forbid"):
     fibers: FiberModel = element(default=FiberNaturalNeoHookean(), tag="fibers")
     distribution: CFDistributionModel = element(default=CFDSpherical())
     scheme: IntegrationScheme = element(default=GaussKronrodTrapezoidalIntegration())
-    mat_axis: Optional[MaterialAxisVector] = element(default=None)
+    mat_axis: MaterialAxisVector | None = element(default=None)
 
 
 class ContinuousFiberDistributionUC(BaseXmlModel, tag="solid", extra="forbid"):
-    type: Literal["continuous fiber distribution uncoupled"] = attr(
-        default="continuous fiber distribution uncoupled", frozen=True
-    )
+    type: Literal["continuous fiber distribution uncoupled"] = attr(default="continuous fiber distribution uncoupled", frozen=True)
     fibers: FiberModelUC = element(default=FiberToeLinearUC(), tag="fibers")
     distribution: CFDistributionModel = element(default=CFDSpherical())
     scheme: IntegrationScheme = element(default=GaussKronrodTrapezoidalIntegration())
-    mat_axis: Optional[MaterialAxisVector] = element(default=None)
+    mat_axis: MaterialAxisVector | None = element(default=None)
 
 
 # Solid Mixture
@@ -1125,8 +1123,8 @@ class SolidMixture(BaseXmlModel, tag="material", extra="forbid"):
     name: str = attr(default="solid mixture")
     type: Literal["solid mixture"] = attr(default="solid mixture", frozen=True)
     id: int = attr(ge=1)
-    solid_list: list[UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution | EvolvingUnconstrainedMaterials] = (
-        element(tag="solid", default=[])
+    solid_list: list[UnconstrainedMaterials | FiberModel | ContinuousFiberDistribution | EvolvingUnconstrainedMaterials] = element(
+        tag="solid", default=[]
     )
 
     def add_solid(
@@ -1193,7 +1191,7 @@ class ViscoelasticMaterialUC(BaseXmlModel, tag="material", extra="forbid"):
 # Prestrain
 class InSituStretch(BaseXmlModel, tag="stretch", extra="forbid"):
     lc: int = attr(ge=1)
-    type: Optional[Literal["map", "math"]] = attr(default=None)
+    type: Literal["map", "math"] | None = attr(default=None)
     text: str | float
 
 
@@ -1309,9 +1307,7 @@ class BiphasicMaterial(BaseXmlModel, tag="material", extra="forbid"):
     type: Literal["biphasic"] = attr(default="biphasic", frozen=True)
     id: int = attr(ge=1)
     phi0: MatPositiveFloat = element(default=MaterialParameter(text=0.2))
-    solid: UnconstrainedMaterials | UncoupledMaterials | SolidMixture | SolidMixtureUC = element(
-        default=NeoHookean(id=1), tag="solid"
-    )
+    solid: UnconstrainedMaterials | UncoupledMaterials | SolidMixture | SolidMixtureUC = element(default=NeoHookean(id=1), tag="solid")
     permeability: PermeabilityType = element(default=ConstantIsoPerm())
 
 
@@ -1329,7 +1325,7 @@ MaterialType = Union[
 
 
 class Material(BaseXmlModel, validate_assignment=True):
-    all_materials: List[MaterialType] = element(tag="material", default=[])
+    all_materials: list[MaterialType] = element(tag="material", default=[])
 
     def add_material(self, material: MaterialType):
         material.id = len(self.all_materials) + 1

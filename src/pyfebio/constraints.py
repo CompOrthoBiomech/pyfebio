@@ -1,4 +1,4 @@
-from typing import List, Literal, Union
+from typing import Literal, Union
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -35,7 +35,7 @@ ConstraintTypes = Union[ConstraintSymmetryPlane, ConstraintInSituStretch, Constr
 
 
 class Constraints(BaseXmlModel, tag="Constraints", validate_assignment=True):
-    all_constraints: List[ConstraintTypes] = element(default=[], tag="constraint")
+    all_constraints: list[ConstraintTypes] = element(default=[], tag="constraint")
 
     def add_constraint(self, new_constraint: ConstraintTypes):
         self.all_constraints.append(new_constraint)

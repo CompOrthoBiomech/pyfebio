@@ -1,4 +1,4 @@
-from typing import Literal, Optional, Union
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -40,29 +40,25 @@ class MinMaxFilterCriterion(BaseXmlModel, tag="criterion"):
     min: float = element(default=-1e37)
     max: float = element(default=1e37)
     clamp: Literal[0, 1] = element(default=0)
-    data: ContactGapCriterion | StressCriterion | DamageCriterion | MathCriterion = element(
-        default=StressCriterion(), tag="data"
-    )
+    data: ContactGapCriterion | StressCriterion | DamageCriterion | MathCriterion = element(default=StressCriterion(), tag="data")
 
 
 class RelativeErrorCriterion(BaseXmlModel, tag="criterion"):
     type: Literal["relative error"] = attr(default="relative error", frozen=True)
     error: Literal[0] | float = element(default=0)
-    data: ContactGapCriterion | StressCriterion | DamageCriterion | MathCriterion = element(
-        default=StressCriterion(), tag="data"
-    )
+    data: ContactGapCriterion | StressCriterion | DamageCriterion | MathCriterion = element(default=StressCriterion(), tag="data")
 
 
-CriterionType = Union[
-    MaxVariableCriterion,
-    ElementSelectionCriterion,
-    ContactGapCriterion,
-    StressCriterion,
-    MathCriterion,
-    DamageCriterion,
-    MinMaxFilterCriterion,
-    RelativeErrorCriterion,
-]
+CriterionType = (
+    MaxVariableCriterion
+    | ElementSelectionCriterion
+    | ContactGapCriterion
+    | StressCriterion
+    | MathCriterion
+    | DamageCriterion
+    | MinMaxFilterCriterion
+    | RelativeErrorCriterion
+)
 
 
 class MMGStepSizeFunction(BaseXmlModel, tag="size_function"):
@@ -100,14 +96,12 @@ class MMGPointSizeFunction(BaseXmlModel, tag="size_function"):
     points: CurvePoints = element(default=CurvePoints())
 
 
-MMGSizeFunctionType = Union[
-    MMGStepSizeFunction, MMGConstantSizeFunction, MMGLinearRampSizeFunction, MMGMathSizeFunction, MMGPointSizeFunction
-]
+MMGSizeFunctionType = MMGStepSizeFunction | MMGConstantSizeFunction | MMGLinearRampSizeFunction | MMGMathSizeFunction | MMGPointSizeFunction
 
 
 class ErosionAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["erosion"] = attr(default="erosion", frozen=True)
-    elem_set: Optional[str] = attr(default=None)
+    elem_set: str | None = attr(default=None)
     max_iters: int = element(default=1)
     max_elements: int = element(default=3)
     remove_islands: Literal[0, 1] = element(default=0)
@@ -118,7 +112,7 @@ class ErosionAdaptor(BaseXmlModel, tag="mesh_adaptor"):
 
 class MMGRemeshAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["mmg_remesh"] = attr(default="mmg_remesh", frozen=True)
-    elem_set: Optional[str] = attr(default=None)
+    elem_set: str | None = attr(default=None)
     max_iters: int = element(default=1)
     max_elements: int = element(default=-1)
     min_element_size: float = element(default=0.1)
@@ -128,12 +122,12 @@ class MMGRemeshAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     normalize_data: Literal[0, 1] = element(default=0)
     relative_size: Literal[0, 1] = element(default=1)
     criterion: CriterionType = element(default=MinMaxFilterCriterion(data=StressCriterion()))
-    size_function: Optional[MMGSizeFunctionType] = element(default=None)
+    size_function: MMGSizeFunctionType | None = element(default=None)
 
 
 class HexRefine2dAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["hex_refine2d"] = attr(default="hex_refine2d", frozen=True)
-    elem_set: Optional[str] = attr(default=None)
+    elem_set: str | None = attr(default=None)
     max_iters: int = element(default=1)
     max_elements: int = element(default=-1)
     max_elem_refine: int = element(default=0)
@@ -145,7 +139,7 @@ class HexRefine2dAdaptor(BaseXmlModel, tag="mesh_adaptor"):
 
 class HexRefineAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     type: Literal["hex_refine"] = attr(default="hex_refine", frozen=True)
-    elem_set: Optional[str] = attr(default=None)
+    elem_set: str | None = attr(default=None)
     max_iters: int = element(default=1)
     max_elements: int = element(default=-1)
     max_elem_refine: int = element(default=0)
@@ -155,7 +149,7 @@ class HexRefineAdaptor(BaseXmlModel, tag="mesh_adaptor"):
     criterion: CriterionType = element(default=RelativeErrorCriterion(data=StressCriterion()))
 
 
-AdaptorType = Union[ErosionAdaptor, MMGRemeshAdaptor, HexRefine2dAdaptor, HexRefineAdaptor]
+AdaptorType = ErosionAdaptor | MMGRemeshAdaptor | HexRefine2dAdaptor | HexRefineAdaptor
 
 
 class MeshAdaptor(BaseXmlModel, tag="MeshAdaptor"):

@@ -1,7 +1,6 @@
 import math
 import subprocess
 from pathlib import Path
-from typing import Optional, Union
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -31,27 +30,27 @@ from .output import Output
 from .rigid import Rigid
 from .step import Step
 
-SectionTypes = Union[
-    Module,
-    Globals,
-    Control,
-    Material,
-    RigidBody,
-    MeshDomains,
-    Mesh,
-    MeshData,
-    Discrete,
-    LoadData,
-    Loads,
-    Rigid,
-    Initial,
-    Boundary,
-    Contact,
-    Constraints,
-    Step,
-    Output,
-    Include,
-]
+SectionTypes = (
+    Module
+    | Globals
+    | Control
+    | Material
+    | RigidBody
+    | MeshDomains
+    | Mesh
+    | MeshData
+    | Discrete
+    | LoadData
+    | Loads
+    | Rigid
+    | Initial
+    | Boundary
+    | Contact
+    | Constraints
+    | Step
+    | Output
+    | Include
+)
 
 
 class FEBioRoot(BaseXmlModel, tag="febio_spec", validate_assignment=True):
@@ -74,9 +73,9 @@ class FEBioRoot(BaseXmlModel, tag="febio_spec", validate_assignment=True):
 
 class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
     version: str = attr(default="4.0")
-    module: Optional[Module] = element(default=Module(), tag="Module")
+    module: Module | None = element(default=Module(), tag="Module")
     globals: Globals = element(default=Globals(), tag="Globals")
-    control: Optional[Control] = element(default=Control(), tag="Control")
+    control: Control | None = element(default=Control(), tag="Control")
     material: Material = element(default=Material(), tag="Material")
     mesh: Mesh = element(default=Mesh(), tag="Mesh")
     mesh_domains: MeshDomains = element(default=MeshDomains(), tag="MeshDomains")
@@ -130,8 +129,8 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True):
 
 
 class BiphasicModel(Model):
-    module: Optional[Module] = element(default=Module(type="biphasic"))
-    control: Optional[Control] = element(
+    module: Module | None = element(default=Module(type="biphasic"))
+    control: Control | None = element(
         default=Control(
             analysis="TRANSIENT",
             solver=Solver(type="biphasic", ptol=0.01),

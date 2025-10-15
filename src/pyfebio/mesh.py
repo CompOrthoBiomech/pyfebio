@@ -1,4 +1,4 @@
-from typing import List, Literal, Optional, Union
+from typing import Literal
 
 import meshio
 import numpy as np
@@ -32,7 +32,7 @@ class Node(BaseXmlModel, tag="node", validate_assignment=True):
 
 class Nodes(BaseXmlModel, validate_assignment=True):
     name: str = attr(default="")
-    all_nodes: List[Node] = element(tag="node", default=[])
+    all_nodes: list[Node] = element(tag="node", default=[])
 
     def add_node(self, new_node: Node):
         self.all_nodes.append(new_node)
@@ -64,9 +64,7 @@ class Hex20Element(BaseXmlModel, tag="elem", validate_assignment=True):
 
 
 class Hex27Element(BaseXmlModel, tag="elem", validate_assignment=True):
-    text: StringUIntVec27 = Field(
-        default="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27"
-    )
+    text: StringUIntVec27 = Field(default="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27")
     id: int = attr()
 
 
@@ -110,30 +108,28 @@ class Line3Element(BaseXmlModel, tag="elem", validate_assignment=True):
     id: int = attr()
 
 
-ElementType = Union[
-    Tet4Element,
-    Tet10Element,
-    Tet15Element,
-    Hex8Element,
-    Hex20Element,
-    Hex27Element,
-    Penta6Element,
-    Tri3Element,
-    Tri6Element,
-    Quad4Element,
-    Quad8Element,
-    Quad9Element,
-    Line2Element,
-    Line3Element,
-]
+ElementType = (
+    Tet4Element
+    | Tet10Element
+    | Tet15Element
+    | Hex8Element
+    | Hex20Element
+    | Hex27Element
+    | Penta6Element
+    | Tri3Element
+    | Tri6Element
+    | Quad4Element
+    | Quad8Element
+    | Quad9Element
+    | Line2Element
+    | Line3Element
+)
 
 
 class Elements(BaseXmlModel, tag="elements", validate_assignment=True):
     name: str = attr(default="Part")
-    type: SolidFEBioElementType | ShellFEBioElementType | BeamFEBioElementType = attr(
-        default="hex8"
-    )
-    all_elements: List[ElementType] = element(default=[], tag="elem")
+    type: SolidFEBioElementType | ShellFEBioElementType | BeamFEBioElementType = attr(default="hex8")
+    all_elements: list[ElementType] = element(default=[], tag="elem")
 
     def add_element(self, new_element: ElementType):
         self.all_elements.append(new_element)
@@ -157,11 +153,11 @@ class NodeSet(BaseXmlModel, tag="NodeSet", validate_assignment=True):
 
 class Surface(BaseXmlModel, tag="Surface", validate_assignment=True):
     name: str = attr(default="")
-    all_tri3: List[Tri3Element] = element(default=[], tag="tri3")
-    all_tri6: List[Tri6Element] = element(default=[], tag="tri6")
-    all_quad4: List[Quad4Element] = element(default=[], tag="quad4")
-    all_quad8: List[Quad8Element] = element(default=[], tag="quad8")
-    all_quad9: List[Quad9Element] = element(default=[], tag="quad9")
+    all_tri3: list[Tri3Element] = element(default=[], tag="tri3")
+    all_tri6: list[Tri6Element] = element(default=[], tag="tri6")
+    all_quad4: list[Quad4Element] = element(default=[], tag="quad4")
+    all_quad8: list[Quad8Element] = element(default=[], tag="quad8")
+    all_quad9: list[Quad9Element] = element(default=[], tag="quad9")
 
     def add_tri3(self, new_tri: Tri3Element):
         self.all_tri3.append(new_tri)
@@ -191,20 +187,20 @@ class DiscreteElement(BaseXmlModel, tag="delem", validate_assignment=True):
 
 class DiscreteSet(BaseXmlModel, tag="DiscreteSet", validate_assignment=True):
     name: str = attr(default="")
-    elements: List[DiscreteElement] = element(default=[])
+    elements: list[DiscreteElement] = element(default=[])
 
     def add_element(self, new_element: DiscreteElement):
         self.elements.append(new_element)
 
 
 class Mesh(BaseXmlModel, validate_assignment=True):
-    nodes: List[Nodes] = element(default=[], tag="Nodes")
-    elements: List[Elements] = element(default=[], tag="Elements")
-    surfaces: List[Surface] = element(default=[], tag="Surface")
-    element_sets: List[ElementSet] = element(default=[], tag="ElementSet")
-    node_sets: List[NodeSet] = element(default=[], tag="NodeSet")
-    discrete_sets: List[DiscreteSet] = element(default=[], tag="DiscreteSet")
-    surface_pairs: List[SurfacePair] = element(default=[], tag="SurfacePair")
+    nodes: list[Nodes] = element(default=[], tag="Nodes")
+    elements: list[Elements] = element(default=[], tag="Elements")
+    surfaces: list[Surface] = element(default=[], tag="Surface")
+    element_sets: list[ElementSet] = element(default=[], tag="ElementSet")
+    node_sets: list[NodeSet] = element(default=[], tag="NodeSet")
+    discrete_sets: list[DiscreteSet] = element(default=[], tag="DiscreteSet")
+    surface_pairs: list[SurfacePair] = element(default=[], tag="SurfacePair")
 
     def add_node_domain(self, new_node_domain: Nodes):
         if not new_node_domain.name:
@@ -279,7 +275,7 @@ def translate_meshio(
     nodeoffset: int = 0,
     elementoffset: int = 0,
     surfaceoffset: int = 0,
-    shell_sets: Optional[list[str]] = None,
+    shell_sets: list[str] | None = None,
 ) -> Mesh:
     if shell_sets is None:
         shell_sets = []
@@ -294,9 +290,7 @@ def translate_meshio(
         make_element[key] = []
         if meshio._mesh.topological_dimension[key] == 2:
             for element in values:
-                make_element[key].append(
-                    bool(set(np.unique(element.ravel())).difference(solid_nodes))
-                )
+                make_element[key].append(bool(set(np.unique(element.ravel())).difference(solid_nodes)))
         else:
             make_element[key].extend([True] * len(values))
 
@@ -354,9 +348,7 @@ def translate_meshio(
                     )
                     node_set.extend((element + 1).tolist())
                 node_sets = sorted(set(node_set))
-                febio_mesh.node_sets.append(
-                    NodeSet(name=set_name, text=",".join(map(str, node_sets)))
-                )
+                febio_mesh.node_sets.append(NodeSet(name=set_name, text=",".join(map(str, node_sets))))
                 febio_mesh.surfaces.append(surface_object)
     febio_mesh.nodes.append(nodes_object)
     return febio_mesh

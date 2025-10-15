@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import Literal
 
 from pydantic_xml import BaseXmlModel, attr, element
 
@@ -8,7 +8,7 @@ from ._types import (
 
 
 class CurvePoints(BaseXmlModel, validate_assignment=True):
-    points: List[StringFloatVec2] = element(default=[], tag="pt")
+    points: list[StringFloatVec2] = element(default=[], tag="pt")
 
     def add_point(self, new_point: StringFloatVec2):
         self.points.append(new_point)
@@ -39,7 +39,7 @@ class MathController(BaseXmlModel, validate_assignment=True):
 
 
 class LoadData(BaseXmlModel, validate_assignment=True):
-    load_controllers: List[LoadCurve | PIDController | MathController] = element(default=[], tag="load_controller")
+    load_controllers: list[LoadCurve | PIDController | MathController] = element(default=[], tag="load_controller")
 
     def add_load_curve(self, new_load_curve: LoadCurve):
         self.load_controllers.append(new_load_curve)
