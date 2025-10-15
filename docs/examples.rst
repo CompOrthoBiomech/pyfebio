@@ -24,6 +24,13 @@ rotation, the **rot** argument is the rotation axis (its magnitude is the rotati
 .. literalinclude:: ../src/examples/elastic_hex20.py
     :language: python
 
+
+.. figure:: _static/elastic_hex20.gif
+    :width: 400px
+    :align: center
+
+    The maximum Green-Lagrange shear strain after twisting the top face by :math:`\pi` radians. Note the top layer is 2X stiffer than the bottom layer.
+
 Biphasic Hex20
 --------------
 
@@ -37,6 +44,12 @@ the top nodes.
 .. literalinclude:: ../src/examples/biphasic_hex20.py
     :language: python
 
+.. figure:: _static/biphasic_hex20.gif
+    :width: 400px
+    :align: center
+
+    The effective fluid pressure after compressing the top face by 0.5mm in 0.1 seconds and then holding for 9.9 seconds.
+
 Sliding Contact
 ---------------
 
@@ -48,8 +61,22 @@ reduce penetration at the sharp edges of this very coarse mesh.
 .. literalinclude:: ../src/examples/contact.py
     :language: python
 
+.. figure:: _static/contact.gif
+    :width: 400px
+    :align: center
+
+    The z-displacement resulting from the contact simulation. Note the nodal penetration near the sharp edge due to the coarse mesh size.
+    This is more severe if the penalty method is used or two_pass is turned off.
+
 Adaptive Remeshing
 ------------------
 
 .. literalinclude:: ../src/examples/mesh_adapt.py
     :language: python
+
+.. figure:: _static/meshadapt.gif
+    :width: 400px
+    :align: center
+
+    The hex mesh adaptively refines to reduce the stress error in the bottom-layer. Note the greatest refinement occurs
+    at the necking corner.
