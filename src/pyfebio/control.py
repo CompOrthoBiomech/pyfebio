@@ -5,7 +5,7 @@ from pydantic_xml import BaseXmlModel, attr, element
 
 class TimeStepValue(BaseXmlModel, validate_assignment=True):
     lc: int | None = attr(default=None)
-    text: float = 0.1
+    text: float = 1.0
 
 
 class TimeStepper(BaseXmlModel, validate_assignment=True):
