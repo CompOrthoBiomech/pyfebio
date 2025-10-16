@@ -48,7 +48,8 @@ the top nodes.
     :width: 400px
     :align: center
 
-    The effective fluid pressure after compressing the top face by 0.5mm in 0.1 seconds and then holding for 9.9 seconds.
+    The effective fluid pressure after compressing the top face by 0.5mm in 0.1 seconds and then holding for 9.9 seconds. Note that
+    the top element has twice the permeability of the bottom, hence the asymmetry in fluid pressure and deformation.
 
 Sliding Contact
 ---------------
@@ -79,4 +80,4 @@ Adaptive Remeshing
     :align: center
 
     The hex mesh adaptively refines to reduce the stress error in the bottom-layer. Note the greatest refinement occurs
-    at the necking corner.
+    at the necking corners.
