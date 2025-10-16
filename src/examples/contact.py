@@ -12,10 +12,9 @@ my_model = feb.model.Model(mesh_=mesh)
 
 # loop over the mesh Elements (parts) and assign materials
 # and solid domains
-for i, part in enumerate(my_model.mesh_.elements):
+for part in my_model.mesh_.elements:
     mat = feb.material.NeoHookean(
         name=part.name,
-        id=i + 1,
         E=feb.material.MaterialParameter(text=1.0),
         v=feb.material.MaterialParameter(text=0.3),
     )

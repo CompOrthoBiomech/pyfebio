@@ -15,7 +15,6 @@ my_model = feb.model.Model(mesh_=mesh, control_=feb.control.Control(time_steps=1
 for i, part in enumerate(my_model.mesh_.elements):
     mat = feb.material.NeoHookean(
         name=part.name,
-        id=i + 1,
         E=feb.material.MaterialParameter(text=10.0 * (i + 1)),
         v=feb.material.MaterialParameter(text=0.3),
     )

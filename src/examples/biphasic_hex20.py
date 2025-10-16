@@ -18,8 +18,7 @@ my_model.control_.time_stepper = feb.control.TimeStepper(dtmax=feb.control.TimeS
 for i, part in enumerate(my_model.mesh_.elements):
     mat = feb.material.BiphasicMaterial(
         name=part.name,
-        id=i + 1,
-        solid=feb.material.NeoHookean(id=i + 1),
+        solid=feb.material.NeoHookean(),
         permeability=feb.material.ConstantIsoPerm(perm=feb.material.MaterialParameter(text=1e-3 * (i + 1))),
     )
     my_model.material_.add_material(mat)
