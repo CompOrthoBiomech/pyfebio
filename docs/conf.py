@@ -25,6 +25,7 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinxcontrib.autodoc_pydantic",
     "sphinx_copybutton",
+    "sphinxcontrib.youtube",
 ]
 
 templates_path = ["_templates"]

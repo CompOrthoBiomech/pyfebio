@@ -279,6 +279,12 @@ producing:
         </points>
     </load_controller>
 
+Coding Example Video
+--------------------
+
+.. youtube:: Wt3u5f-XhMI
+
+
 Recommendations
 ---------------
 
