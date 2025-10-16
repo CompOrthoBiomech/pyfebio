@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; pyfebio 0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=837179f8"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="pyfebio: A Python API for the FEBio finite element solver" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyfebio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#general-overview">General Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coding-example-video">Coding Example Video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recommendations">Recommendations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-an-ide">Use an IDE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyfebio</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyfebio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>Clone with https:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/CompOrthoBiomech/pyfebio.git
+</pre></div>
+</div>
+<p>Or,</p>
+<p>Clone with ssh:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:CompOrthoBiomech/pyfebio.git
+</pre></div>
+</div>
+<p><strong>Using uv:</strong></p>
+<p>Install uv from <a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">here</a></p>
+<p>In top-level repository directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>sync
+</pre></div>
+</div>
+<p>This will create a virtual environment and install the package.</p>
+<p><strong>Using pip:</strong></p>
+<p>In top-level repository directory:</p>
+<p>Create a virtual environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+</pre></div>
+</div>
+<p>Activate the virtual environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</pre></div>
+</div>
+<p>Install the package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+<p>If you want to run the tests, additionally install the dev group dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>.<span class="w"> </span>--group<span class="w"> </span>dev
+</pre></div>
+</div>
+<p>To verify the installation, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyfebio&quot;</span>
+</pre></div>
+</div>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h3>
+<p>We rely on FEBio to check our generated models are valid. Therefore, you will need to have FEBio installed and available in your PATH.</p>
+<p>To run all the tests, execute the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>src
+pytest
+</pre></div>
+</div>
+<p>For tests that depend on running finite element simulations, you can find them in the pytest tmp_path directory, which varies by operating system.</p>
+<p>For the latest run:</p>
+<p>on Linux,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp/pytest-of-<span class="o">[</span>USER<span class="o">]</span>/pytest-current/<span class="o">[</span>TEST_FUNCTION_NAME<span class="o">]</span>current
+</pre></div>
+</div>
+</section>
+</section>
+<section id="general-overview">
+<h2>General Overview<a class="headerlink" href="#general-overview" title="Link to this heading"></a></h2>
+<p>pyfebio utilizes the pydantic-xml package, which extends the powerful type checking libary pydantic to support XML serialization.
+An FEBio input file is an XML tree with the following top-level structure:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;febio_spec</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;4.0&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Module&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Module&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Globals&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Globals&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Control&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Control&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Material&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Material&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Mesh&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Mesh&gt;</span>
+<span class="w">    </span><span class="nt">&lt;MeshDomains&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/MeshDomains&gt;</span>
+<span class="w">    </span><span class="nt">&lt;MeshData&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/MeshData&gt;</span>
+<span class="w">    </span><span class="nt">&lt;MeshAdaptor&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/MeshAdaptor&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Initial&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Initial&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Boundary&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Boundary&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Loads&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Loads&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Contact&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Contact&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Constraints&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Constraints&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Rigid&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Rigid&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Discrete&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Discrete&gt;</span>
+<span class="w">    </span><span class="nt">&lt;LoadData&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/LoadData&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Step&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Step&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Output&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/Output&gt;</span>
+<span class="nt">&lt;/febio_spec&gt;</span>
+</pre></div>
+</div>
+<p>The modules in pyfebio are divided and named based on this structure.</p>
+<ul class="simple">
+<li><p>module.py</p></li>
+<li><p>globals.py</p></li>
+<li><p>control.py</p></li>
+<li><p>material.py</p></li>
+<li><p>mesh.py</p></li>
+<li><p>meshdomains.py</p></li>
+<li><p>meshdata.py</p></li>
+<li><p>meshadaptor.py</p></li>
+<li><p>initial.py</p></li>
+<li><p>boundary.py</p></li>
+<li><p>loads.py</p></li>
+<li><p>contact.py</p></li>
+<li><p>constraints.py</p></li>
+<li><p>rigid.py</p></li>
+<li><p>discrete.py</p></li>
+<li><p>loaddata.py</p></li>
+<li><p>step.py</p></li>
+<li><p>output.py</p></li>
+</ul>
+<p>We have two additional modules:</p>
+<ul class="simple">
+<li><p>model.py – Assembles the XML tree</p></li>
+<li><p>_types.py – Defines custom types used throughout the package</p></li>
+</ul>
+<p>All XML elements of the FEBio model are defined as <strong>BaseXmlModel</strong> classes. These inherit from
+the pydantic BaseModel class, but add support for XML serialization and deserialization. pydantic-xml
+also provides the <strong>element</strong> and <strong>attr</strong> classes. These allow the definition of XML sub-elements and XML attributes of a
+BaseXmlModel class, respectively.</p>
+<p>For example, the <strong>BCZeroDisplacement</strong> class that defines a zero displacement boundary condition,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BCZeroDisplacement</span><span class="p">(</span><span class="n">BaseXmlModel</span><span class="p">,</span> <span class="n">validate_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;zero displacement&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;zero displacement&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">node_set</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attr</span><span class="p">()</span>
+    <span class="n">x_dof</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">y_dof</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">z_dof</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>a boundary condition fixing x displacement is instantiated as,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_displacment</span> <span class="o">=</span> <span class="n">BCDisplacement</span><span class="p">(</span><span class="n">node_set</span><span class="o">=</span><span class="s2">&quot;my_node_set&quot;</span><span class="p">,</span> <span class="n">x_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>yielding the XML element,</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;bc</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;zero displacement&quot;</span><span class="w"> </span><span class="na">node_set=</span><span class="s">&quot;my_node_set&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;x_dof&gt;</span>1<span class="nt">&lt;/x_dof&gt;</span>
+<span class="w">    </span><span class="nt">&lt;y_dof&gt;</span>0<span class="nt">&lt;/y_dof&gt;</span>
+<span class="w">    </span><span class="nt">&lt;z_dof&gt;</span>0<span class="nt">&lt;/z_dof&gt;</span>
+<span class="nt">&lt;/bc&gt;</span>
+</pre></div>
+</div>
+<p>Note how the XML tag is the class attribute name (this can be overridden by setting the <em>alias</em> argument if needed).</p>
+<p>The Python type hint following each attribute variable is enforced by pydantic at runtime. Therefore for the BCZeroDisplacement
+class,</p>
+<ul class="simple">
+<li><p>type – can only be “zero displacement”</p></li>
+<li><p>node_set – must be a str and must also be provided at instantiation</p></li>
+<li><p>x_dof – must be either 0 or 1</p></li>
+<li><p>y_dof – must be either 0 or 1</p></li>
+<li><p>z_dof – must be either 0 or 1</p></li>
+</ul>
+<p>We could also place different constraints on the attribute values, such as requiring a float to be greater than zero, or even more elaborate
+constraints via a validator function.</p>
+<p>Often, we need to define sub-elements, which have there own sub-elements and attributes. We handle these cases, by defining BaseXmlModel classes
+for these sub-elements.</p>
+<p>For example, a load-curve is defined as,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LoadCurve</span><span class="p">(</span><span class="n">BaseXmlModel</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;load_controller&quot;</span><span class="p">,</span> <span class="n">validate_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">attr</span><span class="p">()</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;loadcurve&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;loadcurve&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">interpolate</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;LINEAR&quot;</span><span class="p">,</span> <span class="s2">&quot;STEP&quot;</span><span class="p">,</span> <span class="s2">&quot;SMOOTH&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;LINEAR&quot;</span><span class="p">)</span>
+    <span class="n">extend</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;CONSTANT&quot;</span><span class="p">,</span> <span class="s2">&quot;EXTRAPOLATE&quot;</span><span class="p">,</span> <span class="s2">&quot;REPEAT&quot;</span><span class="p">,</span> <span class="s2">&quot;REPEAT OFFSET&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;CONSTANT&quot;</span><span class="p">)</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">CurvePoints</span> <span class="o">=</span> <span class="n">element</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Notice the <em>points</em> attribute is of type <em>CurvePoints</em>, which is defined as,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CurvePoints</span><span class="p">(</span><span class="n">BaseXmlModel</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="n">validate_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">points</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StringFloatVec2</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_point</span><span class="p">:</span> <span class="n">StringFloatVec2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_point</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This has a few things to note:</p>
+<ul class="simple">
+<li><p>The <em>StringFloatVec2</em> is a custom type that enforces a regex constraint on a str such that it looks like “{float},{float}” including scientific notation.</p></li>
+<li><p>When the type is an iterable, pydantic-xml will automatically create an element entry for each item</p></li>
+<li><p>The add_point() function allows you to append additional points to the <em>points</em> attribute</p></li>
+</ul>
+<p>Putting it all together, we can create a load curve via,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_curve</span> <span class="o">=</span> <span class="n">LoadCurve</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">CurvePoints</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;0.0,0.0&quot;</span><span class="p">,</span> <span class="s2">&quot;0.1,1.0&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0,1.0&quot;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>and add a point,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_curve</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="s2">&quot;2.0,2.0&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>producing:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;load_controller</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;loadcurve&quot;</span><span class="w"> </span><span class="na">interpolate=</span><span class="s">&quot;LINEAR&quot;</span><span class="w"> </span><span class="na">extend=</span><span class="s">&quot;CONSTANT&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;points&gt;</span>
+<span class="w">        </span><span class="nt">&lt;pt&gt;</span>0.0,0.0<span class="nt">&lt;/pt&gt;</span>
+<span class="w">        </span><span class="nt">&lt;pt&gt;</span>0.1,1.0<span class="nt">&lt;/pt&gt;</span>
+<span class="w">        </span><span class="nt">&lt;pt&gt;</span>1.0,1.0<span class="nt">&lt;/pt&gt;</span>
+<span class="w">        </span><span class="nt">&lt;pt&gt;</span>2.0,2.0<span class="nt">&lt;/pt&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/points&gt;</span>
+<span class="nt">&lt;/load_controller&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="coding-example-video">
+<h2>Coding Example Video<a class="headerlink" href="#coding-example-video" title="Link to this heading"></a></h2>
+<div class="video_wrapper" style="">
+<iframe allowfullscreen="true" src="https://www.youtube.com/embed/Wt3u5f-XhMI" style="border: 0; height: 345px; width: 560px">
+</iframe></div></section>
+<section id="recommendations">
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Link to this heading"></a></h2>
+<section id="use-an-ide">
+<h3>Use an IDE<a class="headerlink" href="#use-an-ide" title="Link to this heading"></a></h3>
+<p>pyfebio is type annotated, which enables an IDE (with language server protocol support) to provide intelligent code completion and error checking.
+Popular IDEs that will mostly work out-of-the-box (possibly requiring extensions to be installed but with little to no configuration) include:</p>
+<ul class="simple">
+<li><p>PyCharm</p></li>
+<li><p>VSCode</p></li>
+<li><p>Zed</p></li>
+</ul>
+<p>More customized solutions (where you’ll need to handle LSP, linter, fomatter installation and config) include,</p>
+<ul class="simple">
+<li><p>neovim</p></li>
+<li><p>emacs (recommend doom emacs variant)</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="pyfebio: A Python API for the FEBio finite element solver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Scott Sibole.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
