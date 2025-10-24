@@ -72,6 +72,8 @@ reduce penetration at the sharp edges of this very coarse mesh.
 Adaptive Remeshing
 ------------------
 
+FEBio has several implementations of adaptive remeshing. This example demonstrates an adaptor that will refine a hex8 mesh to reduce the stress error in the bottom-layer.
+
 .. literalinclude:: ../src/examples/mesh_adapt.py
     :language: python
 
@@ -81,3 +83,18 @@ Adaptive Remeshing
 
     The hex mesh adaptively refines to reduce the stress error in the bottom-layer. Note the greatest refinement occurs
     at the necking corners.
+
+Three Cylinder Joint
+--------------------
+
+This example demonstrates the use of rigid connectors to create a three cylinder linkage, which is a popular approach to modeling joint dynamics.
+
+.. literalinclude:: ../src/examples/three_cylinder_joint.py
+    :language: python
+
+.. figure:: _static/three_cylinder_joint.gif
+    :width: 400px
+    :align: center
+
+    Enforcing :math:`\pm \frac{\pi}{2}` radian rotations about the flexion-extension, varus-valgus, and internal-external rotation axes, and :math:`\pm 1.0` inferior-superior, medial-lateral, and anterior-posterior translations
+    with rigid connectors. The GhostA and GhostB rigid bodies are hidden.
