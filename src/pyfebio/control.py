@@ -66,6 +66,9 @@ class Control(BaseXmlModel, tag="Control", validate_assignment=True):
     plot_zero_state: Literal[0, 1] = element(default=0)
     plot_range: str = element(default="0,-1")
     plot_level: Literal["PLOT_NEVER", "PLOT_MAJOR_ITRS", "PLOT_MINOR_ITRS", "PLOT_MUST_POINTS"] = element(default="PLOT_MAJOR_ITRS")
+    output_level: Literal["OUTPUT_NEVER", "OUTPUT_MAJOR_ITRS", "OUTPUT_MINOR_ITRS", "OUTPUT_MUST_POINTS", "OUTPUT_FINAL"] = element(
+        default="OUTPUT_MAJOR_ITRS"
+    )
     plot_stride: int = element(default=1)
     output_stride: int = element(default=1)
     adaptor_re_solve: int = element(default=1)
