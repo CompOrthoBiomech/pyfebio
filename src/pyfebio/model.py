@@ -109,7 +109,7 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True, extra="for
             [0.0, sqrt3over2, -sqrt3over2],
             [0.0, 0.0, sqrt3over2],
         ]
-        new_tet = [[tet[i] + origin[i] for tet in ideal_tet] for i in range(3)]
+        new_tet = [[tet[i] + origin[i] for i in range(3)] for tet in ideal_tet]
         nodes = [mesh.Node(id=node_id_start + i, text=",".join(map(str, new_tet[i]))) for i in range(4)]
         node_domain = mesh.Nodes(name=name, all_nodes=nodes)
         element = mesh.Tet4Element(id=element_id, text=",".join(map(str, connectivity)))
@@ -119,7 +119,7 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True, extra="for
 
         material_id = len(self.material_.all_materials) + 1
 
-        mat = material.RigidBody(name=name, id=material_id)
+        mat = material.RigidBody(name=name, id=material_id, center_of_mass=",".join(map(str, origin)))
         self.material_.add_material(mat)
         self.meshdomains_.add_solid_domain(meshdomains.SolidDomain(name=name, mat=name))
 
