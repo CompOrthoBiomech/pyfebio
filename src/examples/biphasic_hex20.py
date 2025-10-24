@@ -27,8 +27,8 @@ for i, part in enumerate(my_model.mesh_.elements):
 # fix the bottom nodes in space
 fix_bottom = my_model.boundary_.add_bc(feb.boundary.BCZeroDisplacement(node_set="bottom", x_dof=1, y_dof=1, z_dof=1))
 
-# fix the bottom nodes in fluid pressure
-fix_bottom_fluid = my_model.boundary_.add_bc(feb.boundary.BCZeroFluidPressure(node_set="bottom"))
+# set zero fluid pressure bc on bottom nodes to allow for free-draining
+drain_bottom = my_model.boundary_.add_bc(feb.boundary.BCZeroFluidPressure(node_set="bottom"))
 
 # set zero fluid pressure bc on top nodes to allow for free-draining
 drain_top = my_model.boundary_.add_bc(feb.boundary.BCZeroFluidPressure(node_set="top"))
