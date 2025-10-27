@@ -17,7 +17,7 @@ def test_unconstrained_material(hex8_febmesh, tmp_path):
         model_file = tmp_path.joinpath(f"{my_model.material_.all_materials[0].type.replace(' ', '_')}.feb")
         my_model.save(model_file)
         result = feb.model.run_model(model_file)
-        assert result.returncode == 0, f"{material_cls.__name__} failed"
+        assert result == 0, f"{material_cls.__name__} failed"
 
 
 def test_efd_donnan_equilibrium(hex8_febmesh, tmp_path):
@@ -33,7 +33,7 @@ def test_efd_donnan_equilibrium(hex8_febmesh, tmp_path):
     model_file = tmp_path.joinpath(f"{my_model.material_.all_materials[0].type.replace(' ', '_')}.feb")
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=True)
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_osmotic_virial_pressure(hex20_febmesh, tmp_path):
@@ -55,7 +55,7 @@ def test_osmotic_virial_pressure(hex20_febmesh, tmp_path):
     model_file = tmp_path.joinpath(f"{my_model.material_.all_materials[0].type.replace(' ', '_')}.feb")
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=False)
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_perfect_osmometer(hex20_febmesh, tmp_path):
@@ -85,7 +85,7 @@ def test_perfect_osmometer(hex20_febmesh, tmp_path):
     model_file = tmp_path.joinpath(f"{my_model.material_.all_materials[0].type.replace(' ', '_')}.feb")
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=False)
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_uncoupled_material(hex8_febmesh, tmp_path):
@@ -102,7 +102,7 @@ def test_uncoupled_material(hex8_febmesh, tmp_path):
         model_file = tmp_path.joinpath(f"{my_model.material_.all_materials[0].type.replace(' ', '_')}.feb")
         my_model.save(model_file)
         result = feb.model.run_model(model_file, silent=True)
-        assert result.returncode == 0, f"{material_cls.__name__} failed"
+        assert result == 0, f"{material_cls.__name__} failed"
 
 
 def test_biphasic_material(hex20_febmesh, tmp_path):
@@ -138,7 +138,7 @@ def test_biphasic_material(hex20_febmesh, tmp_path):
 
         my_model.save(model_file)
         result = feb.model.run_model(model_file, silent=False)
-        assert result.returncode == 0, f"{perm_cls.__name__} failed"
+        assert result == 0, f"{perm_cls.__name__} failed"
 
 
 def test_viscoelastic_material(hex20_febmesh, tmp_path):
@@ -169,7 +169,7 @@ def test_viscoelastic_material(hex20_febmesh, tmp_path):
 
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=False)
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_viscoelastic_uc_material(hex20_febmesh, tmp_path):
@@ -200,4 +200,4 @@ def test_viscoelastic_uc_material(hex20_febmesh, tmp_path):
 
     my_model.save(model_file)
     result = feb.model.run_model(model_file, silent=False)
-    assert result.returncode == 0
+    assert result == 0

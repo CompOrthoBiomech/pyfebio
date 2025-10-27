@@ -19,7 +19,8 @@ def test_hex_refine_adaptor(hex8_febmesh, tmp_path):
         feb.output.OutputPlotfile(all_vars=[feb.output.Var(type="displacement"), feb.output.Var(type="stress error")])
     )
     my_model.save(tmp_path / "hex_refine_adaptor.feb")
-    feb.model.run_model(tmp_path / "hex_refine_adaptor.feb")
+    result = feb.model.run_model(tmp_path / "hex_refine_adaptor.feb")
+    assert result == 0
 
 
 def test_mmg_remesh_adaptor(tet4_febmesh, tmp_path):
@@ -39,4 +40,5 @@ def test_mmg_remesh_adaptor(tet4_febmesh, tmp_path):
         feb.output.OutputPlotfile(all_vars=[feb.output.Var(type="displacement"), feb.output.Var(type="stress error")])
     )
     my_model.save(tmp_path / "mmg_remesh_adaptor.feb")
-    feb.model.run_model(tmp_path / "mmg_remesh_adaptor.feb")
+    result = feb.model.run_model(tmp_path / "mmg_remesh_adaptor.feb")
+    assert result == 0

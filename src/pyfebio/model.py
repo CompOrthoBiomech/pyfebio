@@ -95,8 +95,9 @@ class Model(BaseXmlModel, tag="febio_spec", validate_assignment=True, extra="for
             xml_declaration=True,
             skip_empty=True,
         )
+        assert isinstance(xml, bytes)
         with open(filename, "wb") as fid:
-            fid.write(xml)  # type: ignore
+            fid.write(xml)
 
     def add_simple_rigid_body(self, origin: tuple[float, float, float], name: str):
         element_id = self.mesh_.elements[-1].all_elements[-1].id + 1
@@ -137,8 +138,8 @@ class BiphasicModel(Model):
     )
 
 
-def run_model(filepath: str | Path, silent: bool = False) -> subprocess.CompletedProcess:
+def run_model(filepath: str | Path, silent: bool = False) -> int:
     if silent:
-        return subprocess.run(f"febio4 -i {filepath} -silent", shell=True)
+        return subprocess.run(f"febio4 -i {filepath} -silent", shell=True).returncode
     else:
-        return subprocess.run(f"febio4 -i {filepath}", shell=True)
+        return subprocess.run(f"febio4 -i {filepath}", shell=True).returncode

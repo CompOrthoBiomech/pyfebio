@@ -78,7 +78,8 @@ def test_sliding_contact(base_model, tmp_path):
         my_model = deepcopy(base_model)
         my_model.contact_.add_contact(contact_cls(name="sliding_contact", surface_pair="contact", auto_penalty=1, laugon="AUGLAG"))
         my_model.save(tmp_path / f"{contact_cls.__name__}.feb")
-        feb.model.run_model(tmp_path / f"{contact_cls.__name__}.feb")
+        result = feb.model.run_model(tmp_path / f"{contact_cls.__name__}.feb")
+        assert result == 0, f"Failed to run model for {contact_cls.__name__}"
 
 
 def test_biphasic_sliding_contact(base_biphasic_model, tmp_path):
@@ -86,4 +87,5 @@ def test_biphasic_sliding_contact(base_biphasic_model, tmp_path):
         my_model = deepcopy(base_biphasic_model)
         my_model.contact_.add_contact(contact_cls(name="sliding_contact", surface_pair="contact", auto_penalty=1, laugon="AUGLAG"))
         my_model.save(tmp_path / f"{contact_cls.__name__}.feb")
-        feb.model.run_model(tmp_path / f"{contact_cls.__name__}.feb")
+        result = feb.model.run_model(tmp_path / f"{contact_cls.__name__}.feb")
+        assert result == 0, f"Failed to run model for {contact_cls.__name__}"

@@ -22,7 +22,7 @@ def test_tet4_model(tet4_febmesh, tmp_path):
     my_model.loaddata_.add_load_curve(feb.loaddata.LoadCurve(id=1, points=feb.loaddata.CurvePoints(points=["0,0", "1,1"])))
     my_model.save(tmp_path.joinpath("model.feb"))
     result = feb.model.run_model(f"febio4 -i {tmp_path.joinpath('model.feb')}")
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_tet10_model(tet10_febmesh, tmp_path):
@@ -42,7 +42,7 @@ def test_tet10_model(tet10_febmesh, tmp_path):
 
     my_model.save(tmp_path.joinpath("model.feb"))
     result = feb.model.run_model(f"febio4 -i {tmp_path.joinpath('model.feb')}")
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_hex8_model(hex8_febmesh, tmp_path):
@@ -62,7 +62,7 @@ def test_hex8_model(hex8_febmesh, tmp_path):
 
     my_model.save(tmp_path.joinpath("model.feb"))
     result = feb.model.run_model(f"febio4 -i {tmp_path.joinpath('model.feb')}")
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_hex20_model(hex20_febmesh, tmp_path):
@@ -82,7 +82,7 @@ def test_hex20_model(hex20_febmesh, tmp_path):
 
     my_model.save(tmp_path.joinpath("model.feb"))
     result = feb.model.run_model(f"febio4 -i {tmp_path.joinpath('model.feb')}")
-    assert result.returncode == 0
+    assert result == 0
 
 
 def test_hex27_model(hex27_febmesh, tmp_path):
@@ -102,4 +102,4 @@ def test_hex27_model(hex27_febmesh, tmp_path):
 
     my_model.save(tmp_path.joinpath("model.feb"))
     result = feb.model.run_model(f"febio4 -i {tmp_path.joinpath('model.feb')}")
-    assert result.returncode == 0
+    assert result == 0
